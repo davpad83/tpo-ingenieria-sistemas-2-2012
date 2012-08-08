@@ -1,6 +1,6 @@
 Instrucciones de como usar el subversion con eclipse.
 
-= Introduction =
+= Introduccion =
 
 Aca pongo las instrucciones para:
      
