@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<properties>
+		<project.name>TPO-IngSist2</project.name>
+		<project.version>0.0.1-SNAPSHOT</project.version>
+	</properties>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.uade.tpo.ingsist2</groupId>
+	<artifactId>TPO-IngSist2-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>TPO-IngSist2-EJB</module>
+		<module>TPO-IngSist2-WebClient</module>
+		<module>TPO-IngSist2-EAR</module>
+	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
