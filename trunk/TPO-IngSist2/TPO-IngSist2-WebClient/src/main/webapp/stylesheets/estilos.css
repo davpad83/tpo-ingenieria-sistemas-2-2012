@@ -1,0 +1,319 @@
+	body {
+        margin:0;
+        padding:0;
+        font-size:100%;
+        font-family:Arial, sans-serif;
+        background:#ccc;
+    }
+
+    .clear {
+        clear:both;
+    }
+
+	#pageLoginMain{
+		width: 230px;
+		height: 200px;
+		background: #fff;
+		padding: 30px;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		margin: 100px auto;
+		font-size:100%;
+	}
+	
+	#loginPageHeaderTitle{
+		font-size:1em;
+		padding: 5px;
+	}
+	
+	.pageLoginForm{
+		font-size:.9em;
+		float:none;
+		padding:10px;
+		display: block;
+	}
+	
+	.pageLoginForm p{
+		font-size:1.1em;
+		font-family: cursive sans-serif serif;
+		text-shadow: black;
+	}
+	
+	.pageLoginForm label{
+		text-align:center;
+		text-shadow: black;
+	}
+	
+    .pageMain {
+        width:1100px;
+        margin:30px auto;
+        background:#fff;
+        padding:20px;
+        border:2px solid #ccc;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px;
+        margin-bottom:0;
+    }
+    
+    #pageHeaderTopBar {
+		background:#112a3c;
+		text-align:right;
+	}
+
+	#pageHeaderTopBar .content {
+		color:#8da2b6;
+		padding:6px 10px;
+		font-size: 12px;
+	}
+
+    .pageHeader {
+        background:#eee;
+        border-bottom:1px solid #ccc;
+    }
+
+    .pageHeaderTitle {
+        font-size:1.4em;
+        color:#369;
+        padding:20px;
+    }
+
+    .pageBodyLeft {
+        float:left;
+        width:18%;
+    }
+
+    .pageBodyRight {
+        float:left;
+        width:80%;
+        margin-left:2%;
+    }
+    
+    .pageDataTable a{
+    	display:block;
+		text-align: center;
+		padding: 1px 1px;
+    	color:#336699;
+        background:#eee;
+        float: left;
+    }
+    
+    .pageDataTable a:hover {
+        background:#369;
+        color:#fff;
+    }
+    
+    .pageBodyRight p {
+    	font-family: Tahoma, Geneva, sans-serif;
+		font-size: 14px;
+		text-align: left;
+    }
+    
+    .filterParagraph {
+		font-size: .8em;
+		font-family: monospace;
+		color: red;
+		border: 2px black dotted;
+	}
+
+    .pageBodyMenu {
+        margin-top:10px;
+    }
+
+    .pageBodyMenu a {
+        display:block;
+        padding:10px 14px;
+        font-weight:bold;
+        font-size:.7em;
+        color:#369;
+        background:#eee;
+        margin-bottom:2px;
+    }
+
+    .pageBodyMenu a:hover {
+        background:#369;
+        color:#fff;
+    }
+
+    .pageBodyContent {
+        background:#eee;
+        padding:20px;
+        margin-top:10px;
+    }
+    
+    .formTable table{
+    	width: 70% auto;
+    	font-size: .9em;
+    }
+    
+    .formTable textarea{
+    	resize:none;
+    }
+    
+    .formTable label{
+    	font-weight: bold;
+    	text-decoration: underline;   
+    }
+    
+    .formTable td{
+    	border: 0em;
+   	}
+    
+    .pageDataTable table {
+    	border-collapse: collapse;
+    	width: 100%;
+    	margin: 0 auto;
+    }
+    
+    .ventanaAJAX{
+    	width: 220px;
+    	height: 120px;
+    	vertical-align: middle;
+    }
+    
+    .imgInput{
+    	height: 22px; 
+    	width: 22px;
+    }
+    
+    .pageDataTable table, th, td {
+    	border: 2px solid black;
+    }
+    
+    .pageDataTable table th{
+    	font-size:.95em;
+    	height: 30px;
+    	background-color: #369;
+    	color: #fff;
+    }
+    
+    .pageDataTable table td{
+    	font-size:.85em;
+    }
+    
+    .pageDataTable table tr{
+    	font-size:.85em;
+    }
+    
+    .pageBodyContent label{
+    	font-size: .8em;
+    }
+    
+    .mostrarDetalle{
+    	float: left !important;
+    	display: list-item;
+    }
+    
+    .mostrarDetalle label{
+    	text-decoration: underline !important;
+		text-shadow: black;
+		font: bold;
+    }
+    
+    .mostrarDetalle p {
+    	color: red;
+    	font-size:1.1em;
+    	text-decoration: !important;
+    }
+    
+    .pageFooter {
+        border-top:1px solid #ccc;
+        width:1100px;
+        margin:0 auto;
+        margin-top:6px;
+    }
+
+    .pageFooterContent {
+        font-size:.7em;
+        color:#444;
+        text-align:right;
+    }
+    
+    /* Styles for lightbox */
+    
+    .backdrop
+	{
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:100%;
+		background:#000;
+		opacity: .0;
+		filter:alpha(opacity=0);
+		z-index:50;
+		display:none;
+	}
+ 
+ 	.lbFormTable table{
+    	width: auto;
+    	font-size: 10px;
+    	border:none;
+    }
+    .lbFormTable table thead{
+    	font-size: 15px
+    }
+    
+    .lbFormTable label{
+    	font-size: 14px;
+    	font-weight: bold;
+    	text-decoration: underline;   
+    }
+    
+    .lbFormTable td{
+    	border: 0em;
+   	}
+ 
+ 	#lbForm{
+		position:absolute;
+		top:35%;
+		bottom:35%;
+		left:35%;
+		right:35%;
+		
+		width: 350px;
+		height:220px;
+		height:220px;
+		background:#ccc;
+		z-index:51;
+		padding:10px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-moz-box-shadow:0px 0px 5px #444444;
+		-webkit-box-shadow:0px 0px 5px #444444;
+		box-shadow:0px 0px 5px #444444;
+		display:block;
+	}
+ 	
+	.box
+	{
+		position:absolute;
+		top:35%;
+		bottom:35%;
+		left:35%;
+		right:35%;
+		
+		width: 350px;
+		height:220px;
+		height:220px;
+		background:#ccc;
+		z-index:51;
+		padding:10px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-moz-box-shadow:0px 0px 5px #444444;
+		-webkit-box-shadow:0px 0px 5px #444444;
+		box-shadow:0px 0px 5px #444444;
+		display:none;
+	}
+ 
+	.close
+	{
+		float:right;
+		margin-right:6px;
+		cursor:pointer;
+	}
+   
