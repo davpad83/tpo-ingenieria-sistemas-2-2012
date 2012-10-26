@@ -41,7 +41,7 @@ Una vez haber hecho el paso 2) exitosamente, pueden hacer el checkout inicial de
 
        # Ir a eclipse y buscar en la parte superior derecha las perspectivas de eclipse. Buscar un icono que parece una            ventana con un + para agregar una perspectiva y agregar una que es un cilindo que dice SVN.
        # Una vez alli, en el panel izquierdo presionar boton derecho >> New >> Repository Location.
-       # En la url poner: https://aplicaciones-distribuidas-luno.googlecode.com/svn/trunk/     >> Finish.
+       # En la url poner: http://tpo-ingenieria-sistemas-2-2012.googlecode.com/svn/trunk/     >> Finish.
        # Ahora deberian tener el repositorio ahi con esa direccion. Para hacer el checkout le hacen click derecho >> checkout.
        # Seleccionar checkout as a project in the workspace y ponerle un nombre ( el que quieran) >> next.
        # Les pide la direccion de su maquina donde guardarlo, pueden poner la default o la que quieran.
