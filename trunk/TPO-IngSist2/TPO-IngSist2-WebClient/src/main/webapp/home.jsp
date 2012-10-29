@@ -16,189 +16,196 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 
 <script type="text/javascript" src="javascripts.js"></script>
-<link rel=STYLESHEET href="estilos.css" type="text/css">
+<link rel=STYLESHEET href="stylesheets/estilos.css" type="text/css">
 
 </head>
 <body>
 <%ArrayList<ProveedorVO> proveedores = (ArrayList<ProveedorVO>) request.getAttribute("proveedores");
-//ArrayList<RodamientoVO> rodamientos = (ArrayList<RodamientoVO>) request.getAttribute("rodamientos"); %>
+ArrayList<RodamientoVO> rodamientos = (ArrayList<RodamientoVO>) request.getAttribute("rodamientos"); 
+String error = (String) request.getAttribute("error"); 
+if (error == null) error = "";%>
 
 <div class="pageMain">
     <div class="pageHeader">
     	<div id="pageHeaderTopBar"><div class="wrap"><div class="content"><%=dateFormatter.format(new Date())%><br>Logueado como <%=login%></div></div></div>
     	 
-        <div class="pageHeaderTitle">Sistema de Requerimientos</div>
+        <div class="pageHeaderTitle">Administracion Casa Central</div>
     </div>
     <div class="pageBodyLeft">
         <div class="pageBodyMenu">
         	<a href="OpcionMenu?opcion=home">Home</a>
-            <a href="OpcionMenu?opcion=adminCate">Administrar Proveedores</a>
-        	<a href="OpcionMenu?opcion=adminServ">Administrar Rodamientos</a>
+            <a href="OpcionMenu?opcion=adminProve">Administrar Proveedores</a>
+        	<a href="OpcionMenu?opcion=adminRod">Administrar Rodamientos</a>
         </div>
     </div>
     <div class="pageBodyRight">
         <div class="pageBodyContent" id="dynamic_content">
-    	<% if (opcion == null || opcion.isEmpty() || opcion.equals("home")) {%>
-	            <p>Bienvenido <b><%=login%>!</b><br><br>
-	            Este sistema te permitira administrar proveedores y rodamientos.</p>
-    	<%} else if(opcion.equals("adminProve")){ %>
-	    	<h3>Administrar Proveedores</h3>
-	    	<div class="formTable">
-	    		<% ProveedorVO proveEdit = (ProveedorVO) request.getAttribute("proveEdit"); %>
-	    		<% if(proveEdit!=null && !proveEdit.getNombre().isEmpty()) {%>
-	    			<form action="AdministrarProveedores?accion=1" method="post">
-			    		<table>
-				    		<tr>
-				    			<td><label>Id:</label></td>
-				    			<td><input name="idProve" value="<%=proveEdit.getId()%>" type="text"></input></td>
-				  			</tr>
-							<tr>
-				  				<td><label>CUIT:</label></td>
-				    			<td><input name="cuitProve" value="<%=proveEdit.getCuit()%>" type="text"></input></td>
-				  			</tr>
-				  			<tr>
-				  				<td><label>Nombre: </label></td>
-				  				<td><input name="nombreProve" value="<%=proveEdit.getNombre()%>" type="text"></input></td>
-							</tr>
-				  			<tr>
-				  				<td></td>
-								<td align="right"><input type="submit" value="Guardar cambios"></input></td>
-				    		</tr>	
-				    	</table>
-				    </form>
-			    <%} else { %>
-			    	<form action="AdministrarProveedores?accion=0" method="post">
+        <% if(error != null && error.isEmpty()) {%>
+	    	<% if (opcion == null || opcion.isEmpty() || opcion.equals("home")) {%>
+		            <p>Bienvenido <b><%=login%>!</b><br><br>
+		            Este sistema te permitira administrar proveedores y rodamientos.</p>
+	    	<%} else if(opcion.equals("adminProve")){ %>
+		    	<h3>Administrar Proveedores</h3>
+		    	<div class="formTable">
+		    		<% ProveedorVO proveEdit = (ProveedorVO) request.getAttribute("proveEdit"); %>
+		    		<% if(proveEdit!=null && !proveEdit.getNombre().isEmpty()) {%>
+		    			<form action="AdministrarProveedores?accion=1" method="post">
+				    		<table>
+					    		<tr>
+					    			<td><label>Id:</label></td>
+					    			<td><input name="idProve" value="<%=proveEdit.getId()%>" type="text"></input></td>
+					  			</tr>
+								<tr>
+					  				<td><label>CUIT:</label></td>
+					    			<td><input name="cuitProve" value="<%=proveEdit.getCuit()%>" type="text"></input></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Nombre: </label></td>
+					  				<td><input name="nombreProve" value="<%=proveEdit.getNombre()%>" type="text"></input></td>
+								</tr>
+					  			<tr>
+					  				<td></td>
+									<td align="right"><input type="submit" value="Guardar cambios"></input></td>
+					    		</tr>	
+					    	</table>
+					    </form>
+				    <%} else { %>
+				    	<form action="AdministrarProveedores?accion=0" method="post">
+					    	<table>
+					    		<tr>
+					    			<td><label>Id:</label></td>
+					    			<td><input name="idProve" type="text"></input></td>
+					  			</tr>
+								<tr>
+					  				<td><label>CUIT:</label></td>
+					    			<td><input name="cuitProve" type="text"></input></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Nombre: </label></td>
+					  				<td><input name="nombreProve" type="text"></input></td>
+								</tr>
+					  			<tr>
+					  				<td></td>
+									<td align="right"><input type="submit" value="Agregar"></input></td>
+					    		</tr>	
+					    	</table>
+				    	</form>
+			    	<% } %>
+		    	</div>	
+		    	<br>
+		    	<br>
+		    	<div class="pageDataTable">
 				    	<table>
-				    		<tr>
-				    			<td><label>Id:</label></td>
-				    			<td><input name="idProve" type="text"></input></td>
-				  			</tr>
 							<tr>
-				  				<td><label>CUIT:</label></td>
-				    			<td><input name="cuitProve" type="text"></input></td>
-				  			</tr>
-				  			<tr>
-				  				<td><label>Nombre: </label></td>
-				  				<td><input name="nombreProve" type="text"></input></td>
+								<th>Id</th>
+								<th>CUIT</th>
+								<th>Nombre</th>
+								<th>Acciones</th>
 							</tr>
-				  			<tr>
-				  				<td></td>
-								<td align="right"><input type="submit" value="Agregar"></input></td>
-				    		</tr>	
+							<% if(proveedores != null && !proveedores.isEmpty()){ %>
+					    		<% for(ProveedorVO p: proveedores){ %>
+					    		<tr>
+					    			<td><%=p.getId() %></td>
+					    			<td><%=p.getCuit() %></td>
+					    			<td><%=p.getNombre()%></td>
+					    			<td>
+					    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
+					    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
+					    			</td>
+					  			</tr>
+					  			<%} 
+				  			}%>
 				    	</table>
-			    	</form>
-		    	<% } %>
-	    	</div>	
-	    	<br>
-	    	<br>
-	    	<div class="pageDataTable">
-			    	<table>
-						<tr>
-							<th>Id</th>
-							<th>CUIT</th>
-							<th>Nombre</th>
-							<th>Acciones</th>
-						</tr>
-						<% if(proveedores != null && !proveedores.isEmpty()){ %>
-				    		<% for(ProveedorVO p: proveedores){ %>
-				    		<tr>
-				    			<td><%=p.getId() %></td>
-				    			<td><%=p.getCuit() %></td>
-				    			<td><%=p.getNombre()%></td>
-				    			<td>
-				    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
-				    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
-				    			</td>
-				  			</tr>
-				  			<%} 
-			  			}%>
-			    	</table>
-	    	</div>
-    	<%} else if(opcion.equals("adminRod")){ %>
-	    	<h3>Administrar Rodamientos</h3>
-	    	
-	    	<div class="formTable">
-	    		<% RodamientoVO rod = (RodamientoVO) request.getAttribute("adminRod"); %>
-	    		<% if(rod!=null && !rod.getNombre().isEmpty()) {%>
-	    			<form action="AdministrarServicios?accion=1" method="post">
-			    		<table>
-				    		<tr>
-				    			<td><label>CodigoSKF:</label></td>
-				    			<td><input name="codSKF" value="<%=rod.getCodigoSKF()%>" type="text"></input></td>
-				  			</tr>
-							<tr>
-				  				<td><label>Pais:</label></td>
-				    			<td><input name="paisRod" value="<%=rod.getPais()%>" type="text"></input></td>
-				  			</tr>
-				  			<tr>
-				  				<td><label>Marca: </label></td>
-				    			<td><input name="marcaRod" value="<%=rod.getMarca()%>" type="text"></input></td>
-							</tr>
-							<tr>
-				  				<td><label>Stock: </label></td>
-				    			<td><label><%=rod.getStock()%></label></td>
-							</tr>
-				  			<tr>
-				  				<td></td>
-								<td align="right"><input type="submit" value="Guardar cambios"></input></td>
-				    		</tr>	
-				    	</table>
-				    </form>
-			    <%} else { %>
-			    	<form action="AdministrarRodamientos?accion=0" method="post">
+		    	</div>
+	    	<%} else if(opcion.equals("adminRod")){ %>
+		    	<h3>Administrar Rodamientos</h3>
+		    	
+		    	<div class="formTable">
+		    		<% RodamientoVO rod = (RodamientoVO) request.getAttribute("adminRod"); %>
+		    		<% if(rod!=null) {%>
+		    			<form action="AdministrarServicios?accion=1" method="post">
+				    		<table>
+					    		<tr>
+					    			<td><label>CodigoSKF:</label></td>
+					    			<td><input name="codSKF" value="<%=rod.getCodigoSKF()%>" type="text"></input></td>
+					  			</tr>
+								<tr>
+					  				<td><label>Pais:</label></td>
+					    			<td><input name="paisRod" value="<%=rod.getPais()%>" type="text"></input></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Marca: </label></td>
+					    			<td><input name="marcaRod" value="<%=rod.getMarca()%>" type="text"></input></td>
+								</tr>
+								<tr>
+					  				<td><label>Stock: </label></td>
+					    			<td><label><%=rod.getStock()%></label></td>
+								</tr>
+					  			<tr>
+					  				<td></td>
+									<td align="right"><input type="submit" value="Guardar cambios"></input></td>
+					    		</tr>	
+					    	</table>
+					    </form>
+				    <%} else { %>
+				    	<form action="AdministrarRodamientos?accion=0" method="post">
+					    	<table>
+					    		<tr>
+					    			<td><label>CodigoSKF:</label></td>
+					    			<td><input name="codSKF" type="text"></input></td>
+					  			</tr>
+								<tr>
+					  				<td><label>Pais:</label></td>
+					    			<td><input name="paisRod" type="text"></input></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Marca: </label></td>
+					    			<td><input name="marcaRod" type="text"></input></td>
+								</tr>
+								<tr>
+					  				<td><label>Stock: </label></td>
+					    			<td><input name="stockRod" type="text"></input></td>
+								</tr>
+								<tr>
+					  				<td></td>
+									<td align="right"><input type="submit" value="Agregar"></input></td>
+					    		</tr>
+					    	</table>
+				    	</form>
+			    	<% } %>
+		    	</div>	
+		    	<br>
+		    	<br>
+		    	<div class="pageDataTable">
 				    	<table>
-				    		<tr>
-				    			<td><label>CodigoSKF:</label></td>
-				    			<td><input name="codSKF" type="text"></input></td>
-				  			</tr>
 							<tr>
-				  				<td><label>Pais:</label></td>
-				    			<td><input name="paisRod" type="text"></input></td>
-				  			</tr>
-				  			<tr>
-				  				<td><label>Marca: </label></td>
-				    			<td><input name="marcaRod" type="text"></input></td>
+								<th>CodigoSKF</th>
+								<th>Pais</th>
+								<th>Marca</th>
+								<th>Stock</th>
 							</tr>
-							<tr>
-				  				<td><label>Stock: </label></td>
-				    			<td><input name="stockRod" type="text"></input></td>
-							</tr>
-							<tr>
-				  				<td></td>
-								<td align="right"><input type="submit" value="Agregar"></input></td>
-				    		</tr>
+							<% if(rodamientos != null && !rodamientos.isEmpty()){ %>
+					    		<% for(RodamientoVO r: rodamientos){ %>
+					    		<tr>
+					    			<td><%=r.getCodigoSKF() %></td>
+					    			<td><%=r.getPais() %></td>
+					    			<td><%=r.getMarca()%></td>
+					    			<td><%=r.getStock()%></td>
+					    			<td>
+					    				<a href="AdministrarServicios?codSKF=<%=r.getCodigoSKF()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
+					    				<a href="AdministrarServicios?codSKF=<%=r.getCodigoSKF()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
+					    			</td>
+					  			</tr>
+					  			<%} 
+				  			}%>
 				    	</table>
-			    	</form>
-		    	<% } %>
-	    	</div>	
-	    	<br>
-	    	<br>
-	    	<div class="pageDataTable">
-			    	<table>
-						<tr>
-							<th>CodigoSKF</th>
-							<th>Pais</th>
-							<th>Marca</th>
-							<th>Stock</th>
-						</tr>
-						<% if(rodamientos != null && !rodamientos.isEmpty()){ %>
-				    		<% for(RodamientoVO s: rodamientos){ %>
-				    		<tr>
-				    			<td><%=s.getNombre() %></td>
-				    			<td><%=s.getEstado() %></td>
-				    			<td><%=s.getDescripcion()%></td>
-				    			<td>
-				    				<a href="AdministrarServicios?idServ=<%=s.getNombre()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
-				    				<a href="AdministrarServicios?idServ=<%=s.getNombre()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
-				    			</td>
-				  			</tr>
-				  			<%} 
-			  			}%>
-			    	</table>
-	    	</div>
-    	<%} else { %>
-	    	<img alt="En construccion" src="imgs/construccion.gif"/>
-	    <%}%>
+		    	</div>
+	    	<%} else { %>
+		    	<img alt="En construccion" src="imgs/construccion.gif"/>
+		    <%}%>
+		<% } else if(error!= null && !error.isEmpty()) {%>
+			<p align="left" style="color: Red"><%=error%></p>
+		<% } %>
         </div>
     </div>
     <div class="clear"></div>

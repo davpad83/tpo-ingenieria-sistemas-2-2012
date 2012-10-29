@@ -45,7 +45,11 @@ public class Proveedor {
 	}
 	
 	public ProveedorVO getVO(){
-		return new ProveedorVO(id, cuit, nombre);
+		ProveedorVO pvo = new ProveedorVO();
+		pvo.setId(this.id);
+		pvo.setCuit(this.cuit);
+		pvo.setNombre(this.nombre);
+		return pvo;
 	}
 	
 	public void setVO(ProveedorVO p){

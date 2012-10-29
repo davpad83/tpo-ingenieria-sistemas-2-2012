@@ -10,41 +10,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
-
 
 public class OpcionMenu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String MENSAJE_ERROR = "SE PRODUJO UN ERROR EN EL SISTEMA, POR FAVOR CONTACTE A SU ADMINISTRADOR.\n\n";
 	
-	private BusinessDelegate bd = new BusinessDelegate();
-
 	public OpcionMenu() {
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String opcion = request.getParameter("opcion");
-
-		HttpSession session = request.getSession(true);
-
-		if (opcion.equals("adminProve")) {
-			request.setAttribute("proveedores", bd.getProveedores());
-			session.setAttribute("opcion", "adminProve");
-		} else if (opcion.equals("adminRod")) {
-//			session.setAttribute("opcion", "adminRod");
-		} else if (opcion.equals("home")) {
-			session.setAttribute("opcion", "home");
-		}
-
-		RequestDispatcher dispatcher = request
-				.getRequestDispatcher("/home.jsp");
 		try {
+			BusinessDelegate bd = BusinessDelegate.getInstancia();
+
+			String opcion = request.getParameter("opcion");
+
+			HttpSession session = request.getSession(true);
+
+			if (opcion.equals("adminProve")) { 
+				ArrayList<ProveedorVO> pvoList = bd.getProveedores();
+				request.setAttribute("proveedores", pvoList);
+				session.setAttribute("opcion", "adminProve");
+			} else if (opcion.equals("adminRod")) {
+				// session.setAttribute("opcion", "adminRod");
+			} else if (opcion.equals("home")) {
+				session.setAttribute("opcion", "home");
+			}
+
+			RequestDispatcher dispatcher = request
+					.getRequestDispatcher("/home.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {
-			e.printStackTrace();
+			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
+		} catch (Exception e) {
+			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
 		}
 	}
 

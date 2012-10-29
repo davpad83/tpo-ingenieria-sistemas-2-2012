@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.entities.vo;
 
+import java.util.Random;
+
 public class ProveedorVO {
 
 	private int id;
@@ -7,17 +9,15 @@ public class ProveedorVO {
 	private String nombre;
 	
 	public ProveedorVO() {
-		super();
-	}
-
-	public ProveedorVO(int id, String cuit, String nombre) {
-		this.id = id;
-		this.cuit = cuit;
-		this.nombre = nombre;
+		//empty
 	}
 
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getCuit() {
@@ -34,5 +34,9 @@ public class ProveedorVO {
 	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public int getRandomId() {
+		return new Random().nextInt(10);
 	}
 }

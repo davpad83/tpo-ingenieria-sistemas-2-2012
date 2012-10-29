@@ -22,10 +22,12 @@ public class ValidarLogin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String username = (String) request.getParameter("username");
+		String login = (String) request.getParameter("login");
 		String password = (String) request.getParameter("password");
 		
-		if(username.toLowerCase().equals("admin") && password.equals("admin")){
+		request.getSession(true).setAttribute("login", login);
+		
+		if(login.toLowerCase().equals("admin") && password.equals("admin")){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 			try {
 				dispatcher.forward(request, response);
