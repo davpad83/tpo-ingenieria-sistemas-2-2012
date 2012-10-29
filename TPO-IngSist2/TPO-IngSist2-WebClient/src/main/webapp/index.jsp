@@ -31,7 +31,7 @@
 			<table class="formTable">
 					<tr>
 						<td><label>Usuario: </label></td>
-						<td><input type="text" value="admin" name="username"></td>
+						<td><input type="text" value="admin" name="login"></td>
 					</tr>
 					<tr>
 						<td><label>Password:</label></td>

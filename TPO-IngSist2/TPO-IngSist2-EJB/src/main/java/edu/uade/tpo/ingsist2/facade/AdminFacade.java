@@ -2,12 +2,13 @@ package edu.uade.tpo.ingsist2.facade;
 
 import java.util.ArrayList;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
-@Remote
-public interface Facade {
+@Local
+public interface AdminFacade {
 
 	/*==================================*/
 	/*			ABM de Proveedores		*/
@@ -21,13 +22,16 @@ public interface Facade {
 
 	public ArrayList<ProveedorVO> getProveedores();
 	
-	public void solicitarPreciosRodamiento();
+	/*==================================*/
+	/*			ABM de Proveedores		*/
+	/*==================================*/
 	
-	public void recibirOrdenDeCompra();
+	public void guardarRodamiento(RodamientoVO r);
 	
-	public void recibirRodamiento();
+	public void eliminarRodamiento(int id);
 	
-	public void recibirListaProveedor();
-
+	public RodamientoVO getRodamiento(int id);
+	
+	public ArrayList<RodamientoVO> getRodamientos();
 	
 }

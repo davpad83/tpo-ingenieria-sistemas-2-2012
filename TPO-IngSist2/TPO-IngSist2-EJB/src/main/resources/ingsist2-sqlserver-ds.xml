@@ -14,7 +14,7 @@
 <datasources>
   <local-tx-datasource>
     <jndi-name>IngSist2-SQL-DS</jndi-name>
-    <connection-url>jdbc:microsoft:sqlserver://10.10.90.104:1433/IngSist2</connection-url>
+    <connection-url>jdbc:sqlserver://10.10.90.105:1433;databaseName=IngSist2</connection-url>
     <!-- 
      <connection-url>jdbc:microsoft:sqlserver://192.168.6.100:1433/IS_MA_05</connection-url>
      -->     
