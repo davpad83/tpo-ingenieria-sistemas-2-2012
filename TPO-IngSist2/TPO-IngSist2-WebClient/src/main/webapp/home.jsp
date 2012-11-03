@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="edu.uade.tpo.ingsist2.entities.vo.*" %>
+<%@page import="edu.uade.tpo.ingsist2.entities.vo.ProveedorVO" %>
+<%@page import="edu.uade.tpo.ingsist2.entities.vo.RodamientoVO" %>
 <%@page import="java.util.*" %>
 <%@page import="java.text.DateFormat" %>
 <% String login = (String) session.getAttribute("login"); %>
@@ -103,7 +104,8 @@ if (error == null) error = "";%>
 								<th>Acciones</th>
 							</tr>
 							<% if(proveedores != null && !proveedores.isEmpty()){ %>
-					    		<% for(ProveedorVO p: proveedores){ %>
+					    		<% System.out.print("El nro de CUIT es: " + proveedores.get(1).getCuit()); 
+					    		for(ProveedorVO p: proveedores) { %>
 					    		<tr>
 					    			<td><%=p.getId() %></td>
 					    			<td><%=p.getCuit() %></td>

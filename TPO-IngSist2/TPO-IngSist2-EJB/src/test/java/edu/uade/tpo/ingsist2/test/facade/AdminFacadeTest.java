@@ -1,6 +1,8 @@
 package edu.uade.tpo.ingsist2.test.facade;
 import java.util.ArrayList;
 
+import javax.ejb.EJB;
+
 import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
@@ -12,11 +14,14 @@ import junit.framework.TestCase;
 
 public class AdminFacadeTest extends TestCase {
 
+	@EJB
+	private AdminFacade af;
+
 	@Test
 	public void testGetListaProveedores(){
-		AdminFacade af = new AdminFacadeBean();
 		ArrayList<ProveedorVO> prove = af.getProveedores();
 		
-		assertEquals(MockDataGenerator.getListaProveedorVOMock(), af.getProveedores());
+		assertTrue(prove.isEmpty());
 	}
+	
 }

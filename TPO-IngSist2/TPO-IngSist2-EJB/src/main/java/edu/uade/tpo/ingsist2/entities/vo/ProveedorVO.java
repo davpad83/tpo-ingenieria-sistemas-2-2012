@@ -1,9 +1,11 @@
 package edu.uade.tpo.ingsist2.entities.vo;
 
-import java.util.Random;
+import java.io.Serializable;
 
-public class ProveedorVO {
+public class ProveedorVO implements Serializable{
 
+	public static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String cuit;
 	private String nombre;
@@ -36,7 +38,31 @@ public class ProveedorVO {
 		this.nombre = nombre;
 	}
 
-	public int getRandomId() {
-		return new Random().nextInt(10);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cuit == null) ? 0 : cuit.hashCode());
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProveedorVO other = (ProveedorVO) obj;
+		if (cuit == null) {
+			if (other.cuit != null)
+				return false;
+		} else if (!cuit.equals(other.cuit))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

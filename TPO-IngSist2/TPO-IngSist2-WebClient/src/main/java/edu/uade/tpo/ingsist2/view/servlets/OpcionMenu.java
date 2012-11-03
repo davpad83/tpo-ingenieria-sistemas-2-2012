@@ -16,13 +16,15 @@ import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
 public class OpcionMenu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String MENSAJE_ERROR = "SE PRODUJO UN ERROR EN EL SISTEMA, POR FAVOR CONTACTE A SU ADMINISTRADOR.\n\n";
-	
+
 	public OpcionMenu() {
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		RequestDispatcher dispatcher = request
+				.getRequestDispatcher("/home.jsp");
 		try {
 			BusinessDelegate bd = BusinessDelegate.getInstancia();
 
@@ -30,7 +32,7 @@ public class OpcionMenu extends HttpServlet {
 
 			HttpSession session = request.getSession(true);
 
-			if (opcion.equals("adminProve")) { 
+			if (opcion.equals("adminProve")) {
 				ArrayList<ProveedorVO> pvoList = bd.getProveedores();
 				request.setAttribute("proveedores", pvoList);
 				session.setAttribute("opcion", "adminProve");
@@ -40,15 +42,18 @@ public class OpcionMenu extends HttpServlet {
 				session.setAttribute("opcion", "home");
 			}
 
-			RequestDispatcher dispatcher = request
-					.getRequestDispatcher("/home.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {
 			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
 			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
+			e.printStackTrace();
 		} catch (Exception e) {
 			request.setAttribute("error", MENSAJE_ERROR + e.getMessage());
+			e.printStackTrace();
+		} finally {
+//			dispatcher.forward(request, response);
 		}
 	}
 
