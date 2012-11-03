@@ -30,7 +30,7 @@ public class BusinessDelegate {
 	
 	@SuppressWarnings("unchecked")
 	private void conectar() {
-		String naming = "TPO-IngSist2-EAR/AdminFacadeBean/local";
+		String naming = "TPO-IngSist2-EAR/AdminFacadeBean/remote";
 
 		Hashtable props = new Hashtable();
 		props.put(InitialContext.INITIAL_CONTEXT_FACTORY,

@@ -2,12 +2,12 @@ package edu.uade.tpo.ingsist2.facade;
 
 import java.util.ArrayList;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
-@Local
+@Remote
 public interface AdminFacade {
 
 	/*==================================*/

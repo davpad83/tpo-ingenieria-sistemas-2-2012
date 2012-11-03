@@ -5,15 +5,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.apache.log4j.Logger;
-
-import edu.uade.tpo.ingsist2.entities.Proveedor;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
-import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.session.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.session.AdministrarRodamientos;
 

@@ -2,6 +2,7 @@ package edu.uade.tpo.ingsist2.mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.uade.tpo.ingsist2.entities.vo.*;
 
@@ -16,12 +17,16 @@ public class MockDataGenerator {
 	
 	private static ProveedorVO getProveedorVOMock() {
 		ProveedorVO prove = new ProveedorVO();
-		prove.getRandomId();
+		prove.setId(getRandomId());
 		prove.setCuit(getRandomCuit());
 		prove.setNombre(getRandomNombre());	
 		return prove;
 	}
 
+	private static int getRandomId() {
+		return new Random().nextInt(10);
+	}
+	
 	private static String getRandomNombre() {
 		return "Matias Favale";
 	}
@@ -32,7 +37,7 @@ public class MockDataGenerator {
 
 	public static ArrayList<RodamientoVO> getListaRodamientosVOMock(){
 		ArrayList<RodamientoVO> lista = new ArrayList<RodamientoVO>();
-		for(int i=0; i<10; i++)
+		for(int i=0; i<1; i++)
 			getRodamientoVOMock();
 		return lista;
 	}
