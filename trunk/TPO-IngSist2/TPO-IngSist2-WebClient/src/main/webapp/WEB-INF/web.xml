@@ -28,6 +28,13 @@
 	<servlet>
 		<description>
     	</description>
+		<display-name>AdministrarRodamientos</display-name>
+		<servlet-name>AdministrarRodamientos</servlet-name>
+		<servlet-class>edu.uade.tpo.ingsist2.view.servlets.AdministrarRodamientos</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+    	</description>
 		<display-name>OpcionMenu</display-name>
 		<servlet-name>OpcionMenu</servlet-name>
 		<servlet-class>edu.uade.tpo.ingsist2.view.servlets.OpcionMenu</servlet-class>
@@ -35,6 +42,10 @@
 	<servlet-mapping>
 		<servlet-name>AdministrarProveedores</servlet-name>
 		<url-pattern>/AdministrarProveedores</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AdministrarRodamientos</servlet-name>
+		<url-pattern>/AdministrarRodamientos</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>OpcionMenu</servlet-name>

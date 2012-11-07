@@ -14,63 +14,91 @@ import edu.uade.tpo.ingsist2.entities.Proveedor;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.facade.AdminFacadeBean;
 import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
-import edu.uade.tpo.ingsist2.session.util.QueryHelper;
 
 @Stateless
 public class AdministrarProveedoresBean implements AdministrarProveedores {
 
-	private static Logger logger = Logger.getLogger(AdministrarProveedoresBean.class);
+	private static Logger logger = Logger
+			.getLogger(AdministrarProveedoresBean.class);
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 
-	@EJB
-	private QueryHelper qHelper;
-
 	public AdministrarProveedoresBean() {
-		// TODO Auto-generated constructor stub
+		// empty
 	}
 
 	@Override
 	public void guardarProveedor(ProveedorVO p) {
+		logger.info("Procesando guardar proveedor con cuit " + p.getCuit());
 		Proveedor pBean = new Proveedor();
 		pBean.setVO(p);
-		entityManager.merge(pBean);
+		Proveedor pGuardado = null;
+		try {
+			pGuardado = (Proveedor) entityManager.merge(pBean);
+		} catch (Exception e) {
+			logger.error("Hubo un error al guardar el proveedor");
+			e.printStackTrace();
+		}
+		logger.info("Proveedor guardado con id: " + pGuardado.getId());
 	}
 
 	@Override
 	public void eliminarProveedor(int id) {
 		logger.info("Procesando eliminar proveedor con id: " + id);
-		Proveedor p = new Proveedor();
-		p.setId(id);
-		entityManager.remove(p);
+		try {
+			Proveedor p = entityManager.find(Proveedor.class, id);
+			entityManager.remove(p);
+		} catch (Exception e) {
+			logger.error("Hubo un error intentando eliminar el proveedor con id "
+					+ id);
+			e.printStackTrace();
+		}
+		logger.info("El proveedor con id " + id + " se ha eliminado con exito.");
 	}
 
 	@Override
 	public ProveedorVO getProveedor(int id) {
-		Proveedor p = qHelper.getEntidad(Proveedor.class, id);
+		logger.info("Buscando Proveedor con id " + id);
+		Proveedor p = null;
+		try {
+			p = entityManager.find(Proveedor.class, id);
+		} catch (Exception e) {
+			logger.error("Hubo un error al buscar el proveedor.");
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (p != null)
+				logger.info("El Proveedor con id " + id
+						+ " se ha encontrado, su cuit es " + p.getCuit());
+			else {
+				logger.info("No se ha encontrado el proveedor con id " + id);
+				return null;
+			}
+		}
 		return p.getVO();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ProveedorVO> getProveedores() {
-		// ArrayList<Proveedor> p = (ArrayList<Proveedor>)
-		// qHelper.getListaEntidades(Proveedor.class);
-		// return MockDataGenerator.getListaProveedorVOMock();
-
 		logger.info("Buscando lista de Proveedores");
 		ArrayList<Proveedor> listaResultado = null;
-		listaResultado = (ArrayList<Proveedor>) entityManager.createQuery(
-				"FROM Proveedor").getResultList();
-		if (listaResultado == null) {
-			listaResultado = new ArrayList<Proveedor>();
-			logger.info("No se han encontrado instancias de Proveedores");
-		} else
-			logger.info("Se han encontrado " + listaResultado.size()
-					+ " instancias de Proveedores");
+		try {
+			listaResultado = (ArrayList<Proveedor>) entityManager.createQuery(
+					"FROM Proveedor").getResultList();
+		} catch (Exception e) {
+			logger.error("Hubo un error al buscar todos los proveedores.");
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (listaResultado == null || listaResultado.isEmpty()) {
+				logger.info("No se han encontrado instancias de Proveedores");
+				return null;
+			} else
+				logger.info("Se han encontrado " + listaResultado.size()
+						+ " instancias de Proveedores");
+		}
 		return Proveedor.getVOList(listaResultado);
-
-		// return Proveedor.getVOList(p);
 	}
 }

@@ -1,0 +1,150 @@
+package edu.uade.tpo.ingsist2.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
+import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
+
+@Entity
+public class Rodamiento {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+
+	private String codigoSKF;
+	private String marca;
+	private String pais;
+	private String caracteristica;
+
+	private int stock;
+
+	public Rodamiento() {
+		// empty
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodigoSKF() {
+		return codigoSKF;
+	}
+
+	public void setCodigoSKF(String codigoSKF) {
+		this.codigoSKF = codigoSKF;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	public String getCaracteristica() {
+		return caracteristica;
+	}
+
+	public void setCaracteristica(String caracteristica) {
+		this.caracteristica = caracteristica;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public RodamientoVO getVO() {
+		RodamientoVO r = new RodamientoVO();
+		r.setId(this.id);
+		r.setCodigoSKF(this.codigoSKF);
+		r.setMarca(this.marca);
+		r.setPais(this.pais);
+		r.setStock(this.stock);
+		r.setCaracteristica(this.caracteristica);
+		return r;
+	}
+
+	public void setVO(RodamientoVO r){
+		this.id = r.getId();
+		this.codigoSKF = r.getCodigoSKF();
+		this.caracteristica = r.getCaracteristica();
+		this.marca = r.getMarca();
+		this.pais = r.getPais();
+		this.stock = r.getStock();
+	}
+	
+	public static ArrayList<RodamientoVO> getVOList(List<Rodamiento> rList){
+		ArrayList<RodamientoVO> rVOList = new ArrayList<RodamientoVO>();
+		for(Rodamiento r : rList)
+			rVOList.add(r.getVO());
+		return rVOList;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((caracteristica == null) ? 0 : caracteristica.hashCode());
+		result = prime * result
+				+ ((codigoSKF == null) ? 0 : codigoSKF.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((marca == null) ? 0 : marca.hashCode());
+		result = prime * result + ((pais == null) ? 0 : pais.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rodamiento other = (Rodamiento) obj;
+		if (caracteristica == null) {
+			if (other.caracteristica != null)
+				return false;
+		} else if (!caracteristica.equals(other.caracteristica))
+			return false;
+		if (codigoSKF == null) {
+			if (other.codigoSKF != null)
+				return false;
+		} else if (!codigoSKF.equals(other.codigoSKF))
+			return false;
+		if (id != other.id)
+			return false;
+		if (marca == null) {
+			if (other.marca != null)
+				return false;
+		} else if (!marca.equals(other.marca))
+			return false;
+		if (pais == null) {
+			if (other.pais != null)
+				return false;
+		} else if (!pais.equals(other.pais))
+			return false;
+		return true;
+	}
+}

@@ -12,11 +12,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-<title>Administracion Casa Central de Rodamientos</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 
-<script type="text/javascript" src="javascripts.js"></script>
+<title>Administracion Casa Central de Rodamientos</title>
+
 <link rel=STYLESHEET href="stylesheets/estilos.css" type="text/css">
 
 </head>
@@ -49,16 +48,17 @@ if (error == null) error = "";%>
 		    	<h3>Administrar Proveedores</h3>
 		    	<div class="formTable">
 		    		<% ProveedorVO proveEdit = (ProveedorVO) request.getAttribute("proveEdit"); %>
-		    		<% if(proveEdit!=null && !proveEdit.getNombre().isEmpty()) {%>
-		    			<form action="AdministrarProveedores?accion=1" method="post">
+		    		<% if(proveEdit!=null) {%>
+		    			<form class="dataForm" action="AdministrarProveedores?accion=1" method="post">
 				    		<table>
 					    		<tr>
 					    			<td><label>Id:</label></td>
-					    			<td><input name="idProve" value="<%=proveEdit.getId()%>" type="text"></input></td>
+					    			<td><input name="idProve" readonly="readonly" value="<%=proveEdit.getId()%>" ></input></td>
 					  			</tr>
 								<tr>
-					  				<td><label>CUIT:</label></td>
-					    			<td><input name="cuitProve" value="<%=proveEdit.getCuit()%>" type="text"></input></td>
+					  				<td><label >CUIT:</label></td>
+					    			<td><input class="required" name="cuitProve" value="<%=proveEdit.getCuit()%>" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
 					  			<tr>
 					  				<td><label>Nombre: </label></td>
@@ -71,15 +71,12 @@ if (error == null) error = "";%>
 					    	</table>
 					    </form>
 				    <%} else { %>
-				    	<form action="AdministrarProveedores?accion=0" method="post">
+				    	<form class="dataForm" action="AdministrarProveedores?accion=0" method="post">
 					    	<table>
-					    		<tr>
-					    			<td><label>Id:</label></td>
-					    			<td><input name="idProve" type="text"></input></td>
-					  			</tr>
 								<tr>
 					  				<td><label>CUIT:</label></td>
-					    			<td><input name="cuitProve" type="text"></input></td>
+					    			<td><input class="required" name="cuitProve" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
 					  			<tr>
 					  				<td><label>Nombre: </label></td>
@@ -104,15 +101,14 @@ if (error == null) error = "";%>
 								<th>Acciones</th>
 							</tr>
 							<% if(proveedores != null && !proveedores.isEmpty()){ %>
-					    		<% System.out.print("El nro de CUIT es: " + proveedores.get(1).getCuit()); 
-					    		for(ProveedorVO p: proveedores) { %>
+					    		<% for(ProveedorVO p: proveedores) { %>
 					    		<tr>
 					    			<td><%=p.getId() %></td>
 					    			<td><%=p.getCuit() %></td>
 					    			<td><%=p.getNombre()%></td>
 					    			<td>
-					    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
-					    				<a href="AdministrarProveedores?idProve=<%=p.getNombre()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
+					    				<a href="AdministrarProveedores?idProve=<%=p.getId()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
+					    				<a href="AdministrarProveedores?idProve=<%=p.getId()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
 					    			</td>
 					  			</tr>
 					  			<%} 
@@ -123,25 +119,37 @@ if (error == null) error = "";%>
 		    	<h3>Administrar Rodamientos</h3>
 		    	
 		    	<div class="formTable">
-		    		<% RodamientoVO rod = (RodamientoVO) request.getAttribute("adminRod"); %>
-		    		<% if(rod!=null) {%>
-		    			<form action="AdministrarServicios?accion=1" method="post">
+		    		<% RodamientoVO rodEdit = (RodamientoVO) request.getAttribute("rodEdit"); %>
+		    		<% if(rodEdit!=null) {%>
+		    			<form class="dataForm" action="AdministrarRodamientos?accion=1" method="post">
 				    		<table>
+				    			<tr>
+					    			<td><label>Id:</label></td>
+					    			<td><input name="idRod" readonly="readonly" value="<%=rodEdit.getId()%>"></input></td>
+					    		</tr>
 					    		<tr>
 					    			<td><label>CodigoSKF:</label></td>
-					    			<td><input name="codSKF" value="<%=rod.getCodigoSKF()%>" type="text"></input></td>
-					  			</tr>
-								<tr>
-					  				<td><label>Pais:</label></td>
-					    			<td><input name="paisRod" value="<%=rod.getPais()%>" type="text"></input></td>
+					    			<td><input class="required" name="codSKF" value="<%=rodEdit.getCodigoSKF()%>" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
 					  			<tr>
 					  				<td><label>Marca: </label></td>
-					    			<td><input name="marcaRod" value="<%=rod.getMarca()%>" type="text"></input></td>
+					    			<td><input class="required" name="marcaRod" value="<%=rodEdit.getMarca()%>" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 								</tr>
 								<tr>
+					  				<td><label>Pais:</label></td>
+					    			<td><input class="required" name="paisRod" value="<%=rodEdit.getPais()%>" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Caracteristica:</label></td>
+					    			<td><input class="required" name="carRod" value="<%=rodEdit.getCaracteristica()%>" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
+					  			</tr>
+								<tr>
 					  				<td><label>Stock: </label></td>
-					    			<td><label><%=rod.getStock()%></label></td>
+					    			<td><input name="stockRod" type="text" value="<%=rodEdit.getStock()%>"></input></td>
 								</tr>
 					  			<tr>
 					  				<td></td>
@@ -150,20 +158,28 @@ if (error == null) error = "";%>
 					    	</table>
 					    </form>
 				    <%} else { %>
-				    	<form action="AdministrarRodamientos?accion=0" method="post">
+				    	<form class="dataForm" action="AdministrarRodamientos?accion=0" method="post">
 					    	<table>
 					    		<tr>
 					    			<td><label>CodigoSKF:</label></td>
-					    			<td><input name="codSKF" type="text"></input></td>
-					  			</tr>
-								<tr>
-					  				<td><label>Pais:</label></td>
-					    			<td><input name="paisRod" type="text"></input></td>
+					    			<td><input class="required" name="codSKF" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
 					  			<tr>
 					  				<td><label>Marca: </label></td>
-					    			<td><input name="marcaRod" type="text"></input></td>
+					    			<td><input class="required" name="marcaRod" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
 								</tr>
+								<tr>
+					  				<td><label>Pais:</label></td>
+					    			<td><input class="required" name="paisRod" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
+					  			</tr>
+					  			<tr>
+					  				<td><label>Caracteristica:</label></td>
+					    			<td><input class="required" name="carRod" type="text"></input></td>
+					    			<td><span class="msjRequired"></span></td>
+					  			</tr>
 								<tr>
 					  				<td><label>Stock: </label></td>
 					    			<td><input name="stockRod" type="text"></input></td>
@@ -181,21 +197,26 @@ if (error == null) error = "";%>
 		    	<div class="pageDataTable">
 				    	<table>
 							<tr>
+								<th>Id</th>
 								<th>CodigoSKF</th>
-								<th>Pais</th>
 								<th>Marca</th>
+								<th>Pais</th>
+								<th>Caracteristica</th>
 								<th>Stock</th>
+								<th>Acciones</th>
 							</tr>
 							<% if(rodamientos != null && !rodamientos.isEmpty()){ %>
 					    		<% for(RodamientoVO r: rodamientos){ %>
 					    		<tr>
+					    			<td><%=r.getId() %></td>
 					    			<td><%=r.getCodigoSKF() %></td>
 					    			<td><%=r.getPais() %></td>
+					    			<td><%=r.getCaracteristica() %></td>
 					    			<td><%=r.getMarca()%></td>
 					    			<td><%=r.getStock()%></td>
 					    			<td>
-					    				<a href="AdministrarServicios?codSKF=<%=r.getCodigoSKF()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
-					    				<a href="AdministrarServicios?codSKF=<%=r.getCodigoSKF()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
+					    				<a href="AdministrarRodamientos?idRod=<%=r.getId()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
+					    				<a href="AdministrarRodamientos?idRod=<%=r.getId()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
 					    			</td>
 					  			</tr>
 					  			<%} 
@@ -218,6 +239,29 @@ if (error == null) error = "";%>
         Created by Matias Favale®
     </div>
 </div>
+
+<script type="text/javascript">
+	$('.dataForm').submit(function(event){
+		var required = $(this).find('.required');
+		required.each(function(){ 
+			if($(this).val() == ''){
+				$('.msjRequired').text("* campo requerido").show().fadeOut(5000);
+				event.preventDefault();
+			}
+		});
+	});
+
+	function validateBlank(form){
+	/*	v ar required = $(form).find('.required');
+		required.each(function(){ 
+			if($(this).val() == ''){
+				$(form).find('.msjRequired').show();
+				form.preventDefault();
+			}
+		}); */
+	} 
+	
+</script>
 
 </body>
 </html>

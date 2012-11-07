@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
 /**
  * Servlet implementation class AdministrarProveedores
  */
-public class AdministrarProveedores extends HttpServlet {
+public class AdministrarRodamientos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final int ADD = 0;
@@ -24,16 +25,16 @@ public class AdministrarProveedores extends HttpServlet {
 
 	private BusinessDelegate bd = new BusinessDelegate();
 
-	public AdministrarProveedores() {
+	public AdministrarRodamientos() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String accion = (String) request.getParameter("accion");
-		String idProveedorString = (String) request
-				.getParameter("idProve");
-		int idProveedor = Integer.parseInt(idProveedorString);
+		String idRodamientoString = (String) request
+				.getParameter("idRod");
+		int idRodamiento = Integer.parseInt(idRodamientoString);
 
 		RequestDispatcher dispatcher = request
 				.getRequestDispatcher("/home.jsp");
@@ -41,16 +42,16 @@ public class AdministrarProveedores extends HttpServlet {
 		try {
 			switch (Integer.valueOf(accion)) {
 			case EDIT:
-				request.setAttribute("proveEdit", bd.getProveedor(idProveedor));
+				request.setAttribute("rodEdit", bd.getRodamiento(idRodamiento));
 				break;
 			case DELETE:
-				bd.eliminarProveedor(idProveedor);
+				bd.eliminarRodamiento(idRodamiento);
 				break;
 			default:
 				break;
 			}
 
-			request.setAttribute("proveedores", bd.getProveedores());
+			request.setAttribute("rodamientos", bd.getRodamientos());
 
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {
@@ -69,32 +70,42 @@ public class AdministrarProveedores extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String accion = (String) request.getParameter("accion");
 
-		String idProveedor = (String) request
-				.getParameter("idProve");
-		String cuit = (String) request.getParameter("cuitProve");
-		String nombre = (String) request.getParameter("nombreProve");
+		String idRodamiento = (String) request
+				.getParameter("idRod");
+		
+		String codigoSKF = (String) request.getParameter("codSKF");
+		String marca = (String) request.getParameter("marcaRod");
+		String caracteristica = (String) request.getParameter("carRod");
+		String pais = (String) request.getParameter("paisRod");
+		String stock = (String) request.getParameter("stockRod");
 
-		ProveedorVO pvo = new ProveedorVO();
-		if(idProveedor!=null && !idProveedor.isEmpty())
-			pvo.setId(Integer.parseInt(idProveedor));
-		pvo.setCuit(cuit);
-		pvo.setNombre(nombre);
-
+		RodamientoVO rvo = new RodamientoVO();
+		if(idRodamiento!=null && !idRodamiento.isEmpty())
+			rvo.setId(Integer.parseInt(idRodamiento));
+		rvo.setCodigoSKF(codigoSKF);
+		rvo.setMarca(marca);
+		rvo.setCaracteristica(caracteristica);
+		rvo.setPais(pais);
+		if( stock ==null || stock.isEmpty())
+			rvo.setStock(0);
+		else
+			rvo.setStock(Integer.parseInt(stock));
+		
 		RequestDispatcher dispatcher = request
 				.getRequestDispatcher("/home.jsp");
 		try {
 			switch (Integer.valueOf(accion)) {
 			case EDIT:
-				bd.guardarProveedor(pvo);
+				bd.guardarRodamiento(rvo);
 				break;
 			case ADD:
-				bd.guardarProveedor(pvo);
+				bd.guardarRodamiento(rvo);
 				break;
 			default:
 				break;
 			}
 
-			request.setAttribute("proveedores", bd.getProveedores());
+			request.setAttribute("rodamientos", bd.getRodamientos());
 
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {

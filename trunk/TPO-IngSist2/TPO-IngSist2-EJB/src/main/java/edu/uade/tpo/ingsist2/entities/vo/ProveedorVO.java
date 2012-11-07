@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ProveedorVO implements Serializable{
 
-	public static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7706606121975723534L;
 	
 	private int id;
 	private String cuit;
