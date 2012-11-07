@@ -264,6 +264,11 @@
     .lbFormTable td{
     	border: 0em;
    	}
+   	
+   	.msjRequired{
+   		color: red;
+   		font-size: 11px;
+   	}
  
  	#lbForm{
 		position:absolute;

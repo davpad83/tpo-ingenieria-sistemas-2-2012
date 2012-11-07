@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
+import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
 public class OpcionMenu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +38,9 @@ public class OpcionMenu extends HttpServlet {
 				request.setAttribute("proveedores", pvoList);
 				session.setAttribute("opcion", "adminProve");
 			} else if (opcion.equals("adminRod")) {
-				// session.setAttribute("opcion", "adminRod");
+				ArrayList<RodamientoVO> rvoList = bd.getRodamientos();
+				request.setAttribute("rodamientos", rvoList);
+				 session.setAttribute("opcion", "adminRod");
 			} else if (opcion.equals("home")) {
 				session.setAttribute("opcion", "home");
 			}

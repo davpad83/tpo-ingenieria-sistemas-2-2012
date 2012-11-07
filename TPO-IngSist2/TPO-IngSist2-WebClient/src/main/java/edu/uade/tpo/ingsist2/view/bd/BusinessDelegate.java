@@ -5,12 +5,9 @@ import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
-
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.facade.AdminFacade;
-import edu.uade.tpo.ingsist2.facade.AdminFacadeBean;
-import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
 public class BusinessDelegate {
 
@@ -66,11 +63,22 @@ public class BusinessDelegate {
 	}
 	
 	public ArrayList<ProveedorVO> getProveedores(){
-		ArrayList<ProveedorVO> list = adminFacade.getProveedores();
-		if(list!=null)
-			return list;
-		else
-			System.out.print("La lista de proveedor es nula");
-		return new ArrayList<ProveedorVO>();
+		return adminFacade.getProveedores();
+	}
+
+	public RodamientoVO getRodamiento(int idRodamiento) {
+		return adminFacade.getRodamiento(idRodamiento);
+	}
+
+	public ArrayList<RodamientoVO> getRodamientos() {
+		return adminFacade.getRodamientos();
+	}
+
+	public void guardarRodamiento(RodamientoVO rvo) {
+		adminFacade.guardarRodamiento(rvo);
+	}
+
+	public void eliminarRodamiento(int idRodamiento) {
+		adminFacade.eliminarRodamiento(idRodamiento);
 	}
 }
