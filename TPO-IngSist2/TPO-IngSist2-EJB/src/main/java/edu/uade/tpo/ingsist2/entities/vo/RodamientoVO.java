@@ -10,7 +10,6 @@ public class RodamientoVO implements Serializable {
 	private String codigoSKF;
 	private String marca;
 	private String pais;
-	private String caracteristica;
 	private int stock;
 	
 	public RodamientoVO() {
@@ -36,10 +35,6 @@ public class RodamientoVO implements Serializable {
 		return pais;
 	}
 	
-	public String getCaracteristica() {
-		return caracteristica;
-	}
-	
 	public int getStock(){
 		return stock;
 	}
@@ -54,10 +49,6 @@ public class RodamientoVO implements Serializable {
 
 	public void setPais(String pais) {
 		this.pais = pais;
-	}
-
-	public void setCaracteristica(String caracteristica) {
-		this.caracteristica = caracteristica;
 	}
 
 	public void setStock(int stock) {

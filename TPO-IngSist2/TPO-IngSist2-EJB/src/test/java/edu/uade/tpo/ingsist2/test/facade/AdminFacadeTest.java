@@ -6,8 +6,8 @@ import javax.ejb.EJB;
 import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.facade.AdminFacade;
-import edu.uade.tpo.ingsist2.facade.AdminFacadeBean;
+import edu.uade.tpo.ingsist2.facade.Facade;
+import edu.uade.tpo.ingsist2.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
 import junit.framework.TestCase;
 
@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 public class AdminFacadeTest extends TestCase {
 
 	@EJB
-	private AdminFacade af;
+	private Facade af;
 
 	@Test
 	public void testGetListaProveedores(){

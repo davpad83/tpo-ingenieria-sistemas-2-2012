@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.entities.Proveedor;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.facade.AdminFacadeBean;
+import edu.uade.tpo.ingsist2.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
 
 @Stateless

@@ -17,7 +17,6 @@ public class Rodamiento {
 	private String codigoSKF;
 	private String marca;
 	private String pais;
-	private String caracteristica;
 
 	private int stock;
 
@@ -57,14 +56,6 @@ public class Rodamiento {
 		this.pais = pais;
 	}
 
-	public String getCaracteristica() {
-		return caracteristica;
-	}
-
-	public void setCaracteristica(String caracteristica) {
-		this.caracteristica = caracteristica;
-	}
-
 	public int getStock() {
 		return stock;
 	}
@@ -80,14 +71,12 @@ public class Rodamiento {
 		r.setMarca(this.marca);
 		r.setPais(this.pais);
 		r.setStock(this.stock);
-		r.setCaracteristica(this.caracteristica);
 		return r;
 	}
 
 	public void setVO(RodamientoVO r){
 		this.id = r.getId();
 		this.codigoSKF = r.getCodigoSKF();
-		this.caracteristica = r.getCaracteristica();
 		this.marca = r.getMarca();
 		this.pais = r.getPais();
 		this.stock = r.getStock();
@@ -105,8 +94,6 @@ public class Rodamiento {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((caracteristica == null) ? 0 : caracteristica.hashCode());
-		result = prime * result
 				+ ((codigoSKF == null) ? 0 : codigoSKF.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((marca == null) ? 0 : marca.hashCode());
@@ -123,11 +110,6 @@ public class Rodamiento {
 		if (getClass() != obj.getClass())
 			return false;
 		Rodamiento other = (Rodamiento) obj;
-		if (caracteristica == null) {
-			if (other.caracteristica != null)
-				return false;
-		} else if (!caracteristica.equals(other.caracteristica))
-			return false;
 		if (codigoSKF == null) {
 			if (other.codigoSKF != null)
 				return false;

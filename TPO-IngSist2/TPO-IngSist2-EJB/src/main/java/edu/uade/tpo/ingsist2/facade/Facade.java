@@ -3,12 +3,16 @@ package edu.uade.tpo.ingsist2.facade;
 import java.util.ArrayList;
 
 import javax.ejb.Remote;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
+import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 
 @Remote
-public interface AdminFacade {
+@WebService(serviceName="CPRFacadeWS")
+public interface Facade {
 
 	/*==================================*/
 	/*			ABM de Proveedores		*/
@@ -33,5 +37,12 @@ public interface AdminFacade {
 	public RodamientoVO getRodamiento(int id);
 	
 	public ArrayList<RodamientoVO> getRodamientos();
+	
+	/*==================================*/
+	/*			Web Service methods		*/
+	/*==================================*/
+	
+	@WebMethod
+	public void recibirOrdenDeCompra(OrdenDeCompra oc);
 	
 }

@@ -7,18 +7,19 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
+import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.session.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.session.AdministrarRodamientos;
 
 @Stateless
-public class AdminFacadeBean implements AdminFacade {
+public class FacadeBean implements Facade {
 	
 	@EJB
 	private AdministrarProveedores adminProve;
 	@EJB
 	private AdministrarRodamientos adminRod;
 	
-	public AdminFacadeBean() {
+	public FacadeBean() {
 	}
 
 	@Override
@@ -59,5 +60,11 @@ public class AdminFacadeBean implements AdminFacade {
 	@Override
 	public ArrayList<RodamientoVO> getRodamientos() {
 		return adminRod.getRodamientos();
+	}
+
+	@Override
+	public void recibirOrdenDeCompra(OrdenDeCompra oc) {
+		// TODO Auto-generated method stub
+		
 	}
 }
