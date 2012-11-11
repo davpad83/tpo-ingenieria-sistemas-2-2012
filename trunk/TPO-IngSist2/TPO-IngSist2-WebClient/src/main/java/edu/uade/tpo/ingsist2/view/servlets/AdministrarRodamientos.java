@@ -75,7 +75,6 @@ public class AdministrarRodamientos extends HttpServlet {
 		
 		String codigoSKF = (String) request.getParameter("codSKF");
 		String marca = (String) request.getParameter("marcaRod");
-		String caracteristica = (String) request.getParameter("carRod");
 		String pais = (String) request.getParameter("paisRod");
 		String stock = (String) request.getParameter("stockRod");
 
@@ -84,7 +83,6 @@ public class AdministrarRodamientos extends HttpServlet {
 			rvo.setId(Integer.parseInt(idRodamiento));
 		rvo.setCodigoSKF(codigoSKF);
 		rvo.setMarca(marca);
-		rvo.setCaracteristica(caracteristica);
 		rvo.setPais(pais);
 		if( stock ==null || stock.isEmpty())
 			rvo.setStock(0);

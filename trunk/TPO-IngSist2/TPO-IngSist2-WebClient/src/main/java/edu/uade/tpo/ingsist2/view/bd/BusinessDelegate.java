@@ -5,13 +5,13 @@ import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import edu.uade.tpo.ingsist2.facade.AdminFacade;
+import edu.uade.tpo.ingsist2.facade.Facade;
 import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
 
 public class BusinessDelegate {
 
-	private AdminFacade adminFacade = null;
+	private Facade adminFacade = null;
 	
 	private static BusinessDelegate instancia = null;
 
@@ -27,7 +27,7 @@ public class BusinessDelegate {
 	
 	@SuppressWarnings("unchecked")
 	private void conectar() {
-		String naming = "TPO-IngSist2-EAR/AdminFacadeBean/remote";
+		String naming = "TPO-IngSist2-EAR/FacadeBean/remote";
 
 		Hashtable props = new Hashtable();
 		props.put(InitialContext.INITIAL_CONTEXT_FACTORY,
@@ -37,7 +37,7 @@ public class BusinessDelegate {
 		InitialContext ic;
 		try {
 			ic = new InitialContext(props);
-			adminFacade = (AdminFacade) ic.lookup(naming);
+			adminFacade = (Facade) ic.lookup(naming);
 		} catch (NamingException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

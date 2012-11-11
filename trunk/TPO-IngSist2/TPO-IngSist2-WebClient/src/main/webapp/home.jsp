@@ -142,11 +142,6 @@ if (error == null) error = "";%>
 					    			<td><input class="required" name="paisRod" value="<%=rodEdit.getPais()%>" type="text"></input></td>
 					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
-					  			<tr>
-					  				<td><label>Caracteristica:</label></td>
-					    			<td><input class="required" name="carRod" value="<%=rodEdit.getCaracteristica()%>" type="text"></input></td>
-					    			<td><span class="msjRequired"></span></td>
-					  			</tr>
 								<tr>
 					  				<td><label>Stock: </label></td>
 					    			<td><input name="stockRod" type="text" value="<%=rodEdit.getStock()%>"></input></td>
@@ -175,11 +170,6 @@ if (error == null) error = "";%>
 					    			<td><input class="required" name="paisRod" type="text"></input></td>
 					    			<td><span class="msjRequired"></span></td>
 					  			</tr>
-					  			<tr>
-					  				<td><label>Caracteristica:</label></td>
-					    			<td><input class="required" name="carRod" type="text"></input></td>
-					    			<td><span class="msjRequired"></span></td>
-					  			</tr>
 								<tr>
 					  				<td><label>Stock: </label></td>
 					    			<td><input name="stockRod" type="text"></input></td>
@@ -201,7 +191,6 @@ if (error == null) error = "";%>
 								<th>CodigoSKF</th>
 								<th>Marca</th>
 								<th>Pais</th>
-								<th>Caracteristica</th>
 								<th>Stock</th>
 								<th>Acciones</th>
 							</tr>
@@ -211,7 +200,6 @@ if (error == null) error = "";%>
 					    			<td><%=r.getId() %></td>
 					    			<td><%=r.getCodigoSKF() %></td>
 					    			<td><%=r.getPais() %></td>
-					    			<td><%=r.getCaracteristica() %></td>
 					    			<td><%=r.getMarca()%></td>
 					    			<td><%=r.getStock()%></td>
 					    			<td>
@@ -251,16 +239,6 @@ if (error == null) error = "";%>
 		});
 	});
 
-	function validateBlank(form){
-	/*	v ar required = $(form).find('.required');
-		required.each(function(){ 
-			if($(this).val() == ''){
-				$(form).find('.msjRequired').show();
-				form.preventDefault();
-			}
-		}); */
-	} 
-	
 </script>
 
 </body>
