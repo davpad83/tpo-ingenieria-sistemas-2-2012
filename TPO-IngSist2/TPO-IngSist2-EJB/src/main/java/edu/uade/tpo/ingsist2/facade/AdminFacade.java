@@ -23,7 +23,7 @@ public interface AdminFacade {
 	public ArrayList<ProveedorVO> getProveedores();
 	
 	/*==================================*/
-	/*			ABM de Rodamientos		*/
+	/*			ABM de Rodamientosss		*/
 	/*==================================*/
 	
 	public void guardarRodamiento(RodamientoVO r);
