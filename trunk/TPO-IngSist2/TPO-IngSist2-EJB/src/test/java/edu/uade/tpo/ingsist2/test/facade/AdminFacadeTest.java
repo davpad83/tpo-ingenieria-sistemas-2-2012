@@ -5,10 +5,10 @@ import javax.ejb.EJB;
 
 import org.junit.Test;
 
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.facade.Facade;
-import edu.uade.tpo.ingsist2.facade.FacadeBean;
-import edu.uade.tpo.ingsist2.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.view.facade.Facade;
+import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
+import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import junit.framework.TestCase;
 
 
