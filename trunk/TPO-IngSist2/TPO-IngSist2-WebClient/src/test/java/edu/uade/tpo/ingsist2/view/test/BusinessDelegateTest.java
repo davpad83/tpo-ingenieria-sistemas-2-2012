@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 
 public class BusinessDelegateTest {

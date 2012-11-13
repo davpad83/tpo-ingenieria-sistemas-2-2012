@@ -5,9 +5,10 @@ import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import edu.uade.tpo.ingsist2.facade.Facade;
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
+
+import edu.uade.tpo.ingsist2.view.facade.Facade;
+import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 public class BusinessDelegate {
 
