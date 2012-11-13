@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="edu.uade.tpo.ingsist2.entities.vo.ProveedorVO" %>
-<%@page import="edu.uade.tpo.ingsist2.entities.vo.RodamientoVO" %>
+<%@page import="edu.uade.tpo.ingsist2.view.vo.ProveedorVO" %>
+<%@page import="edu.uade.tpo.ingsist2.view.vo.RodamientoVO" %>
 <%@page import="java.util.*" %>
 <%@page import="java.text.DateFormat" %>
 <% String login = (String) session.getAttribute("login"); %>
@@ -195,9 +195,9 @@ if (error == null) error = "";%>
 					    		<tr>
 					    			<td><%=r.getId() %></td>
 					    			<td><%=r.getCodigoSKF() %></td>
+					    			<td><%=r.getMarca()%></td>
 					    			<td><%=r.getPais() %></td>
 					    			<td><%=r.getStock() %></td>
-					    			<td><%=r.getMarca()%></td>
 					    			<td>
 					    				<a href="AdministrarRodamientos?idRod=<%=r.getId()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
 					    				<a href="AdministrarRodamientos?idRod=<%=r.getId()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>
@@ -220,7 +220,9 @@ if (error == null) error = "";%>
 
 <div class="pageFooter">
     <div class="pageFooterContent">
-        Created by Matias Favale®
+        Created by Matias Favale, Joaquin Attanasio and Ezequiel Primo.
+        <br>
+        Sponsored by UADE (Universidad Argentina de la Empresa)
     </div>
 </div>
 

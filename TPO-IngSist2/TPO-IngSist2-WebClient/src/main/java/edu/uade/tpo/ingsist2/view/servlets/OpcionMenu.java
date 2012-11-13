@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
-import edu.uade.tpo.ingsist2.entities.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.entities.vo.RodamientoVO;
+import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 public class OpcionMenu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
