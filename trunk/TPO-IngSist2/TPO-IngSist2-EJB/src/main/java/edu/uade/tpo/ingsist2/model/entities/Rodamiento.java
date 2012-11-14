@@ -18,7 +18,8 @@ public class Rodamiento {
 	private String marca;
 	private String pais;
 
-	private int stock;
+	@Embedded
+	private Stock stock;
 
 	public Rodamiento() {
 		// empty
@@ -56,11 +57,11 @@ public class Rodamiento {
 		this.pais = pais;
 	}
 
-	public int getStock() {
+	public Stock getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Stock stock) {
 		this.stock = stock;
 	}
 
@@ -70,7 +71,7 @@ public class Rodamiento {
 		r.setCodigoSKF(this.codigoSKF);
 		r.setMarca(this.marca);
 		r.setPais(this.pais);
-		r.setStock(this.stock);
+		r.setStock(this.stock.getCantidad());
 		return r;
 	}
 
@@ -79,7 +80,7 @@ public class Rodamiento {
 		this.codigoSKF = r.getCodigoSKF();
 		this.marca = r.getMarca();
 		this.pais = r.getPais();
-		this.stock = r.getStock();
+		this.stock.setCantidad(r.getStock());
 	}
 	
 	public static ArrayList<RodamientoVO> getVOList(List<Rodamiento> rList){
