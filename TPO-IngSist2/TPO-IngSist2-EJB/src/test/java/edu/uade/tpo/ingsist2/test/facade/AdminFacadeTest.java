@@ -10,7 +10,7 @@ import edu.uade.tpo.ingsist2.view.facade.Facade;
 import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import junit.framework.TestCase;
-
+//test
 
 public class AdminFacadeTest extends TestCase {
 
