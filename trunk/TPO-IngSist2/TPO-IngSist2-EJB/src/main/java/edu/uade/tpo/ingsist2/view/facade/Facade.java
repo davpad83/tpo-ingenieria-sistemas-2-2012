@@ -39,9 +39,9 @@ public interface Facade {
 	
 	public ArrayList<RodamientoVO> getRodamientos();
 	
-	/*==================================*/
-	/*			Web Service methods		*/
-	/*==================================*/
+	/*====================================================================*/
+	/*			Web Service methods (Solicitud de Cotitaciones)		*/
+	/*====================================================================*/
 	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr);
 	
