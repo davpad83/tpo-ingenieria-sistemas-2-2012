@@ -11,6 +11,7 @@ import javax.jms.TextMessage;
 import com.thoughtworks.xstream.XStream;
 
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
+import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodProveedorRequest;
 
 @MessageDriven(activationConfig = {
@@ -30,7 +31,7 @@ public class ListaProveedorQueue implements MessageListener {
 	public void onMessage(Message message) {
 		try{
 			TextMessage ts = (TextMessage) message;
-			RecepcionRodProveedorRequest lpr = deXMLAListaProveedorRequest(ts.getText());
+			ListaPreciosVO lpr = deXMLAListaProveedorRequest(ts.getText());
 			
 			messagesFacade.agregarListaProveedor(lpr);
 		} catch (JMSException e){
@@ -39,8 +40,8 @@ public class ListaProveedorQueue implements MessageListener {
 	}
 	
 	@SuppressWarnings("unused")
-	private RecepcionRodProveedorRequest deXMLAListaProveedorRequest(String message){
+	private ListaPreciosVO deXMLAListaProveedorRequest(String message){
 		XStream xs = new XStream();
-		return (RecepcionRodProveedorRequest) xs.fromXML(message);
+		return (ListaPreciosVO) xs.fromXML(message);
 	}
 }

@@ -80,6 +80,7 @@ public class Rodamiento {
 		this.codigoSKF = r.getCodigoSKF();
 		this.marca = r.getMarca();
 		this.pais = r.getPais();
+		this.stock = new Stock();
 		this.stock.setCantidad(r.getStock());
 	}
 	

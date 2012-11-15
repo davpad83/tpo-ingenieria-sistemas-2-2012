@@ -6,18 +6,18 @@ import javax.persistence.*;
 public class Stock {
 
 	private Rodamiento rodamiento;
-	private int cantidad;
+	private int cantidadStock;
 	
 	public void aumentarStock(int cant){
-		this.cantidad=cantidad + cant;
+		this.cantidadStock=cantidadStock + cant;
 	}
 	
 	public void disminuirStock(int cant){
-		this.cantidad=cantidad - cant;
+		this.cantidadStock=cantidadStock - cant;
 	}
 	
 	public boolean verificarStock(){
-		if(cantidad == 0)
+		if(cantidadStock == 0)
 			return true;
 		return false;
 	}
@@ -31,11 +31,11 @@ public class Stock {
 	}
 
 	public int getCantidad() {
-		return cantidad;
+		return cantidadStock;
 	}
 
 	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
+		this.cantidadStock = cantidad;
 	}
 	
 	

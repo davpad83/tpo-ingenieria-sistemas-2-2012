@@ -20,7 +20,6 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
-
 	
     public AdministrarRodamientosBean() {
         // TODO Auto-generated constructor stub

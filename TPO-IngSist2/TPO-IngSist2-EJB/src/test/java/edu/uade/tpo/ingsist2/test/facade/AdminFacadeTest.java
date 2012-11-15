@@ -22,6 +22,5 @@ public class AdminFacadeTest extends TestCase {
 		ArrayList<ProveedorVO> prove = af.getProveedores();
 		
 		assertTrue(prove.isEmpty());
-	}
-	
+	}	
 }
