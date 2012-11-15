@@ -1,9 +1,12 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SolicitudCotizacionResponse {
+import org.jboss.remoting.SerializableStore;
+
+public class SolicitudCotizacionResponse implements Serializable {
 	
 	private int idPedidoCotizacion;
 	private int idODV;
