@@ -45,4 +45,6 @@ public interface Facade {
 	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr);
 	
+	
+	
 }
