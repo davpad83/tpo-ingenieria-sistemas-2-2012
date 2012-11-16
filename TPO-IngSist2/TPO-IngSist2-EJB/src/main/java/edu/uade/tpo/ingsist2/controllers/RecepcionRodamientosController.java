@@ -13,5 +13,5 @@ public interface RecepcionRodamientosController {
 
 	void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos);
 
-	void EnviarRemito(OrdenDeCompra oc);
+	void EnviarRemito(int idoc);
 }

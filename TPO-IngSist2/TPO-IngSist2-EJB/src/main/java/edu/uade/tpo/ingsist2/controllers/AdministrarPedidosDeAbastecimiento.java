@@ -16,5 +16,5 @@ public interface AdministrarPedidosDeAbastecimiento {
 	
 	public PedidoAbastecimientoVO getPedido(int id);
 
-	public ArrayList<PedidoAbastecimientoVO> getPedidosActivos();
+	public ArrayList<PedidoAbastecimientoVO> getPedidos();
 }
