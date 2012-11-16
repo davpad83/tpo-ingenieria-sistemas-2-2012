@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import javax.ejb.Local;
 
+import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.view.vo.RecepcionRodProveedorRequest;
+import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 @Local
 public interface RecepcionRodamientosController {
 
-	public void RecibirRodamientos(RecepcionRodProveedorRequest rodamientos);
-	
-	public void EnviarRemito();
+	void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos);
+
+	void EnviarRemito(OrdenDeCompra oc);
 }

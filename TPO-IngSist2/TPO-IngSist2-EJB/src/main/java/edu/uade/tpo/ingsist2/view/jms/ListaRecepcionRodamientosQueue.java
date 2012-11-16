@@ -16,32 +16,32 @@ import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination" , propertyValue = "queue/EnviarListaProveedor")
+		@ActivationConfigProperty(propertyName = "destination" , propertyValue = "queue/EnviarRodamientos")
 })
-public class ListaProveedorQueue implements MessageListener {
+public class ListaRecepcionRodamientosQueue implements MessageListener {
 
 	@EJB
 	MessagesFacade messagesFacade;
 	
 	/**
 	 * Se recibe un mensaje de texto en formato XML con los datos necesarios
-	 * para agregar una Lista de Proveedor.
+	 * para agregar un actualizar stock y completar pedidos.
 	 * 
 	 */
 	public void onMessage(Message message) {
 		try{
 			TextMessage ts = (TextMessage) message;
-			ListaPreciosVO lpr = deXMLAListaProveedorRequest(ts.getText());
+			RecepcionRodamientosVO lpr = deXMLARecepcionRodamientoRequest(ts.getText());
 			
-			messagesFacade.agregarListaProveedor(lpr);
+			messagesFacade.recibirEnvioProveedor(lpr);
 		} catch (JMSException e){
 			e.printStackTrace();
 		}
 	}
 	
 	@SuppressWarnings("unused")
-	private ListaPreciosVO deXMLAListaProveedorRequest(String message){
+	private RecepcionRodamientosVO deXMLARecepcionRodamientoRequest(String message){
 		XStream xs = new XStream();
-		return (ListaPreciosVO) xs.fromXML(message);
+		return (RecepcionRodamientosVO) xs.fromXML(message);
 	}
 }
