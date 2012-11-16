@@ -9,14 +9,15 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Entity
-public class Proveedor {
+@Table(name="Proveedor")
+public class ProveedorEntity {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String cuit;
 	private String nombre;
 	
-	public Proveedor() {
+	public ProveedorEntity() {
 		super();
 	}
 
@@ -58,9 +59,9 @@ public class Proveedor {
 		this.nombre = p.getNombre();
 	}
 	
-	public static ArrayList<ProveedorVO> getVOList(List<Proveedor> ps){
+	public static ArrayList<ProveedorVO> getVOList(List<ProveedorEntity> ps){
 		ArrayList<ProveedorVO> pVoList = new ArrayList<ProveedorVO>();
-		for(Proveedor p: ps)
+		for(ProveedorEntity p: ps)
 			pVoList.add(p.getVO());
 		return pVoList;
 	}

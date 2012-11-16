@@ -6,24 +6,23 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Entity
-public class PedidoDeAbastecimiento {
+public class PedidoDeAbastecimientoEntity {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int idPedido;
-	private Rodamiento rodamiento;
+	private RodamientoEntity rodamiento;
 	private boolean recibido;
-	private OrdenDeCompra ocAsociada;
-	private Proveedor proveedor;
+	private OrdenDeCompraEntity ocAsociada;
+	private ProveedorEntity proveedor;
 	private int cantidadPedida;
 	private int cantidadPendiente;
 	
 	
-	public PedidoDeAbastecimiento() {
+	public PedidoDeAbastecimientoEntity() {
 		super();
 	}
 
@@ -38,12 +37,12 @@ public class PedidoDeAbastecimiento {
 	}
 
 
-	public Rodamiento getRodamiento() {
+	public RodamientoEntity getRodamiento() {
 		return rodamiento;
 	}
 
 
-	public void setRodamiento(Rodamiento rodamiento) {
+	public void setRodamiento(RodamientoEntity rodamiento) {
 		this.rodamiento = rodamiento;
 	}
 
@@ -58,22 +57,22 @@ public class PedidoDeAbastecimiento {
 	}
 
 
-	public OrdenDeCompra getOcAsociada() {
+	public OrdenDeCompraEntity getOcAsociada() {
 		return ocAsociada;
 	}
 
 
-	public void setOcAsociada(OrdenDeCompra ocAsociada) {
+	public void setOcAsociada(OrdenDeCompraEntity ocAsociada) {
 		this.ocAsociada = ocAsociada;
 	}
 
 
-	public Proveedor getProveedor() {
+	public ProveedorEntity getProveedor() {
 		return proveedor;
 	}
 
 
-	public void setProveedor(Proveedor proveedor) {
+	public void setProveedor(ProveedorEntity proveedor) {
 		this.proveedor = proveedor;
 	}
 
@@ -122,9 +121,9 @@ public class PedidoDeAbastecimiento {
 
 
 	public static ArrayList<PedidoAbastecimientoVO> getVOList(
-			ArrayList<PedidoDeAbastecimiento> ps) {
+			ArrayList<PedidoDeAbastecimientoEntity> ps) {
 		ArrayList<PedidoAbastecimientoVO> pVoList = new ArrayList<PedidoAbastecimientoVO>();
-		for(PedidoDeAbastecimiento p: ps)
+		for(PedidoDeAbastecimientoEntity p: ps)
 			pVoList.add(p.getVO());
 		return pVoList;
 	
