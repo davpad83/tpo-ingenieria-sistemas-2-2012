@@ -8,7 +8,8 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Entity
-public class Rodamiento {
+@Table(name="Rodamiento")
+public class RodamientoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,11 +18,9 @@ public class Rodamiento {
 	private String codigoSKF;
 	private String marca;
 	private String pais;
+	private int stock;
 
-	@Embedded
-	private Stock stock;
-
-	public Rodamiento() {
+	public RodamientoEntity() {
 		// empty
 	}
 
@@ -57,11 +56,11 @@ public class Rodamiento {
 		this.pais = pais;
 	}
 
-	public Stock getStock() {
+	public int getStock() {
 		return stock;
 	}
 
-	public void setStock(Stock stock) {
+	public void setStock(int stock) {
 		this.stock = stock;
 	}
 
@@ -71,7 +70,7 @@ public class Rodamiento {
 		r.setCodigoSKF(this.codigoSKF);
 		r.setMarca(this.marca);
 		r.setPais(this.pais);
-		r.setStock(this.stock.getCantidad());
+		r.setStock(this.stock);
 		return r;
 	}
 
@@ -80,13 +79,12 @@ public class Rodamiento {
 		this.codigoSKF = r.getCodigoSKF();
 		this.marca = r.getMarca();
 		this.pais = r.getPais();
-		this.stock = new Stock();
-		this.stock.setCantidad(r.getStock());
+		this.stock = r.getStock();
 	}
 	
-	public static ArrayList<RodamientoVO> getVOList(List<Rodamiento> rList){
+	public static ArrayList<RodamientoVO> getVOList(List<RodamientoEntity> rList){
 		ArrayList<RodamientoVO> rVOList = new ArrayList<RodamientoVO>();
-		for(Rodamiento r : rList)
+		for(RodamientoEntity r : rList)
 			rVOList.add(r.getVO());
 		return rVOList;
 	}
@@ -111,7 +109,7 @@ public class Rodamiento {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Rodamiento other = (Rodamiento) obj;
+		RodamientoEntity other = (RodamientoEntity) obj;
 		if (codigoSKF == null) {
 			if (other.codigoSKF != null)
 				return false;

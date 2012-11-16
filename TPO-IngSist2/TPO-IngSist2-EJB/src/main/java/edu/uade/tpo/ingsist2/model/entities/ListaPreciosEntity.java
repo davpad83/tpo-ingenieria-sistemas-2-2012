@@ -6,23 +6,25 @@ import java.util.List;
 
 import javax.persistence.*;
 
+
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 @Entity
-public class ListaPrecios {
+@Table(name="ListaPrecios")
+public class ListaPreciosEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idLista;
 
-	@ManyToOne
-	private Proveedor proveedor;
+	@ManyToOne(cascade=CascadeType.ALL)
+	private ProveedorEntity proveedor;
 
 	@OneToMany
-	private List<ItemLista> items;
+	private List<ItemListaEntity> items;
 
 	@OneToMany
-	private List<CondicionVenta> condicionesDeVenta;
+	private List<CondicionVentaEntity> condicionesDeVenta;
 
 	private String nombre;
 	private Date vigenciaDesde;
@@ -36,27 +38,27 @@ public class ListaPrecios {
 		this.idLista = idLista;
 	}
 
-	public Proveedor getProveedor() {
+	public ProveedorEntity getProveedor() {
 		return proveedor;
 	}
 
-	public void setProveedor(Proveedor proveedor) {
+	public void setProveedor(ProveedorEntity proveedor) {
 		this.proveedor = proveedor;
 	}
 
-	public List<ItemLista> getItems() {
+	public List<ItemListaEntity> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemLista> items) {
+	public void setItems(List<ItemListaEntity> items) {
 		this.items = items;
 	}
 
-	public List<CondicionVenta> getCondicionesDeVenta() {
+	public List<CondicionVentaEntity> getCondicionesDeVenta() {
 		return condicionesDeVenta;
 	}
 
-	public void setCondicionesDeVenta(List<CondicionVenta> condicionesDeVenta) {
+	public void setCondicionesDeVenta(List<CondicionVentaEntity> condicionesDeVenta) {
 		this.condicionesDeVenta = condicionesDeVenta;
 	}
 
@@ -87,11 +89,11 @@ public class ListaPrecios {
 	public ListaPreciosVO getVO(){
 		ListaPreciosVO lpvo = new ListaPreciosVO();
 		lpvo.setIdLista(this.idLista);
-		lpvo.setItems(ItemLista.getVOList(this.items));
+		lpvo.setItems(ItemListaEntity.getVOList(this.items));
 		lpvo.setNombre(this.nombre);
 		lpvo.setVigenciaDesde(this.vigenciaDesde);
 		lpvo.setVigenciaHasta(this.vigenciaHasta);
-		lpvo.setCondicionesDeVenta(CondicionVenta.getVOList(this.condicionesDeVenta));
+		lpvo.setCondicionesDeVenta(CondicionVentaEntity.getVOList(this.condicionesDeVenta));
 		return lpvo;
 	}
 	
@@ -101,7 +103,7 @@ public class ListaPrecios {
 		
 	}
 	
-	public static List<ListaPreciosVO> getVOList(List<ListaPrecios> llp){
+	public static List<ListaPreciosVO> getVOList(List<ListaPreciosEntity> llp){
 		return null;
 	}
 }
