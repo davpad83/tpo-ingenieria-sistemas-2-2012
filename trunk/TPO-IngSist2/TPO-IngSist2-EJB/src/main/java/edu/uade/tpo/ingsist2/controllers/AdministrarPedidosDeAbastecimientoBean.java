@@ -83,7 +83,7 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<PedidoAbastecimientoVO> getPedidosActivos() {
+	public ArrayList<PedidoAbastecimientoVO> getPedidos() {
 		logger.info("Buscando pedidos activos");
 		ArrayList<PedidoDeAbastecimiento> listaResultado = null;
 		try {

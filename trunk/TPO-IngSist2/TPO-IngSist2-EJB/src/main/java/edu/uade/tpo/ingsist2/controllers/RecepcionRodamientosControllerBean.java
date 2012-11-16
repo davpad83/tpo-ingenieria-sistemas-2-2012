@@ -56,7 +56,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 				pedido.setRecibido(true);
 				
 				//Genero Remito para la OC asociada al pedido
-				EnviarRemito(pedido.getOcAsociada());
+				EnviarRemito(pedido.getOcAsociada().getIdOrden());
 				
 				if (diferencia < 0 ){//recibo mas de lo que necesito
 					//Actualizo Stock con el sobrante
@@ -70,7 +70,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	}
 
 	@Override
-	public void EnviarRemito(OrdenDeCompra oc) {
+	public void EnviarRemito(int idOC) {
 		//actualizo el estado de la OC
 		
 		
