@@ -21,7 +21,7 @@ public class ListaPreciosEntity {
 	private ProveedorEntity proveedor;
 
 	@OneToMany
-	private List<ItemListaEntity> items;
+	private List<ItemListaEntity> items;
 
 	@OneToMany
 	private List<CondicionVentaEntity> condicionesDeVenta;
@@ -46,11 +46,11 @@ public class ListaPreciosEntity {
 		this.proveedor = proveedor;
 	}
 
-	public List<ItemListaEntity> getItems() {
+	public List<ItemListaEntity> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemListaEntity> items) {
+	public void setItems(List<ItemListaEntity> items) {
 		this.items = items;
 	}
 
@@ -89,7 +89,7 @@ public class ListaPreciosEntity {
 	public ListaPreciosVO getVO(){
 		ListaPreciosVO lpvo = new ListaPreciosVO();
 		lpvo.setIdLista(this.idLista);
-		lpvo.setItems(ItemListaEntity.getVOList(this.items));
+		lpvo.setItems(ItemListaEntity.getVOList(this.items));
 		lpvo.setNombre(this.nombre);
 		lpvo.setVigenciaDesde(this.vigenciaDesde);
 		lpvo.setVigenciaHasta(this.vigenciaHasta);
