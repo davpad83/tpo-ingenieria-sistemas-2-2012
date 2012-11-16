@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
+import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Entity
 public class PedidoDeAbastecimiento {
@@ -117,5 +118,15 @@ public class PedidoDeAbastecimiento {
 		this.ocAsociada = p.getOcAsociada();
 		this.rodamiento = p.getRodamiento();
 		this.recibido = p.isRecibido();
+	}
+
+
+	public static ArrayList<PedidoAbastecimientoVO> getVOList(
+			ArrayList<PedidoDeAbastecimiento> ps) {
+		ArrayList<PedidoAbastecimientoVO> pVoList = new ArrayList<PedidoAbastecimientoVO>();
+		for(PedidoDeAbastecimiento p: ps)
+			pVoList.add(p.getVO());
+		return pVoList;
+	
 	}
 }

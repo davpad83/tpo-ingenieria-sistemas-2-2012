@@ -54,4 +54,48 @@ public class RodamientoVO implements Serializable {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((codigoSKF == null) ? 0 : codigoSKF.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((marca == null) ? 0 : marca.hashCode());
+		result = prime * result + ((pais == null) ? 0 : pais.hashCode());
+		result = prime * result + stock;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RodamientoVO other = (RodamientoVO) obj;
+		if (codigoSKF == null) {
+			if (other.codigoSKF != null)
+				return false;
+		} else if (!codigoSKF.equals(other.codigoSKF))
+			return false;
+		if (id != other.id)
+			return false;
+		if (marca == null) {
+			if (other.marca != null)
+				return false;
+		} else if (!marca.equals(other.marca))
+			return false;
+		if (pais == null) {
+			if (other.pais != null)
+				return false;
+		} else if (!pais.equals(other.pais))
+			return false;
+		return true;
+	}
+	
+	
 }

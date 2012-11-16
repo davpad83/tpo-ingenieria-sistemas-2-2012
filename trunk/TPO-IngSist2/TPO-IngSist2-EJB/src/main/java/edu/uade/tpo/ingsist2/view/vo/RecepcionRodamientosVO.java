@@ -3,24 +3,25 @@ package edu.uade.tpo.ingsist2.view.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecepcionRodProveedorRequest {
+import javax.naming.ldap.Rdn;
+
+public class RecepcionRodamientosVO {
 
 	private List<RodamientoListaVO> listaRodVO;
 	
-	public RecepcionRodProveedorRequest(){
+	
+	public RecepcionRodamientosVO(){
 		listaRodVO = new ArrayList<RodamientoListaVO>();
 	}
-	
 	public List<RodamientoListaVO> getListaRodVO() {
 		return listaRodVO;
 	}
-
 	public void setListaRodVO(List<RodamientoListaVO> listaRodVO) {
 		this.listaRodVO = listaRodVO;
 	}
 
-	private class RodamientoListaVO {
-		
+	
+	public class RodamientoListaVO {
 		private int cantidad;
 		private int idPedidoAbastecimiento;
 		private String SKF;
@@ -56,6 +57,14 @@ public class RecepcionRodProveedorRequest {
 		}
 		public void setPais(String pais) {
 			this.pais = pais;
+		}
+		
+		public RodamientoVO getRodamiento(){
+			RodamientoVO r = new RodamientoVO();
+			r.setCodigoSKF(SKF);
+			r.setMarca(marca);
+			r.setPais(pais);
+			return r;			
 		}
 	}
 	
