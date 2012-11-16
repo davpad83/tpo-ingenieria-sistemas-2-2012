@@ -6,8 +6,11 @@ import org.apache.log4j.Logger;
 
 
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
+import edu.uade.tpo.ingsist2.model.Remito;
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
+import edu.uade.tpo.ingsist2.view.vo.RemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
@@ -20,6 +23,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	private static final Logger LOGGER = Logger.getLogger(RecepcionRodamientosControllerBean.class);
 	private AdministrarPedidosDeAbastecimiento pedidos;
 	private AdministrarRodamientos rodamientos;
+	private AdministrarOrdenDeCompra ordenesCompra;
 	
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
@@ -30,8 +34,6 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		}
 	}
 	
-	
-
 	private void procesarEnvio(RodamientoListaVO envio) {
 		
 		//Buscar el Pedido de Abastecimiento
@@ -69,12 +71,17 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		}
 	}
 
-	@Override
 	public void EnviarRemito(int idOC) {
 		//actualizo el estado de la OC
-		
+		OrdenDeCompraVO oc = ordenesCompra.getOrdenCompra(idOC);
+		oc.setEstado("completo");
+		ordenesCompra.guardarOrdenCompra(oc);
 		
 		//genero y envio el remito
+		RemitoVO remito= new RemitoVO();
+		remito.setItems(oc.getItems());
+		remito.setOdv(oc.getOdv().getVO());
+		remito.setOrdenDeCompra(oc);
 		
 	}
 }
