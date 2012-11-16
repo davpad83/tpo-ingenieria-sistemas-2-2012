@@ -6,9 +6,9 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import edu.uade.tpo.ingsist2.model.entities.CondicionVenta;
-import edu.uade.tpo.ingsist2.model.entities.ItemLista;
-import edu.uade.tpo.ingsist2.model.entities.Proveedor;
+import edu.uade.tpo.ingsist2.model.entities.CondicionVentaEntity;
+import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 
 public class ListaPreciosVO {
 

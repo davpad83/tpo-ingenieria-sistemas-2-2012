@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.ejb.Local;
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
+import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 

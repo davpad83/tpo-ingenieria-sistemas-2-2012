@@ -2,19 +2,19 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
-import edu.uade.tpo.ingsist2.model.entities.Proveedor;
-import edu.uade.tpo.ingsist2.model.entities.Rodamiento;
+import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 public class PedidoAbastecimientoVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private int idPedido;
-	private Rodamiento rodamiento;
+	private RodamientoEntity rodamiento;
 	private boolean recibido;
-	private OrdenDeCompra ocAsociada;
-	private Proveedor proveedor;
+	private OrdenDeCompraEntity ocAsociada;
+	private ProveedorEntity proveedor;
 	private int cantidadPedida;
 	private int cantidadPendiente;
 	public int getIdPedido() {
@@ -23,10 +23,10 @@ public class PedidoAbastecimientoVO implements Serializable{
 	public void setIdPedido(int idPedido) {
 		this.idPedido = idPedido;
 	}
-	public Rodamiento getRodamiento() {
+	public RodamientoEntity getRodamiento() {
 		return rodamiento;
 	}
-	public void setRodamiento(Rodamiento rodamiento) {
+	public void setRodamiento(RodamientoEntity rodamiento) {
 		this.rodamiento = rodamiento;
 	}
 	public boolean isRecibido() {
@@ -35,16 +35,16 @@ public class PedidoAbastecimientoVO implements Serializable{
 	public void setRecibido(boolean recibido) {
 		this.recibido = recibido;
 	}
-	public OrdenDeCompra getOcAsociada() {
+	public OrdenDeCompraEntity getOcAsociada() {
 		return ocAsociada;
 	}
-	public void setOcAsociada(OrdenDeCompra ocAsociada) {
+	public void setOcAsociada(OrdenDeCompraEntity ocAsociada) {
 		this.ocAsociada = ocAsociada;
 	}
-	public Proveedor getProveedor() {
+	public ProveedorEntity getProveedor() {
 		return proveedor;
 	}
-	public void setProveedor(Proveedor proveedor) {
+	public void setProveedor(ProveedorEntity proveedor) {
 		this.proveedor = proveedor;
 	}
 	public int getCantidadPedida() {

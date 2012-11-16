@@ -10,8 +10,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimiento;
-import edu.uade.tpo.ingsist2.model.entities.Proveedor;
+import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
@@ -33,11 +33,11 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 	@Override
 	public void guardarPedido(PedidoAbastecimientoVO p) {
 		logger.info("Guardando Pedido " + p.getIdPedido());
-		PedidoDeAbastecimiento pBean = new PedidoDeAbastecimiento();
+		PedidoDeAbastecimientoEntity pBean = new PedidoDeAbastecimientoEntity();
 		pBean.setVO(p);
-		PedidoDeAbastecimiento pGuardado = null;
+		PedidoDeAbastecimientoEntity pGuardado = null;
 		try {
-			pGuardado = (PedidoDeAbastecimiento) entityManager.merge(pBean);
+			pGuardado = (PedidoDeAbastecimientoEntity) entityManager.merge(pBean);
 		} catch (Exception e) {
 			logger.error("Hubo un error al guardar el Pedido");
 			e.printStackTrace();
@@ -49,7 +49,7 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 	public void eliminarPedido(int id) {
 		logger.info("Procesando eliminar Pedido con id: " + id);
 		try {
-			PedidoDeAbastecimiento p = entityManager.find(PedidoDeAbastecimiento.class, id);
+			PedidoDeAbastecimientoEntity p = entityManager.find(PedidoDeAbastecimientoEntity.class, id);
 			entityManager.remove(p);
 		} catch (Exception e) {
 			logger.error("Hubo un error intentando eliminar el Pedido de Abastecimiento con id "
@@ -62,9 +62,9 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 	@Override
 	public PedidoAbastecimientoVO getPedido(int id) {
 		logger.info("Buscando pedido con id " + id);
-		PedidoDeAbastecimiento p = null;
+		PedidoDeAbastecimientoEntity p = null;
 		try {
-			p = entityManager.find(PedidoDeAbastecimiento.class, id);
+			p = entityManager.find(PedidoDeAbastecimientoEntity.class, id);
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar el pedido.");
 			e.printStackTrace();
@@ -85,9 +85,9 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 	@Override
 	public ArrayList<PedidoAbastecimientoVO> getPedidos() {
 		logger.info("Buscando pedidos activos");
-		ArrayList<PedidoDeAbastecimiento> listaResultado = null;
+		ArrayList<PedidoDeAbastecimientoEntity> listaResultado = null;
 		try {
-			listaResultado = (ArrayList<PedidoDeAbastecimiento>) entityManager.createQuery(
+			listaResultado = (ArrayList<PedidoDeAbastecimientoEntity>) entityManager.createQuery(
 					"FROM PedidoDeAbastecimiento").getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los pedidos.");
@@ -101,7 +101,7 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 				logger.info("Se han encontrado " + listaResultado.size()
 						+ " pedidos");
 		}
-		return PedidoDeAbastecimiento.getVOList(listaResultado);
+		return PedidoDeAbastecimientoEntity.getVOList(listaResultado);
 	}
 
 	
