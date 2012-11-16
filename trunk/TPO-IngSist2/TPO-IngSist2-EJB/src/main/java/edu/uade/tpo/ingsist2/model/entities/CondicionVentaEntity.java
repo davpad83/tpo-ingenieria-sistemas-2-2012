@@ -7,8 +7,9 @@ import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.CondicionVentaVO;
 
-@Entity
-public class CondicionVenta {
+@Entity()
+@Table(name="CondicionVenta")
+public class CondicionVentaEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -76,9 +77,9 @@ public class CondicionVenta {
 		this.tipo = cvvo.getTipo();
 	}
 
-	public static List<CondicionVentaVO> getVOList(List<CondicionVenta> lcv) {
+	public static List<CondicionVentaVO> getVOList(List<CondicionVentaEntity> lcv) {
 		List<CondicionVentaVO> lcvvo = new ArrayList<CondicionVentaVO>();
-		for(CondicionVenta cv : lcv)
+		for(CondicionVentaEntity cv : lcv)
 			lcvvo.add(cv.getVO());
 		return lcvvo;
 	}
