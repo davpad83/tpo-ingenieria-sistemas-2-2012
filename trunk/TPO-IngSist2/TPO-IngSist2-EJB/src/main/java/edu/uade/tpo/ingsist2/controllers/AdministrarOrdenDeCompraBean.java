@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
-import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimiento;
+import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 
 /**
@@ -31,11 +31,11 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 	@Override
 	public void guardarOrdenCompra(OrdenDeCompraVO p) {
 		logger.info("Guardando Orden " + p.getIdOrden());
-		OrdenDeCompra pBean = new OrdenDeCompra();
+		OrdenDeCompraEntity pBean = new OrdenDeCompraEntity();
 		pBean.setVO(p);
-		OrdenDeCompra pGuardado = null;
+		OrdenDeCompraEntity pGuardado = null;
 		try {
-			pGuardado = (OrdenDeCompra) entityManager.merge(pBean);
+			pGuardado = (OrdenDeCompraEntity) entityManager.merge(pBean);
 		} catch (Exception e) {
 			logger.error("Hubo un error al guardar la orden");
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 	public void eliminarOrdenCompra(int id) {
 		logger.info("Procesando eliminar Orden con id: " + id);
 		try {
-			OrdenDeCompra p = entityManager.find(OrdenDeCompra.class, id);
+			OrdenDeCompraEntity p = entityManager.find(OrdenDeCompraEntity.class, id);
 			entityManager.remove(p);
 		} catch (Exception e) {
 			logger.error("Hubo un error intentando eliminar la orden con id "
@@ -62,9 +62,9 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 	@Override
 	public OrdenDeCompraVO getOrdenCompra(int id) {
 		logger.info("Buscando pedido con id " + id);
-		OrdenDeCompra p = null;
+		OrdenDeCompraEntity p = null;
 		try {
-			p = entityManager.find(OrdenDeCompra.class, id);
+			p = entityManager.find(OrdenDeCompraEntity.class, id);
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar la orden de compra.");
 			e.printStackTrace();
@@ -85,9 +85,9 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 	@Override
 	public ArrayList<OrdenDeCompraVO> getOrdenesDeCompra() {
 		logger.info("Buscando pedidos activos");
-		ArrayList<OrdenDeCompra> listaResultado = null;
+		ArrayList<OrdenDeCompraEntity> listaResultado = null;
 		try {
-			listaResultado = (ArrayList<OrdenDeCompra>) entityManager.createQuery(
+			listaResultado = (ArrayList<OrdenDeCompraEntity>) entityManager.createQuery(
 					"FROM OrdenDeCompra").getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los pedidos.");
@@ -101,7 +101,7 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 				logger.info("Se han encontrado " + listaResultado.size()
 						+ " pedidos");
 		}
-		return OrdenDeCompra.getVOList(listaResultado);
+		return OrdenDeCompraEntity.getVOList(listaResultado);
 	}
 
 

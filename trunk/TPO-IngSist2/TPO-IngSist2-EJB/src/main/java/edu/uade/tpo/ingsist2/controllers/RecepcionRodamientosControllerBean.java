@@ -5,8 +5,9 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
-import edu.uade.tpo.ingsist2.model.Remito;
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
@@ -79,7 +80,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		
 		//genero y envio el remito
 		RemitoVO remito= new RemitoVO();
-		remito.setItems(oc.getItems());
+		remito.setItems(ItemRodamientoEntity.toVOList(oc.getItems()));
 		remito.setOdv(oc.getOdv().getVO());
 		remito.setOrdenDeCompra(oc);
 		

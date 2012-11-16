@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.Proveedor;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
@@ -31,11 +31,11 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 	@Override
 	public void guardarProveedor(ProveedorVO p) {
 		logger.info("Procesando guardar proveedor con cuit " + p.getCuit());
-		Proveedor pBean = new Proveedor();
+		ProveedorEntity pBean = new ProveedorEntity();
 		pBean.setVO(p);
-		Proveedor pGuardado = null;
+		ProveedorEntity pGuardado = null;
 		try {
-			pGuardado = (Proveedor) entityManager.merge(pBean);
+			pGuardado = (ProveedorEntity) entityManager.merge(pBean);
 		} catch (Exception e) {
 			logger.error("Hubo un error al guardar el proveedor");
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 	public void eliminarProveedor(int id) {
 		logger.info("Procesando eliminar proveedor con id: " + id);
 		try {
-			Proveedor p = entityManager.find(Proveedor.class, id);
+			ProveedorEntity p = entityManager.find(ProveedorEntity.class, id);
 			entityManager.remove(p);
 		} catch (Exception e) {
 			logger.error("Hubo un error intentando eliminar el proveedor con id "
@@ -60,9 +60,9 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 	@Override
 	public ProveedorVO getProveedor(int id) {
 		logger.info("Buscando Proveedor con id " + id);
-		Proveedor p = null;
+		ProveedorEntity p = null;
 		try {
-			p = entityManager.find(Proveedor.class, id);
+			p = entityManager.find(ProveedorEntity.class, id);
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar el proveedor.");
 			e.printStackTrace();
@@ -83,9 +83,9 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 	@Override
 	public ArrayList<ProveedorVO> getProveedores() {
 		logger.info("Buscando lista de Proveedores");
-		ArrayList<Proveedor> listaResultado = null;
+		ArrayList<ProveedorEntity> listaResultado = null;
 		try {
-			listaResultado = (ArrayList<Proveedor>) entityManager.createQuery(
+			listaResultado = (ArrayList<ProveedorEntity>) entityManager.createQuery(
 					"FROM Proveedor").getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los proveedores.");
@@ -99,6 +99,6 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 				logger.info("Se han encontrado " + listaResultado.size()
 						+ " instancias de Proveedores");
 		}
-		return Proveedor.getVOList(listaResultado);
+		return ProveedorEntity.getVOList(listaResultado);
 	}
 }

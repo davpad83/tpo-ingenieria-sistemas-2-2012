@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.ListaPrecios;
+import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 /**
@@ -26,10 +26,10 @@ public class ListaPreciosControllerBean implements ListaPreciosController {
 		if (validarListaProveedorRequest(lpvo)) {
 			LOGGER.info("La Lista de precios es VALIDA. Guardando ...");
 			
-			ListaPrecios lp = new ListaPrecios();
+			ListaPreciosEntity lp = new ListaPreciosEntity();
 			lp.setVO(lpvo);
 
-			ListaPrecios lpGuardado = entityManager.merge(lp);
+			ListaPreciosEntity lpGuardado = entityManager.merge(lp);
 			
 			if(lpGuardado.getIdLista() > 0)
 				LOGGER.info("La Lista de precios fue guardada con EXITO.");

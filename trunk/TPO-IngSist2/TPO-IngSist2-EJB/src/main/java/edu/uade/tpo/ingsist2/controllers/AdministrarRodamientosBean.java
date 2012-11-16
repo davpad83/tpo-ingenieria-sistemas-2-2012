@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.Proveedor;
-import edu.uade.tpo.ingsist2.model.entities.Rodamiento;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Stateless
@@ -28,11 +28,11 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 	@Override
 	public void guardarRodamiento(RodamientoVO r) {
 		logger.info("Procesando guardar rodamiento con codigoSKF " + r.getCodigoSKF());
-		Rodamiento rBean = new Rodamiento();
+		RodamientoEntity rBean = new RodamientoEntity();
 		rBean.setVO(r);
-		Rodamiento rGuardado = null;
+		RodamientoEntity rGuardado = null;
 		try {
-			rGuardado = (Rodamiento) entityManager.merge(rBean);
+			rGuardado = (RodamientoEntity) entityManager.merge(rBean);
 		} catch (Exception e) {
 			logger.error("Hubo un error al guardar el rodamiento");
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 	public void eliminarRodamiento(int id) {
 		logger.info("Procesando eliminar rodamiento con id: " + id);
 		try {
-			Rodamiento r = entityManager.find(Rodamiento.class, id);
+			RodamientoEntity r = entityManager.find(RodamientoEntity.class, id);
 			entityManager.remove(r);
 		} catch (Exception e) {
 			logger.error("Hubo un error intentando eliminar el rodamiento con id "
@@ -57,9 +57,9 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 	@Override
 	public RodamientoVO getRodamiento(int id) {
 		logger.info("Buscando Rodamiento con id " + id);
-		Rodamiento r = null;
+		RodamientoEntity r = null;
 		try {
-			r = entityManager.find(Rodamiento.class, id);
+			r = entityManager.find(RodamientoEntity.class, id);
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar el rodamiento.");
 			e.printStackTrace();
@@ -80,9 +80,9 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 	@Override
 	public ArrayList<RodamientoVO> getRodamientos() {
 		logger.info("Buscando lista de Rodamientos");
-		ArrayList<Rodamiento> listaResultado = null;
+		ArrayList<RodamientoEntity> listaResultado = null;
 		try {
-			listaResultado = (ArrayList<Rodamiento>) entityManager.createQuery(
+			listaResultado = (ArrayList<RodamientoEntity>) entityManager.createQuery(
 					"FROM Rodamiento").getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los rodamientos.");
@@ -96,7 +96,7 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 				logger.info("Se han encontrado " + listaResultado.size()
 						+ " instancias de Rodamientos");
 		}
-		return Rodamiento.getVOList(listaResultado);
+		return RodamientoEntity.getVOList(listaResultado);
 	}
 
 }
