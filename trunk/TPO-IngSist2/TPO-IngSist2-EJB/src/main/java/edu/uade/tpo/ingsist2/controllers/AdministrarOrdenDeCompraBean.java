@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
@@ -88,7 +89,7 @@ public class AdministrarOrdenDeCompraBean implements AdministrarOrdenDeCompra {
 		ArrayList<OrdenDeCompraEntity> listaResultado = null;
 		try {
 			listaResultado = (ArrayList<OrdenDeCompraEntity>) entityManager.createQuery(
-					"FROM OrdenDeCompra").getResultList();
+					"FROM " + OrdenDeCompraEntity.class.getSimpleName()).getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los pedidos.");
 			e.printStackTrace();

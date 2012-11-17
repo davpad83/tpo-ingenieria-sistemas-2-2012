@@ -9,7 +9,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Entity
-@Table(name="Proveedores")
+@Table(name=EntitiesTablesNames.PROVEEDOR)
 public class ProveedorEntity {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

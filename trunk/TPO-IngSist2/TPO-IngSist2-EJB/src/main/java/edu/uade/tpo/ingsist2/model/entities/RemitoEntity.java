@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="Remitos")
+@Table(name=EntitiesTablesNames.REMITO)
 public class RemitoEntity {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

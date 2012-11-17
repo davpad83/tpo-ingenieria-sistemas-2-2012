@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
@@ -88,7 +89,7 @@ public class AdministrarPedidosDeAbastecimientoBean implements AdministrarPedido
 		ArrayList<PedidoDeAbastecimientoEntity> listaResultado = null;
 		try {
 			listaResultado = (ArrayList<PedidoDeAbastecimientoEntity>) entityManager.createQuery(
-					"FROM PedidoDeAbastecimiento").getResultList();
+					"FROM " + PedidoDeAbastecimientoEntity.class.getSimpleName()).getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los pedidos.");
 			e.printStackTrace();

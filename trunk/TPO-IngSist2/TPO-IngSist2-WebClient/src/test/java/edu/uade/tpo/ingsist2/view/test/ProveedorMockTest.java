@@ -1,9 +1,9 @@
 package edu.uade.tpo.ingsist2.view.test;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Queue;
 
+import javax.jms.JMSException;
+import javax.jms.Queue;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
@@ -16,16 +16,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.thoughtworks.xstream.XStream;
+
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 public class ProveedorMockTest {
 
 	private QueueSession qSession;
-	
+	private QueueSender qSender;
+	private QueueConnection connection;
+
 	@SuppressWarnings("unchecked")
 	@Before
-	public void prepararTest(){
-		Hashtable props = new Hashtable();
+	public void prepararTest() {
+		Hashtable<String, String> props = new Hashtable<String, String>();
 
 		props.put(InitialContext.INITIAL_CONTEXT_FACTORY,
 				"org.jnp.interfaces.NamingContextFactory");
@@ -39,43 +44,62 @@ public class ProveedorMockTest {
 					.lookup("ConnectionFactory");
 
 			// buscar la Cola en JNDI
-			Queue queue = (Queue) ctx.lookup("queue/testQueue");
+			Queue queue = (Queue) ctx.lookup("queue/EnviarListaPrecios");
 
 			// crear la connection y la session a partir de la connection
-			QueueConnection qCon = qfactory.createQueueConnection();
-			qSession = qCon.createQueueSession(false,
+			connection = qfactory.createQueueConnection();
+
+			qSession = connection.createQueueSession(false,
 					Session.AUTO_ACKNOWLEDGE);
 
 			// crear un producer para enviar mensajes usando la session
-//			QueueSender qSender = qSession.createSender(queue);
+			qSender = qSession.createSender(queue);
 
 			// crear un mensaje de tipo text y setearle el contenido
-			TextMessage message = qSession.createTextMessage();
-			message.setText("Producto21,10");
+			// TextMessage message = qSession.createTextMessage();
+			// message.setText("Producto21,10");
 
 			// enviar el mensaje
-//			qSender.send(message);
+			// qSender.send(message);
 
 		} catch (Exception e) {
-			System.out.println("Error al efectuar pedido: " + e);
+			System.out.println("Error al crear la conexion: " + e);
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void basicJMSTest(){
+		try {
+			TextMessage message = qSession.createTextMessage();
+			message.setText("TEST - Testeando la cola de mensajes");
+			qSender.send(message);
+		} catch (JMSException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Test
-	public void enviarNuevaListaPrecios(){
-		MockDataGenerator.getListaPreciosVOMock();
-		
-//		TextMessage message = qSession.createTextMessage();
-		
+	public void enviarNuevaListaPrecios() {
+		ListaPreciosVO listaPrecios = MockDataGenerator
+				.getRandomListaPreciosVO();
+		try {
+			TextMessage message = qSession.createTextMessage();
+			message.setText(listaPrecios.toXML());
+			qSender.send(message);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	private String fromListaPreciosToVOMock(){
-		return null;
-	}
-	
+
 	@After
-	public void enviarMensaje(){
-		
+	public void finalizarTest() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (JMSException e) {
+			}
+		}
 	}
-	
+
 }

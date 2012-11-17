@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Entity
-@Table(name="PedidosAbastecimiento")
+@Table(name=EntitiesTablesNames.PEDIDO_DE_ABASTECIMIENTO)
 public class PedidoDeAbastecimientoEntity {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

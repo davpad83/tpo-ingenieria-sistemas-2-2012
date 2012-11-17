@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.ItemListaVO;
 
 @Entity
-@Table(name = "ItemsListasPrecios")
+@Table(name = EntitiesTablesNames.ITEM_LISTA)
 public class ItemListaEntity {
 
 	@Id

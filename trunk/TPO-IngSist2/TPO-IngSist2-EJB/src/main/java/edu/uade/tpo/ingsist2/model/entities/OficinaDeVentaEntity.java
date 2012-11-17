@@ -5,7 +5,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 
 @Entity
-@Table(name="OficinasVenta")
+@Table(name=EntitiesTablesNames.OFICINA_DE_VENTA)
 public class OficinaDeVentaEntity {
 
 	@Id

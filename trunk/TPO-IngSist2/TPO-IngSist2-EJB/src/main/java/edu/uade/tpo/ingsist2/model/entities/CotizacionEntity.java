@@ -18,7 +18,7 @@ import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
 
 
 @Entity
-@Table(name="Cotizaciones")
+@Table(name=EntitiesTablesNames.COTIZACION)
 public class CotizacionEntity {
 
 	@Id
