@@ -7,16 +7,18 @@ import java.util.List;
 import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
-import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Entity
-@Table(name="OrdenDeCompra")
+@Table(name="OrdenesCompra")
 public class OrdenDeCompraEntity {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private int idOrden;
 	private String estado;
+	
+	@ManyToOne
 	private OficinaDeVentaEntity odv;
-	@OneToMany
+	
+	@OneToMany	
 	private List<ItemRodamientoEntity> items;
 
 	public int getIdOrden() {
@@ -67,7 +69,7 @@ public class OrdenDeCompraEntity {
 			ArrayList<OrdenDeCompraEntity> ps) {
 			ArrayList<OrdenDeCompraVO> pVoList = new ArrayList<OrdenDeCompraVO>();
 			for(OrdenDeCompraEntity p: ps)
-				pVoList.add(p.getVO());
+			pVoList.add(p.getVO());
 			return pVoList;
 	}
 		

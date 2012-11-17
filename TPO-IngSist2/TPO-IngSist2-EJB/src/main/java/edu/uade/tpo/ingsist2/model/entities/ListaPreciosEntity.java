@@ -1,6 +1,5 @@
 package edu.uade.tpo.ingsist2.model.entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 @Entity
-@Table(name="ListaPrecios")
+@Table(name="ListasPrecios")
 public class ListaPreciosEntity {
 
 	@Id
@@ -21,6 +20,7 @@ public class ListaPreciosEntity {
 	private ProveedorEntity proveedor;
 
 	@OneToMany
+	@Column (name="itemlista_id")
 	private List<ItemListaEntity> items;
 
 	@OneToMany

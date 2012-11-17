@@ -2,16 +2,13 @@ package edu.uade.tpo.ingsist2.model.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
-import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
-import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 /**************************
  * 
@@ -21,19 +18,29 @@ import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 
 @Entity
-@Table(name="Cotizacion")
+@Table(name="Cotizaciones")
 public class CotizacionEntity {
 
 	@Id
 	private int id;
 	private int idPedidoCotizacion;
+	
+	@ManyToOne
 	private OficinaDeVentaEntity odv;
 	
-	private Map<RodamientoEntity, ListaPreciosEntity> rodamiento = new HashMap<RodamientoEntity, ListaPreciosEntity>();
+//	private Map<RodamientoEntity, ListaPreciosEntity> rodamiento = new HashMap<RodamientoEntity, ListaPreciosEntity>();
+	
+	@ManyToOne
+	private RodamientoEntity rodamiento;
+	
+	@ManyToOne
+	private ListaPreciosEntity lista;
 	
 	private Date vencimiento;
 	private Date fecha;
 	private String tiempoEntrega;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -52,12 +59,7 @@ public class CotizacionEntity {
 	public void setOdv(OficinaDeVentaEntity odv) {
 		this.odv = odv;
 	}
-	public Map<RodamientoEntity, ListaPreciosEntity> getRodamiento() {
-		return rodamiento;
-	}
-	public void setRodamiento(Map<RodamientoEntity, ListaPreciosEntity> rodamiento) {
-		this.rodamiento = rodamiento;
-	}
+
 	public Date getVencimiento() {
 		return vencimiento;
 	}
@@ -77,6 +79,22 @@ public class CotizacionEntity {
 		this.tiempoEntrega = tiempoEntrega;
 	}
 	
+		
+	public RodamientoEntity getRodamiento() {
+		return rodamiento;
+	}
+	public void setRodamiento(RodamientoEntity rodamiento) {
+		this.rodamiento = rodamiento;
+	}
+	
+	public ListaPreciosEntity getLista() {
+		return lista;
+	}
+	public void setLista(ListaPreciosEntity lista) {
+		this.lista = lista;
+	}
+	
+	
 	public CotizacionVO getVO(){
 		CotizacionVO pvo = new CotizacionVO();
 		pvo.setFecha(this.fecha);
@@ -95,6 +113,7 @@ public class CotizacionEntity {
 		this.idPedidoCotizacion = p.getIdPedidoCotizacion();
 		this.odv = p.getOdv();
 		this.rodamiento = p.getRodamiento();
+		this.lista = p.getLista();
 		this.tiempoEntrega = p.getTiempoEntrega();
 		this.vencimiento = p.getVencimiento();
 	}
@@ -102,7 +121,7 @@ public class CotizacionEntity {
 	public static ArrayList<CotizacionVO> getVOList(ArrayList<CotizacionEntity> ps) {
 			ArrayList<CotizacionVO> pVoList = new ArrayList<CotizacionVO>();
 			for(CotizacionEntity p: ps)
-				pVoList.add(p.getVO());
+			pVoList.add(p.getVO());
 			return pVoList;
 	}
 	

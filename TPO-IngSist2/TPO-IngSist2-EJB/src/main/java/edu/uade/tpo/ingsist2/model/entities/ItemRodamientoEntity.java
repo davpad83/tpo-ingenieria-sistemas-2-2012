@@ -5,13 +5,14 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 
 @Entity
-@Table(name = "ItemRodamientoVenta")
+@Table(name = "ItemsRodamientosVentas")
 public class ItemRodamientoEntity {
 	
 	@Id
@@ -19,8 +20,10 @@ public class ItemRodamientoEntity {
 	
 	private int cantidad;
 	private int pendientes;
-	@OneToOne
+	
+	@ManyToOne
 	private RodamientoEntity rodamiento;
+	
 	@OneToOne
 	private CotizacionEntity cotizacion;
 

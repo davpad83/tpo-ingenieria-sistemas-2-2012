@@ -2,22 +2,29 @@ package edu.uade.tpo.ingsist2.model.entities;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
-import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Entity
+@Table(name="PedidosAbastecimiento")
 public class PedidoDeAbastecimientoEntity {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int idPedido;
+	
+	@ManyToOne
 	private RodamientoEntity rodamiento;
+	
 	private boolean recibido;
+	
+	@ManyToOne
 	private OrdenDeCompraEntity ocAsociada;
+	
+	@ManyToOne
 	private ProveedorEntity proveedor;
+	
 	private int cantidadPedida;
 	private int cantidadPendiente;
 	
@@ -121,10 +128,10 @@ public class PedidoDeAbastecimientoEntity {
 
 
 	public static ArrayList<PedidoAbastecimientoVO> getVOList(
-			ArrayList<PedidoDeAbastecimientoEntity> ps) {
+		ArrayList<PedidoDeAbastecimientoEntity> ps) {
 		ArrayList<PedidoAbastecimientoVO> pVoList = new ArrayList<PedidoAbastecimientoVO>();
 		for(PedidoDeAbastecimientoEntity p: ps)
-			pVoList.add(p.getVO());
+		pVoList.add(p.getVO());
 		return pVoList;
 	
 	}
