@@ -21,7 +21,7 @@ public class RodamientoEntity {
 	private int stock;
 
 	public RodamientoEntity() {
-		// empty
+		super();
 	}
 
 	public int getId() {
