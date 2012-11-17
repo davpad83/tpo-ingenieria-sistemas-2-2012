@@ -46,14 +46,16 @@ public class ItemListaEntity {
 		ItemListaVO ilvo = new ItemListaVO();
 		ilvo.setId(this.id);
 		ilvo.setPrecio(this.precio);
-		ilvo.setRodamiento(this.rodamiento);
+		ilvo.setRodamiento(this.rodamiento.getVO());
 		return ilvo;
 	}
 	
 	public void setVO(ItemListaVO lpvo){
 		this.id = lpvo.getId();
 		this.precio = lpvo.getPrecio();
-		this.rodamiento = lpvo.getRodamiento();
+		RodamientoEntity re = new RodamientoEntity();
+		re.setVO(lpvo.getRodamiento());
+		this.rodamiento = re;
 	}
 	
 	public static List<ItemListaVO> getVOList(List<ItemListaEntity> itl){
