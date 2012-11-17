@@ -15,7 +15,8 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Stateless
-@WebService (name="getCotizacionRodamiento", serviceName="getCotizacionRodamiento", wsdlLocation= "http://127.0.0.1:8080/Facade/ObtenerCotizacionRodamiento")
+@WebService 
+(name="getCotizacionRodamiento", serviceName="getCotizacionRodamiento")
 public class FacadeBean implements Facade {
 	
 	@EJB
