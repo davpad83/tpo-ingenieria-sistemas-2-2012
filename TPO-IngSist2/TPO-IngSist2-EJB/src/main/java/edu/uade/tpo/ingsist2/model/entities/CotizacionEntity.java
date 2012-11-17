@@ -2,11 +2,23 @@ package edu.uade.tpo.ingsist2.model.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
+import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
+import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
+
+/**************************
+ * 
+ * //FALTA HACER EL VO POR EL MAP RODAMIENTO-PRECIO
+ *
+ ***************************/
+
 
 @Entity
 @Table(name="Cotizacion")
@@ -17,7 +29,7 @@ public class CotizacionEntity {
 	private int idPedidoCotizacion;
 	private OficinaDeVentaEntity odv;
 	
-	private Map<RodamientoEntity, ListaPreciosEntity> rodamiento;
+	private Map<RodamientoEntity, ListaPreciosEntity> rodamiento = new HashMap<RodamientoEntity, ListaPreciosEntity>();
 	
 	private Date vencimiento;
 	private Date fecha;
@@ -65,13 +77,13 @@ public class CotizacionEntity {
 		this.tiempoEntrega = tiempoEntrega;
 	}
 	
-	public CotizacionEntity getVO(){
-		CotizacionEntity pvo = new CotizacionEntity();
+	public CotizacionVO getVO(){
+		CotizacionVO pvo = new CotizacionVO();
 		pvo.setFecha(this.fecha);
 		pvo.setId(this.id);
-		pvo.setIdPedidoCotizacion(this.idPedidoCotizacion);
-		pvo.setOdv(this.odv);
-		pvo.setRodamiento(this.rodamiento);
+		
+		//FALTA HACER EL VO POR EL MAP RODAMIENTO-PRECIO
+		//pvo.setRodamiento(this.rodamiento);
 		pvo.setTiempoEntrega(this.tiempoEntrega);
 		pvo.setVencimiento(this.vencimiento);
 		return pvo;
@@ -87,8 +99,8 @@ public class CotizacionEntity {
 		this.vencimiento = p.getVencimiento();
 	}
 
-	public static ArrayList<CotizacionEntity> getVOList(ArrayList<CotizacionEntity> ps) {
-			ArrayList<CotizacionEntity> pVoList = new ArrayList<CotizacionEntity>();
+	public static ArrayList<CotizacionVO> getVOList(ArrayList<CotizacionEntity> ps) {
+			ArrayList<CotizacionVO> pVoList = new ArrayList<CotizacionVO>();
 			for(CotizacionEntity p: ps)
 				pVoList.add(p.getVO());
 			return pVoList;
