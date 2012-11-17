@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.CondicionVentaVO;
 
 @Entity()
-@Table(name="CondicionVenta")
+@Table(name="CondicionesVentas")
 public class CondicionVentaEntity {
 
 	@Id
@@ -80,7 +80,7 @@ public class CondicionVentaEntity {
 	public static List<CondicionVentaVO> getVOList(List<CondicionVentaEntity> lcv) {
 		List<CondicionVentaVO> lcvvo = new ArrayList<CondicionVentaVO>();
 		for(CondicionVentaEntity cv : lcv)
-			lcvvo.add(cv.getVO());
+		lcvvo.add(cv.getVO());
 		return lcvvo;
 	}
 }

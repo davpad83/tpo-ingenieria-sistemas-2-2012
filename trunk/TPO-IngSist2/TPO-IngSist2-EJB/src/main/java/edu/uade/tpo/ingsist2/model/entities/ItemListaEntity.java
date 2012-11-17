@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.ItemListaVO;
 
 @Entity
-@Table(name = "ItemLista")
+@Table(name = "ItemsListasPrecios")
 public class ItemListaEntity {
 
 	@Id
@@ -16,6 +16,7 @@ public class ItemListaEntity {
 
 	@ManyToOne
 	private RodamientoEntity rodamiento;
+	
 	private float precio;
 
 	public int getId() {

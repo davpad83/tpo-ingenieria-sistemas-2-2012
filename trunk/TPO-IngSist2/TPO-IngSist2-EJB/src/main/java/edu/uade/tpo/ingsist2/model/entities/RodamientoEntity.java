@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Entity
-@Table(name="Rodamiento")
+@Table(name="Rodamientos")
 public class RodamientoEntity {
 
 	@Id
