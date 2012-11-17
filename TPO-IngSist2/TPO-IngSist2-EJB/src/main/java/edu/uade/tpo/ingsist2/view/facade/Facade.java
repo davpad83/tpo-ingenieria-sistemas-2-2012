@@ -40,7 +40,7 @@ public interface Facade {
 	public ArrayList<RodamientoVO> getRodamientos();
 	
 	/*====================================================================*/
-	/*			Web Service methods (Solicitud de Cotitaciones)		*/
+	/*   Web Service methods (Solicitud de Cotizaciones de Rodamientos)	  */
 	/*====================================================================*/
 	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr);
