@@ -91,12 +91,13 @@ public class CotizacionEntity {
 	
 	public CotizacionVO getVO(){
 		CotizacionVO pvo = new CotizacionVO();
-		pvo.setFecha(this.fecha);
 		pvo.setId(this.id);
-		
-		//FALTA HACER EL VO POR EL MAP RODAMIENTO-PRECIO
-		//pvo.setRodamiento(this.rodamiento);
+		pvo.setIdPedidoCotizacion(this.idPedidoCotizacion);
+		pvo.setRodamiento(this.rodamiento);
+		pvo.setOdv(this.odv);
+		pvo.setLista(this.lista);
 		pvo.setTiempoEntrega(this.tiempoEntrega);
+		pvo.setFecha(this.fecha);
 		pvo.setVencimiento(this.vencimiento);
 		return pvo;
 	}
