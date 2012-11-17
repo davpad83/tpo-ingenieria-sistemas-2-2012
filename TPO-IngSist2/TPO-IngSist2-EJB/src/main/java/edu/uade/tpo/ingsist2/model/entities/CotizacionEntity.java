@@ -4,31 +4,25 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
 
-/**************************
- * 
- * //FALTA HACER EL VO POR EL MAP RODAMIENTO-PRECIO
- *
- ***************************/
-
-
 @Entity
 @Table(name=EntitiesTablesNames.COTIZACION)
 public class CotizacionEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private int idPedidoCotizacion;
 	
 	@ManyToOne
 	private OficinaDeVentaEntity odv;
-	
-//	private Map<RodamientoEntity, ListaPreciosEntity> rodamiento = new HashMap<RodamientoEntity, ListaPreciosEntity>();
 	
 	@ManyToOne
 	private RodamientoEntity rodamiento;
@@ -107,9 +101,8 @@ public class CotizacionEntity {
 		return pvo;
 	}
 	
-	public void setVO(CotizacionEntity p){
+	public void setVO(CotizacionVO p){
 		this.fecha = p.getFecha();
-		this.id = p.getId();
 		this.idPedidoCotizacion = p.getIdPedidoCotizacion();
 		this.odv = p.getOdv();
 		this.rodamiento = p.getRodamiento();

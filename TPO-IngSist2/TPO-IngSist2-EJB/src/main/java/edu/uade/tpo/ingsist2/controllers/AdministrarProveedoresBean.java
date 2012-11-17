@@ -1,19 +1,14 @@
 package edu.uade.tpo.ingsist2.controllers;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
-import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
-import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Stateless

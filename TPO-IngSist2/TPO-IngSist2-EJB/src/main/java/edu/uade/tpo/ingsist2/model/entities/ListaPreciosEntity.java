@@ -19,10 +19,10 @@ public class ListaPreciosEntity {
 	@ManyToOne(cascade=CascadeType.ALL)
 	private ProveedorEntity proveedor;
 
-	@OneToMany
+	@OneToMany (mappedBy="listaPrecio")
 	private List<ItemListaEntity> items;
 
-	@OneToMany
+	@OneToMany (mappedBy="listaPrecio")
 	private List<CondicionVentaEntity> condicionesDeVenta;
 
 	private String nombre;

@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
+import edu.uade.tpo.ingsist2.controllers.AdministrarCotizaciones;
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
@@ -23,6 +24,9 @@ public class FacadeBean implements Facade {
 	private AdministrarProveedores adminProve;
 	@EJB
 	private AdministrarRodamientos adminRod;
+	@EJB 
+	AdministrarCotizaciones adminCot;
+	
 	
 	public FacadeBean() {
 	}
@@ -71,7 +75,7 @@ public class FacadeBean implements Facade {
 	@WebMethod
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion (SolicitudCotizacionRequest scr) {
 				
-		return null;
+		return adminCot.procesarSolicitudCotizacion(scr);
  	}
 
 
