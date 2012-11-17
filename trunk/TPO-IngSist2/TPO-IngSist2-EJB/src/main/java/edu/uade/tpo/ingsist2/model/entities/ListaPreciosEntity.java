@@ -20,7 +20,6 @@ public class ListaPreciosEntity {
 	private ProveedorEntity proveedor;
 
 	@OneToMany
-	@Column (name="itemlista_id")
 	private List<ItemListaEntity> items;
 
 	@OneToMany
