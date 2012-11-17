@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.view.facade;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -10,14 +9,14 @@ import javax.jws.WebService;
 
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
-import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Stateless
-@WebService
+@WebService 
+//(name="getSolicitudCotizacion", serviceName="getSolicitudCotizacion", targetNamespace = "http://127.0.0.1:8080/Facade/ObtenerSolicitudCotizacion")
 public class FacadeBean implements Facade {
 	
 	@EJB
