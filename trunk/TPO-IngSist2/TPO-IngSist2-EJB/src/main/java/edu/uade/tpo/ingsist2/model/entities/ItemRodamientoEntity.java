@@ -58,8 +58,18 @@ public class ItemRodamientoEntity {
 
 	public static List<ItemRodamientoVO> toVOList(
 			ArrayList<ItemRodamientoEntity> items) {
-		// TODO Auto-generated method stub
-		return null;
+				ArrayList<ItemRodamientoVO> pVoList = new ArrayList<ItemRodamientoVO>();
+				for(ItemRodamientoEntity p: items)
+					pVoList.add(p.getVO());
+				return pVoList;
 	}
 
+	private ItemRodamientoVO getVO() {
+		ItemRodamientoVO pvo = new ItemRodamientoVO();
+		pvo.setId(this.id);
+		pvo.setCantidad(this.cantidad);
+		pvo.setCotizacion(this.cotizacion.getVO());
+		return pvo;
+	}
 }
+
