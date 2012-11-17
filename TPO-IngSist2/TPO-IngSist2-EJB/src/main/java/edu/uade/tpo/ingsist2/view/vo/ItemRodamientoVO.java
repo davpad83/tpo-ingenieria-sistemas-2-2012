@@ -1,9 +1,5 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
-import javax.persistence.OneToOne;
-
-import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
-import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 public class ItemRodamientoVO {
 	private int id;
