@@ -3,10 +3,7 @@ package edu.uade.tpo.ingsist2.view.facade;
 import java.util.ArrayList;
 
 import javax.ejb.Remote;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
 
-import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
