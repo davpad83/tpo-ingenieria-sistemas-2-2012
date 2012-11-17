@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 
 @Entity
-@Table(name = "ItemsRodamientosVentas")
+@Table(name = EntitiesTablesNames.ITEM_RODAMIENTO)
 public class ItemRodamientoEntity {
 	
 	@Id

@@ -6,11 +6,13 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.thoughtworks.xstream.XStream;
+
 import edu.uade.tpo.ingsist2.model.entities.CondicionVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 
 public class ListaPreciosVO {
-
+	
 	private int idLista;
 	private ProveedorVO proveedor;
 	private List<ItemListaVO> items;
@@ -73,6 +75,33 @@ public class ListaPreciosVO {
 
 	public void setVigenciaHasta(Date vigenciaHasta) {
 		this.vigenciaHasta = vigenciaHasta;
+	}
+	
+	public void fromXML(String xml){
+		try{
+			XStream xs = new XStream();
+			ListaPreciosVO lpvo = (ListaPreciosVO) xs.fromXML(xml);
+			this.setCondicionesDeVenta(lpvo.getCondicionesDeVenta());
+			this.setIdLista(lpvo.getIdLista());
+			this.setNombre(lpvo.getNombre());
+			this.setProveedor(lpvo.getProveedor());
+			this.setVigenciaDesde(lpvo.getVigenciaDesde());
+			this.setVigenciaHasta(lpvo.getVigenciaHasta());
+			this.setItems(lpvo.getItems());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public String toXML() {
+		String xml = "";
+		try{
+			XStream xs = new XStream();
+			xml = xs.toXML(this);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return xml;
 	}
 
 }

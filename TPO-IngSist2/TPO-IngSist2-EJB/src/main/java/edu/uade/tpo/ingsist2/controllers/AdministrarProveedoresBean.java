@@ -1,14 +1,19 @@
 package edu.uade.tpo.ingsist2.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.view.facade.FacadeBean;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Stateless
@@ -82,7 +87,7 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 		ArrayList<ProveedorEntity> listaResultado = null;
 		try {
 			listaResultado = (ArrayList<ProveedorEntity>) entityManager.createQuery(
-					"FROM ProveedorEntity").getResultList();
+					"FROM " + ProveedorEntity.class.getSimpleName()).getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los proveedores.");
 			e.printStackTrace();

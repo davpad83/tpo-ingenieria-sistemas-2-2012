@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
@@ -82,7 +84,7 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 		ArrayList<RodamientoEntity> listaResultado = null;
 		try {
 			listaResultado = (ArrayList<RodamientoEntity>) entityManager.createQuery(
-					"FROM RodamientoEntity").getResultList();
+					"FROM " + RodamientoEntity.class.getSimpleName()).getResultList();
 		} catch (Exception e) {
 			logger.error("Hubo un error al buscar todos los rodamientos.");
 			e.printStackTrace();

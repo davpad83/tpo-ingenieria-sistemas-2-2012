@@ -9,7 +9,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 
 @Entity
-@Table(name="OrdenesCompra")
+@Table(name=EntitiesTablesNames.ORDEN_DE_COMPRA)
 public class OrdenDeCompraEntity {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private int idOrden;
