@@ -15,8 +15,7 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Stateless
-@WebService 
-//(name="getSolicitudCotizacion", serviceName="getSolicitudCotizacion", targetNamespace = "http://127.0.0.1:8080/Facade/ObtenerSolicitudCotizacion")
+@WebService (name="getCotizacionRodamiento", serviceName="getCotizacionRodamiento", wsdlLocation= "http://127.0.0.1:8080/Facade/ObtenerCotizacionRodamiento")
 public class FacadeBean implements Facade {
 	
 	@EJB
@@ -68,8 +67,8 @@ public class FacadeBean implements Facade {
 	}
 	
 	@Override
-	@WebMethod ()
-	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr) {
+	@WebMethod
+	public SolicitudCotizacionResponse recibirSolicitudCotizacion (SolicitudCotizacionRequest scr) {
 				
 		return null;
  	}
