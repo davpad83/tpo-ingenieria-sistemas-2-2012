@@ -10,16 +10,13 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
-import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
-/**
- * Session Bean implementation class AdministrarCotizacionesBean
- */
+
 @Stateless
 public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 	
@@ -55,6 +52,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     }
     
     
+    
 	public void procesarConMarca (RodamientoEntity r, SolicitudCotizacionRequest screq) {
 	    logger.info("Procesando Cotizacion con Marca ");
 	    
@@ -67,14 +65,15 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		rcVO.setEnStock(r.getStock());
 				
 		try {
-			
 			iBean= (ItemListaEntity) entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.marca=:marca and " +
 					"i.precio = (select min(i.precio) from ItemListaEntity i")
 			.setParameter("marca", rcVO.getMarca())
 			.getSingleResult();
-			
 			rcVO.setPrecioCotizado(iBean.getPrecio());
-			rcVO.setTiempoEstimadoEntrega("la semana que viene");
+			
+			if(screq.getCantidad()>rcVO.getEnStock()){
+				rcVO.setTiempoEstimadoEntrega("porjemplo la semana que viene");				
+			}			
 			rcVO.setFechaFin(null);
 			rcVO.setFechaInicio(null);
 			
@@ -99,36 +98,64 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		ctVO.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
 		ctVO.setVencimiento(rcVO.getFechaFin());		
 				
-		guardarCotizacion(ctVO);
-		
+		guardarCotizacion(ctVO);		
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public void procesarSinMarca (RodamientoEntity r, SolicitudCotizacionRequest screq) {
 		logger.info("Procesando Cotizacion sin Marca ");
 		
-		OrdenDeCompraEntity pBean = new OrdenDeCompraEntity();
+		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
+		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
+		ArrayList<ItemListaEntity> listaResultado = null;
 		
-
-		OrdenDeCompraEntity pGuardado = null;
 		try {
-			pGuardado = (OrdenDeCompraEntity) entityManager.merge(pBean);
+			 listaResultado = (ArrayList<ItemListaEntity>) entityManager.createQuery("select i from ItemListaEntity i where i.precio in " +
+			 		" (select min(i.precio) from ItemListaEntity i group by i.rodamiento.marca)")
+			.getResultList();
+			 
+			 for(int i=0;i<listaResultado.size();i++){
+				 
+					rcVO.setSKF(r.getCodigoSKF());
+					rcVO.setPais(r.getPais());		
+					rcVO.setEnStock(r.getStock());
+					rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());
+					rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
+					
+					if(screq.getCantidad()>rcVO.getEnStock()){
+						rcVO.setTiempoEstimadoEntrega("porjemplo la semana que viene");				
+					}			
+					rcVO.setFechaFin(null);
+					rcVO.setFechaInicio(null);	
+					listrcVO.add(rcVO);								
+			 }
+			 scresp.setRodamientosCotizados(listrcVO);
+			
 		} catch (Exception e) {
-			logger.error("Hubo un error al guardar la orden");
+			logger.error("Hubo un error al procesar la cotizacion sin marca");
 			e.printStackTrace();
-		}
-		logger.info("Orden guardada con id: " + pGuardado.getIdOrden());
+		}		
 		
+		 for(int i=0;i<listaResultado.size();i++){
+			 
+				CotizacionVO ctVO = new CotizacionVO();
+				ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
+				OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
+				ofe.setId(screq.getIdODV());
+				ctVO.setOdv(ofe);				
+				ctVO.setRodamiento(listaResultado.get(i).getRodamiento());
+				ctVO.setLista(listaResultado.get(i).getListaPrecio());				
+				ctVO.setFecha(listrcVO.get(i).getFechaInicio());
+				ctVO.setTiempoEntrega(listrcVO.get(i).getTiempoEstimadoEntrega());
+				ctVO.setVencimiento(listrcVO.get(i).getFechaFin());
+						
+				guardarCotizacion(ctVO);
+			 
+		 }	
 	}
 	
-	
-	
-	public float obtenerPrecioMasBajoXMarca (RodamientoEntity rod) {
 		
-		return 45;
-		
-	}
-	
 		
 	
 	public void guardarCotizacion (CotizacionVO cVO) {
