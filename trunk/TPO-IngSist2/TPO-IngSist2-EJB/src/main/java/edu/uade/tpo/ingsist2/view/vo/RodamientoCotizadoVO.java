@@ -1,13 +1,18 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RodamientoCotizadoVO {
+public class RodamientoCotizadoVO implements Serializable {
+	
+	
+	    private static final long serialVersionUID = 5473872926535750305L;
+	    
 		private String SKF;
 		private String marca;
 		private String pais;
-		private float precioCotizado;
 		private int enStock;
+		private float precioCotizado;
 		private String tiempoEstimadoEntrega;
 		private Date fechaInicio;
 		private Date fechaFin;

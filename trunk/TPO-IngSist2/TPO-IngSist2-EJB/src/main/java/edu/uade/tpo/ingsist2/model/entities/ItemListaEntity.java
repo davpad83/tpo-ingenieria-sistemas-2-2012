@@ -18,6 +18,9 @@ public class ItemListaEntity {
 	private RodamientoEntity rodamiento;
 	
 	private float precio;
+	
+	@ManyToOne
+	private ListaPreciosEntity listaPrecio;
 
 	public int getId() {
 		return id;
@@ -64,5 +67,15 @@ public class ItemListaEntity {
 		for(ItemListaEntity il : itl)
 			itlvo.add(il.getVO());
 		return itlvo;
+	}
+
+	public ListaPreciosEntity getListaPrecio() {
+		return listaPrecio;
+	}
+
+	public void setListaPrecio(ListaPreciosEntity listaPrecio) {
+		this.listaPrecio = listaPrecio;
 	}	
+	
+	
 }

@@ -8,8 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
+
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
