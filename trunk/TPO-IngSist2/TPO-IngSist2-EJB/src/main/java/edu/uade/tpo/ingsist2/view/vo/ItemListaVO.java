@@ -1,11 +1,9 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
-import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-
 public class ItemListaVO {
 
 	private int id;
-	private RodamientoEntity rodamiento;
+	private RodamientoVO rodamiento;
 	private float precio;
 
 	public int getId() {
@@ -16,11 +14,11 @@ public class ItemListaVO {
 		this.id = id;
 	}
 
-	public RodamientoEntity getRodamiento() {
+	public RodamientoVO getRodamiento() {
 		return rodamiento;
 	}
 
-	public void setRodamiento(RodamientoEntity rodamiento) {
+	public void setRodamiento(RodamientoVO rodamiento) {
 		this.rodamiento = rodamiento;
 	}
 

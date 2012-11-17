@@ -74,12 +74,12 @@ public class RodamientoEntity {
 		return r;
 	}
 
-	public void setVO(RodamientoVO r){
-		this.id = r.getId();
-		this.codigoSKF = r.getCodigoSKF();
-		this.marca = r.getMarca();
-		this.pais = r.getPais();
-		this.stock = r.getStock();
+	public void setVO(RodamientoVO rodamientoVO){
+		this.id = rodamientoVO.getId();
+		this.codigoSKF = rodamientoVO.getCodigoSKF();
+		this.marca = rodamientoVO.getMarca();
+		this.pais = rodamientoVO.getPais();
+		this.stock = rodamientoVO.getStock();
 	}
 	
 	public static ArrayList<RodamientoVO> getVOList(List<RodamientoEntity> rList){
