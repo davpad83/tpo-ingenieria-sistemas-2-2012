@@ -60,9 +60,38 @@ public class ProveedorEntity {
 	}
 	
 	public static ArrayList<ProveedorVO> getVOList(List<ProveedorEntity> ps){
-		ArrayList<ProveedorVO> pVoList = new ArrayList<ProveedorVO>();
-		for(ProveedorEntity p: ps)
-			pVoList.add(p.getVO());
-		return pVoList;
+		if(ps!=null && !ps.isEmpty()){
+			ArrayList<ProveedorVO> pVoList = new ArrayList<ProveedorVO>();
+			for(ProveedorEntity p: ps)
+				pVoList.add(p.getVO());
+			return pVoList;
+		} else 
+			return new ArrayList<ProveedorVO>();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cuit == null) ? 0 : cuit.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProveedorEntity other = (ProveedorEntity) obj;
+		if (cuit == null) {
+			if (other.cuit != null)
+				return false;
+		} else if (!cuit.equals(other.cuit))
+			return false;
+		return true;
+	}
+	
 }

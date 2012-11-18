@@ -87,7 +87,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			rcVO.setPrecioCotizado(iBeans.get(0).getPrecio());
 			
 			if(screq.getCantidad()>rcVO.getEnStock()){
-				rcVO.setTiempoEstimadoEntrega("porjemplo la semana que viene");				
+				rcVO.setTiempoEstimadoEntrega("por ejemplo la semana que viene");				
 			}			
 			rcVO.setFechaFin(null);
 			rcVO.setFechaInicio(null);			
@@ -106,8 +106,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		OficinaDeVentaVO ofe = new OficinaDeVentaVO();
 		ofe.setIdODV(screq.getIdODV());
 		ctVO.setOdv(ofe);
-		ctVO.setRodamiento(r.getVO());		
-		ctVO.setLista(iBeans.get(0).getListaPrecio().getVO());				
+		ctVO.setRodamiento(r.getVO());
 		ctVO.setFecha(rcVO.getFechaInicio());
 		ctVO.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
 		ctVO.setVencimiento(rcVO.getFechaFin());		
@@ -156,12 +155,11 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		 for(int i=0;i<listaResultado.size();i++){
 			 
 				CotizacionVO ctVO = new CotizacionVO();
-				ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());				
+				ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
 				OficinaDeVentaVO ofe = new OficinaDeVentaVO();
 				ofe.setIdODV(screq.getIdODV());
 				ctVO.setOdv(ofe);
 				ctVO.setRodamiento(listaResultado.get(i).getRodamiento().getVO());
-				ctVO.setLista(listaResultado.get(0).getListaPrecio().getVO());				
 				ctVO.setFecha(listrcVO.get(i).getFechaInicio());
 				ctVO.setTiempoEntrega(listrcVO.get(i).getTiempoEstimadoEntrega());
 				ctVO.setVencimiento(listrcVO.get(i).getFechaFin());

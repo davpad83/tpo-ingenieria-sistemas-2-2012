@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Entity
-@Table(name=EntitiesTablesNames.RODAMIENTO)
+@Table(name = EntitiesTablesNames.RODAMIENTO)
 public class RodamientoEntity {
 
 	@Id
@@ -74,21 +74,24 @@ public class RodamientoEntity {
 		return r;
 	}
 
-	public void setVO(RodamientoVO rodamientoVO){
+	public void setVO(RodamientoVO rodamientoVO) {
 		this.id = rodamientoVO.getId();
 		this.codigoSKF = rodamientoVO.getCodigoSKF();
 		this.marca = rodamientoVO.getMarca();
 		this.pais = rodamientoVO.getPais();
 		this.stock = rodamientoVO.getStock();
 	}
-	
-	public static ArrayList<RodamientoVO> getVOList(List<RodamientoEntity> rList){
-		ArrayList<RodamientoVO> rVOList = new ArrayList<RodamientoVO>();
-		for(RodamientoEntity r : rList)
-			rVOList.add(r.getVO());
-		return rVOList;
+
+	public static ArrayList<RodamientoVO> getVOList(List<RodamientoEntity> rList) {
+		if (rList != null && !rList.isEmpty()) {
+			ArrayList<RodamientoVO> rVOList = new ArrayList<RodamientoVO>();
+			for (RodamientoEntity r : rList)
+				rVOList.add(r.getVO());
+			return rVOList;
+		} else
+			return new ArrayList<RodamientoVO>();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

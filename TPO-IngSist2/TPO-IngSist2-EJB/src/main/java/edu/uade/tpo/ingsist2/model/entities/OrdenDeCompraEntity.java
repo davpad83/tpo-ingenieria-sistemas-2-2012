@@ -1,6 +1,5 @@
 package edu.uade.tpo.ingsist2.model.entities;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +8,18 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 
 @Entity
-@Table(name=EntitiesTablesNames.ORDEN_DE_COMPRA)
+@Table(name = EntitiesTablesNames.ORDEN_DE_COMPRA)
 public class OrdenDeCompraEntity {
-	@Id @GeneratedValue(strategy= GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idOrden;
 	private String estado;
-	
-	@ManyToOne
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	private OficinaDeVentaEntity odv;
-	
-	@OneToMany	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn
 	private List<ItemRodamientoEntity> items;
 
 	public int getIdOrden() {
@@ -48,8 +49,8 @@ public class OrdenDeCompraEntity {
 	public void setItems(List<ItemRodamientoEntity> items) {
 		this.items = items;
 	}
-	
-	public OrdenDeCompraVO getVO(){
+
+	public OrdenDeCompraVO getVO() {
 		OrdenDeCompraVO pvo = new OrdenDeCompraVO();
 		pvo.setIdOrden(this.idOrden);
 		pvo.setEstado(this.estado);
@@ -57,8 +58,8 @@ public class OrdenDeCompraEntity {
 		pvo.setItems(ItemRodamientoEntity.getVOList(this.items));
 		return pvo;
 	}
-	
-	public void setVO(OrdenDeCompraVO p){
+
+	public void setVO(OrdenDeCompraVO p) {
 		this.idOrden = p.getIdOrden();
 		this.estado = p.getEstado();
 		this.items = ItemRodamientoEntity.getEntityList(p.getItems());
@@ -69,10 +70,10 @@ public class OrdenDeCompraEntity {
 
 	public static ArrayList<OrdenDeCompraVO> getVOList(
 			ArrayList<OrdenDeCompraEntity> ps) {
-			ArrayList<OrdenDeCompraVO> pVoList = new ArrayList<OrdenDeCompraVO>();
-			for(OrdenDeCompraEntity p: ps)
+		ArrayList<OrdenDeCompraVO> pVoList = new ArrayList<OrdenDeCompraVO>();
+		for (OrdenDeCompraEntity p : ps)
 			pVoList.add(p.getVO());
-			return pVoList;
+		return pVoList;
 	}
-		
+
 }

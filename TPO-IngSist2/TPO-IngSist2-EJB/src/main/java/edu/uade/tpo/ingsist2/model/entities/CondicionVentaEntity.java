@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.CondicionVentaVO;
 
-@Entity()
+@Entity
 @Table(name=EntitiesTablesNames.CONDICION_VENTA)
 public class CondicionVentaEntity {
 

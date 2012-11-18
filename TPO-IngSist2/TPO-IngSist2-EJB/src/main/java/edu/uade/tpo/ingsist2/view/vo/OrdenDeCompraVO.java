@@ -69,7 +69,15 @@ public class OrdenDeCompraVO {
 	
 	public void fromXML(String textReceived) {
 		XStream xs = new XStream();
-		
+		xs.alias("OficinaDeVenta", OficinaDeVentaVO.class);
+		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
+		xs.alias("Rodamiento", RodamientoVO.class);
+		xs.alias("Cotizacion", CotizacionVO.class);
+		OrdenDeCompraVO ocvo = (OrdenDeCompraVO) xs.fromXML(textReceived);
+		this.idOrden = ocvo.getIdOrden();
+		this.estado = ocvo.getEstado();
+		this.odv = ocvo.getOdv();
+		this.items = ocvo.getItems();
 	}
 
 }
