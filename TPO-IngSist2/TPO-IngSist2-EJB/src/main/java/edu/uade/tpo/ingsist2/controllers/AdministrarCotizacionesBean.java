@@ -24,7 +24,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 	private EntityManager entityManager;
 	
 	private static final Logger logger = Logger
-			.getLogger(ListaPreciosControllerBean.class);
+			.getLogger(AdministrarCotizacionesBean.class);
 
 	private SolicitudCotizacionResponse scresp;
 	
@@ -154,9 +154,6 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			 
 		 }	
 	}
-	
-		
-		
 	
 	public void guardarCotizacion (CotizacionVO cVO) {
 		logger.info("Procesando guardar cotizacion con idPedido" + cVO.getIdPedidoCotizacion() + "y ODV numero" + cVO.getOdv().getId());
