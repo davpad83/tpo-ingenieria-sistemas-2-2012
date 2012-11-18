@@ -93,9 +93,9 @@ public class CotizacionEntity {
 		CotizacionVO pvo = new CotizacionVO();
 		pvo.setId(this.id);
 		pvo.setIdPedidoCotizacion(this.idPedidoCotizacion);
-		pvo.setRodamiento(this.rodamiento);
-		pvo.setOdv(this.odv);
-		pvo.setLista(this.lista);
+		pvo.setRodamiento(this.rodamiento.getVO());
+		pvo.setOdv(this.odv.getVO());
+		pvo.setLista(this.lista.getVO());
 		pvo.setTiempoEntrega(this.tiempoEntrega);
 		pvo.setFecha(this.fecha);
 		pvo.setVencimiento(this.vencimiento);
@@ -105,9 +105,15 @@ public class CotizacionEntity {
 	public void setVO(CotizacionVO p){
 		this.fecha = p.getFecha();
 		this.idPedidoCotizacion = p.getIdPedidoCotizacion();
-		this.odv = p.getOdv();
-		this.rodamiento = p.getRodamiento();
-		this.lista = p.getLista();
+		OficinaDeVentaEntity odve = new OficinaDeVentaEntity();
+		odve.setVO(p.getOdv());
+		this.odv = odve;
+		RodamientoEntity rm = new RodamientoEntity();
+		rm.setVO(p.getRodamiento());
+		this.rodamiento = rm;
+		ListaPreciosEntity lt = new ListaPreciosEntity();
+		lt.setVO(p.getLista());
+		this.lista = lt;
 		this.tiempoEntrega = p.getTiempoEntrega();
 		this.vencimiento = p.getVencimiento();
 	}

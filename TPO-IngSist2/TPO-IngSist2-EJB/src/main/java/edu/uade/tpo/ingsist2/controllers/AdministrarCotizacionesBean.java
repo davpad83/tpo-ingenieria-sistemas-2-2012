@@ -1,6 +1,8 @@
 package edu.uade.tpo.ingsist2.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,9 +11,9 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
-import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
+import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -40,8 +42,18 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     	scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
     	scresp.setIdODV(screq.getIdODV());
     	
-		RodamientoEntity rBean= (RodamientoEntity) entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo")
-		.setParameter("codigo", screq.getSKF());
+		RodamientoEntity rBean= (RodamientoEntity) entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and" +
+				"r.pais=:pais and r.marca=marca")
+		.setParameter("codigo", screq.getSKF())
+		.setParameter("pais", screq.getPais())
+		.setParameter("marca", screq.getMarca())
+		.getSingleResult();
+		
+		if (rBean==null){
+			logger.info("No existe el rodamiento solicitado");
+			scresp.setIdPedidoCotizacion(-1);
+			return scresp;			
+		}
     	
     	if(screq.getMarca()==null || screq.getMarca().isEmpty())
     		procesarSinMarca(rBean,screq );
@@ -53,11 +65,12 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     
     
     
+	@SuppressWarnings("unchecked")
 	public void procesarConMarca (RodamientoEntity r, SolicitudCotizacionRequest screq) {
 	    logger.info("Procesando Cotizacion con Marca ");
 	    
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
-		ItemListaEntity iBean = new ItemListaEntity();
+		List<ItemListaEntity> iBeans = null;
 				
 		rcVO.setSKF(r.getCodigoSKF());
 		rcVO.setPais(r.getPais());
@@ -65,18 +78,19 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		rcVO.setEnStock(r.getStock());
 				
 		try {
-			iBean= (ItemListaEntity) entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.marca=:marca and " +
-					"i.precio = (select min(i.precio) from ItemListaEntity i")
+			iBeans= entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.marca=:marca and i.rodamiento.pais=:pais" +
+					"and  i.rodamiento.codigoSKF=:codigo order by i.precio")
 			.setParameter("marca", rcVO.getMarca())
-			.getSingleResult();
-			rcVO.setPrecioCotizado(iBean.getPrecio());
+			.setParameter("codigo", rcVO.getSKF())
+			.setParameter("pais", rcVO.getPais())			
+			.getResultList();
+			rcVO.setPrecioCotizado(iBeans.get(0).getPrecio());
 			
 			if(screq.getCantidad()>rcVO.getEnStock()){
 				rcVO.setTiempoEstimadoEntrega("porjemplo la semana que viene");				
 			}			
 			rcVO.setFechaFin(null);
-			rcVO.setFechaInicio(null);
-			
+			rcVO.setFechaInicio(null);			
 			
 		} catch (Exception e) {
 			logger.error("Hubo un error al procesar la cotizacion con marca");
@@ -88,12 +102,12 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		scresp.setRodamientosCotizados(listrcVO);
 		
 		CotizacionVO ctVO = new CotizacionVO();
-		ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
-		ofe.setId(screq.getIdODV());
+		ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());		
+		OficinaDeVentaVO ofe = new OficinaDeVentaVO();
+		ofe.setIdODV(screq.getIdODV());
 		ctVO.setOdv(ofe);
-		ctVO.setRodamiento(r);
-		ctVO.setLista(iBean.getListaPrecio());
+		ctVO.setRodamiento(r.getVO());		
+		ctVO.setLista(iBeans.get(0).getListaPrecio().getVO());				
 		ctVO.setFecha(rcVO.getFechaInicio());
 		ctVO.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
 		ctVO.setVencimiento(rcVO.getFechaFin());		
@@ -108,14 +122,16 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
 		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
-		ArrayList<ItemListaEntity> listaResultado = null;
+		List<ItemListaEntity> listaResultado = null;
 		
 		try {
-			 listaResultado = (ArrayList<ItemListaEntity>) entityManager.createQuery("select i from ItemListaEntity i where i.precio in " +
-			 		" (select min(i.precio) from ItemListaEntity i group by i.rodamiento.marca)")
+			 listaResultado = (ArrayList<ItemListaEntity>) entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais" +
+			 		"and i.rodamiento.codigoSKF=:codigo and i.precio in (select min(i.precio) from ItemListaEntity i group by i.rodamiento.marca)")
+			.setParameter("codigo", rcVO.getSKF())
+			.setParameter("pais", rcVO.getPais())	
 			.getResultList();
 			 
-			 for(int i=0;i<listaResultado.size();i++){
+			for(int i=0;i<listaResultado.size();i++){
 				 
 					rcVO.setSKF(r.getCodigoSKF());
 					rcVO.setPais(r.getPais());		
@@ -140,30 +156,32 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		 for(int i=0;i<listaResultado.size();i++){
 			 
 				CotizacionVO ctVO = new CotizacionVO();
-				ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-				OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
-				ofe.setId(screq.getIdODV());
-				ctVO.setOdv(ofe);				
-				ctVO.setRodamiento(listaResultado.get(i).getRodamiento());
-				ctVO.setLista(listaResultado.get(i).getListaPrecio());				
+				ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());				
+				OficinaDeVentaVO ofe = new OficinaDeVentaVO();
+				ofe.setIdODV(screq.getIdODV());
+				ctVO.setOdv(ofe);
+				ctVO.setRodamiento(listaResultado.get(i).getRodamiento().getVO());
+				ctVO.setLista(listaResultado.get(0).getListaPrecio().getVO());				
 				ctVO.setFecha(listrcVO.get(i).getFechaInicio());
 				ctVO.setTiempoEntrega(listrcVO.get(i).getTiempoEstimadoEntrega());
 				ctVO.setVencimiento(listrcVO.get(i).getFechaFin());
 						
-				guardarCotizacion(ctVO);
-			 
+				guardarCotizacion(ctVO);			 
 		 }	
 	}
 	
+	
+	
 	public void guardarCotizacion (CotizacionVO cVO) {
-		logger.info("Procesando guardar cotizacion con idPedido" + cVO.getIdPedidoCotizacion() + "y ODV numero" + cVO.getOdv().getId());
+		logger.info("Procesando guardar cotizacion con idPedido" + cVO.getIdPedidoCotizacion() + "y ODV numero" + cVO.getOdv().getIdODV());
 		
 		CotizacionEntity cBean = new CotizacionEntity();
-		cBean.setVO(cVO);
-		
+		cBean.setVO(cVO);		
 		CotizacionEntity cGuardada = null;
+		
 		try {
-			cGuardada = (CotizacionEntity) entityManager.merge(cBean);
+			entityManager.persist(cBean);
+			cGuardada = (CotizacionEntity) entityManager.find(CotizacionEntity.class,cBean);
 		} catch (Exception e) {
 			logger.error("Hubo un error al guardar la cotizacion");
 			e.printStackTrace();

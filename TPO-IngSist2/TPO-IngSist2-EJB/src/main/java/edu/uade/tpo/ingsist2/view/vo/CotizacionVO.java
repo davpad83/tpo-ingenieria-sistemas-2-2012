@@ -1,17 +1,13 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
 import java.util.Date;
-import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
-import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
-import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-
 public class CotizacionVO {
 	
 	private int id;
 	private int idPedidoCotizacion;
-	private OficinaDeVentaEntity odv;
-	private RodamientoEntity rodamiento;
-	private ListaPreciosEntity lista;
+	private OficinaDeVentaVO odv;
+	private RodamientoVO rodamiento;
+	private ListaPreciosVO lista;
 	private Date vencimiento;
 	private Date fecha;
 	private String tiempoEntrega;
@@ -29,23 +25,22 @@ public class CotizacionVO {
 	public void setIdPedidoCotizacion(int idPedidoCotizacion) {
 		this.idPedidoCotizacion = idPedidoCotizacion;
 	}
-	public OficinaDeVentaEntity getOdv() {
+	public OficinaDeVentaVO getOdv() {
 		return odv;
 	}
-	public void setOdv(OficinaDeVentaEntity odv) {
+	public void setOdv(OficinaDeVentaVO odv) {
 		this.odv = odv;
 	}
-
-	public RodamientoEntity getRodamiento() {
+	public RodamientoVO getRodamiento() {
 		return rodamiento;
 	}
-	public void setRodamiento(RodamientoEntity rodamiento) {
+	public void setRodamiento(RodamientoVO rodamiento) {
 		this.rodamiento = rodamiento;
 	}
-	public ListaPreciosEntity getLista() {
+	public ListaPreciosVO getLista() {
 		return lista;
 	}
-	public void setLista(ListaPreciosEntity lista) {
+	public void setLista(ListaPreciosVO lista) {
 		this.lista = lista;
 	}
 	public Date getVencimiento() {
@@ -66,5 +61,6 @@ public class CotizacionVO {
 	public void setTiempoEntrega(String tiempoEntrega) {
 		this.tiempoEntrega = tiempoEntrega;
 	}
+	
 	
 }

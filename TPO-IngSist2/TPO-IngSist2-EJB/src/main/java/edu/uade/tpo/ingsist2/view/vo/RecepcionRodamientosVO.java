@@ -3,8 +3,6 @@ package edu.uade.tpo.ingsist2.view.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.ldap.Rdn;
-
 public class RecepcionRodamientosVO {
 
 	private List<RodamientoListaVO> listaRodVO;
