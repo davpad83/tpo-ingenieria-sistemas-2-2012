@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ejb.Remote;
 
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
@@ -41,7 +42,5 @@ public interface Facade {
 	/*====================================================================*/
 	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr);
-	
-	
 	
 }

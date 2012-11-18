@@ -80,9 +80,8 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		
 		//genero y envio el remito
 		RemitoVO remito= new RemitoVO();
-		remito.setItems(ItemRodamientoEntity.toVOList(oc.getItems()));
-		remito.setOdv(oc.getOdv().getVO());
+		remito.setItems(oc.getItems());
+		remito.setOdv(oc.getOdv());
 		remito.setOrdenDeCompra(oc);
-		
 	}
 }

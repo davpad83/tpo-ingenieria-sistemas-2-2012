@@ -10,30 +10,30 @@ import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 
-import com.thoughtworks.xstream.XStream;
-
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 
-@MessageDriven(
-	name="ListaPreciosProveedor",
+/**
+ * Message-Driven Bean implementation class for: OrdenDeCompraMDB
+ * 
+ */
+@MessageDriven(name="OrdenDeCompra",
 	activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/EnviarListaPrecios") 
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SolicitudCompraRodamientos") 
 	}
 )
-public class ListaPreciosProveedorMDB implements MessageListener {
+public class OrdenDeCompraMDB implements MessageListener {
 
 	@EJB
 	private MessagesFacade messagesFacade;
 
 	private static final Logger LOGGER = Logger
-			.getLogger(ListaPreciosProveedorMDB.class);
+			.getLogger(OrdenDeCompraMDB.class);
 
 	/**
-	 * Se recibe un mensaje de texto en formato XML con los datos necesarios
-	 * para agregar una Lista de Proveedor.
-	 * 
+	 * @see MessageListener#onMessage(Message)
 	 */
 	public void onMessage(Message message) {
 		TextMessage ts = (TextMessage) message;
@@ -43,14 +43,9 @@ public class ListaPreciosProveedorMDB implements MessageListener {
 		} catch (JMSException e1) {
 			e1.printStackTrace();
 		}
-		if (textReceived.startsWith("TEST")) {
-			LOGGER.debug("This is a test message, the message received is: "
-					+ textReceived);
-		} else {
-			LOGGER.info(textReceived);
-			ListaPreciosVO lpr = new ListaPreciosVO();
-			lpr.fromXML(textReceived);
-			messagesFacade.agregarListaProveedor(lpr);
-		}
+		LOGGER.info(textReceived);
+		OrdenDeCompraVO ocvo = new OrdenDeCompraVO();
+		ocvo.fromXML(textReceived);
 	}
+
 }

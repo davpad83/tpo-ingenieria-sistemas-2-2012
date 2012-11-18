@@ -16,17 +16,17 @@ import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 @Entity
 @Table(name = EntitiesTablesNames.ITEM_RODAMIENTO)
 public class ItemRodamientoEntity {
-	
-	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	private int cantidad;
 	private int pendientes;
-	
+
 	@ManyToOne
 	private RodamientoEntity rodamiento;
-	
+
 	@OneToOne
 	private CotizacionEntity cotizacion;
 
@@ -64,10 +64,10 @@ public class ItemRodamientoEntity {
 
 	public static List<ItemRodamientoVO> toVOList(
 			ArrayList<ItemRodamientoEntity> items) {
-				ArrayList<ItemRodamientoVO> pVoList = new ArrayList<ItemRodamientoVO>();
-				for(ItemRodamientoEntity p: items)
-					pVoList.add(p.getVO());
-				return pVoList;
+		ArrayList<ItemRodamientoVO> pVoList = new ArrayList<ItemRodamientoVO>();
+		for (ItemRodamientoEntity p : items)
+			pVoList.add(p.getVO());
+		return pVoList;
 	}
 
 	private ItemRodamientoVO getVO() {
@@ -77,5 +77,40 @@ public class ItemRodamientoEntity {
 		pvo.setCotizacion(this.cotizacion.getVO());
 		return pvo;
 	}
-}
 
+	public static List<ItemRodamientoVO> getVOList(
+			List<ItemRodamientoEntity> items) {
+		List<ItemRodamientoVO> lirvo = new ArrayList<ItemRodamientoVO>();
+		for (ItemRodamientoEntity itvo : items) {
+			lirvo.add(itvo.getVO());
+		}
+		return lirvo;
+	}
+
+	public static List<ItemRodamientoEntity> getEntityList(
+			ArrayList<ItemRodamientoVO> items) {
+		List<ItemRodamientoEntity> lire = new ArrayList<ItemRodamientoEntity>();
+		for (ItemRodamientoVO itvo : items) {
+			ItemRodamientoEntity ire = new ItemRodamientoEntity();
+			ire.setVO(itvo);
+			lire.add(ire);
+		}
+		return lire;
+	}
+
+	public void setVO(ItemRodamientoVO itvo) {
+		this.id = itvo.getId();
+		this.cantidad = itvo.getCantidad();
+		if (itvo.getCotizacion() != null) {
+			CotizacionEntity ce = new CotizacionEntity();
+			ce.setVO(itvo.getCotizacion());
+			this.cotizacion = ce;
+		}
+		this.pendientes = itvo.getPendientes();
+		if (itvo.getRodamiento() != null) {
+			RodamientoEntity re = new RodamientoEntity();
+			re.setVO(itvo.getRodamiento());
+			this.rodamiento = re;
+		}
+	}
+}
