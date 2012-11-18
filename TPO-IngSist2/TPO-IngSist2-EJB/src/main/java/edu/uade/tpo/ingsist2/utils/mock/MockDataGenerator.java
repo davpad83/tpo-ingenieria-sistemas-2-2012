@@ -1,7 +1,9 @@
 package edu.uade.tpo.ingsist2.utils.mock;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -19,12 +21,20 @@ public class MockDataGenerator {
 	private static ProveedorVO getRandomProveedorVO() {
 		ProveedorVO prove = new ProveedorVO();
 		prove.setCuit(getRandomCuit());
-		prove.setNombre(getRandomNombre());
+		prove.setNombre(getRandomNombreProveedor());
 		return prove;
 	}
 
 	private static int getRandomId() {
 		return new Random().nextInt(1000);
+	}
+
+	private static String getRandomNombreProveedor() {
+		String[] nombresProveedor = { "Rodamientos Locos SRL", "Rodaditos",
+				"Patricio Rod y sus Rodamientos de Ricota",
+				"Rodamientos Red Ribbon", "Rodamientos por todos lados",
+				"Invasion de los Rodamientos" };
+		return nombresProveedor[new Random().nextInt(nombresProveedor.length)];
 	}
 
 	private static String getRandomNombre() {
@@ -41,7 +51,7 @@ public class MockDataGenerator {
 		String cuit = "";
 		for (int i = 0; i < 11; i++) {
 			cuit += new Random().nextInt(9);
-			if (i == 2 || i == 9)
+			if (i == 1 || i == 9)
 				cuit += "-";
 		}
 		return cuit;
@@ -53,15 +63,17 @@ public class MockDataGenerator {
 		lista.setNombre("Rodamientos Locos SRL");
 		lista.setProveedor(getRandomProveedorVO());
 		lista.setVigenciaDesde(new Date());
-		lista.setVigenciaHasta(new Date(new Date().getYear(), new Date()
-				.getMonth(), new Date().getDay() + 7));
+		Calendar cal = Calendar.getInstance();
+		Date newDate = new Date();
+		cal.add(cal.DATE, 7);
+		lista.setVigenciaHasta(cal.getTime());
 		lista.setItems(getRandomListaItemListaVO());
 		return lista;
 	}
 
 	public static List<ItemListaVO> getRandomListaItemListaVO() {
 		ArrayList<ItemListaVO> lilvo = new ArrayList<ItemListaVO>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 3; i++) {
 			lilvo.add(getRandomItemListaVO());
 		}
 		return lilvo;
@@ -78,8 +90,12 @@ public class MockDataGenerator {
 		return new Random().nextInt(10000);
 	}
 
-	private static String getRandomCodigoSKF(){
-		String[] codigosSKF = { "BS 3200-A" };
+	private static String getRandomCodigoSKF() {
+		String[] codigosSKF = { "BAHB 311424 B", "BAH-0012", "VKDA 35201",
+				"LM11749", "LM11719", "10G-88107", "VKC 2123 C", "VKM 12500",
+				"VKM 12501", "VKM 22510", "BAH-0055 AAX", "BAF-011",
+				"VKM 22173", "VKM 22510", "VKM 12173", "VKM 02000",
+				"VKBA 3580", "VKM 32017" };
 		return codigosSKF[new Random().nextInt(codigosSKF.length)];
 	}
 
@@ -94,16 +110,14 @@ public class MockDataGenerator {
 		RodamientoVO rod = new RodamientoVO();
 		rod.setMarca(getRandomMarca());
 		rod.setPais(getRandomPais());
-//		rod.setStock(new Random().nextInt(1));
+		// rod.setStock(new Random().nextInt(1));
 		rod.setCodigoSKF(getRandomCodigoSKF());
 		return rod;
 	}
 
 	private static String getRandomMarca() {
-		String[] marcas = { "Rodamientos Locos SRL", "Rodaditos",
-				"Patricio Rod y sus Rodamientos de Ricota",
-				"Rodamientos Red Ribbon", "Rodamientos por todos lados",
-				"Invasion de los Rodamientos" };
+		String[] marcas = { "Renault", "BMW", "Alfa Romeo", "Fiat", "Ferrari",
+				"Volkswagen", "Dodge","Chrysler" };
 		return marcas[new Random().nextInt(marcas.length)];
 	}
 }

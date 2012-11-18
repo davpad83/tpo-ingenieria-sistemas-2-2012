@@ -32,7 +32,7 @@ public class ListaPreciosControllerBean implements ListaPreciosController {
 			ListaPreciosEntity lpGuardado = entityManager.merge(lp);
 			
 			if(lpGuardado.getIdLista() > 0)
-				LOGGER.info("La Lista de precios fue guardada con EXITO.");
+				LOGGER.info("La Lista de precios fue guardada con EXITO. Su id es "+lpGuardado.getIdLista());
 		}
 	}
 

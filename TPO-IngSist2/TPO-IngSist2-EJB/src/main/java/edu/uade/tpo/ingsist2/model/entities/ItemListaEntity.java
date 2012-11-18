@@ -12,9 +12,10 @@ import edu.uade.tpo.ingsist2.view.vo.ItemListaVO;
 public class ItemListaEntity {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private RodamientoEntity rodamiento;
 	
 	private float precio;
@@ -77,5 +78,13 @@ public class ItemListaEntity {
 		this.listaPrecio = listaPrecio;
 	}	
 	
-	
+	public static List<ItemListaEntity> getEntityList(List<ItemListaVO> lilvo){
+		List<ItemListaEntity> itl = new ArrayList<ItemListaEntity>();
+		for(ItemListaVO ilv : lilvo){
+			ItemListaEntity ile = new ItemListaEntity();
+			ile.setVO(ilv);
+			itl.add(ile);
+		}
+		return itl;
+	}
 }

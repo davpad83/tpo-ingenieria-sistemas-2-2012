@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.CondicionVentaVO;
+import edu.uade.tpo.ingsist2.view.vo.ItemListaVO;
 
 @Entity()
 @Table(name=EntitiesTablesNames.CONDICION_VENTA)
@@ -85,5 +86,15 @@ public class CondicionVentaEntity {
 		for(CondicionVentaEntity cv : lcv)
 		lcvvo.add(cv.getVO());
 		return lcvvo;
+	}
+	
+	public static List<CondicionVentaEntity> getEntityList(List<CondicionVentaVO> lcvVO){
+		List<CondicionVentaEntity> lcve = new ArrayList<CondicionVentaEntity>();
+		for(CondicionVentaVO cvvo : lcvVO){
+			CondicionVentaEntity cve = new CondicionVentaEntity();
+			cve.setVO(cvvo);
+			lcve.add(cve);
+		}
+		return lcve;
 	}
 }

@@ -1,7 +1,11 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
-public class ItemListaVO {
+import java.io.Serializable;
 
+public class ItemListaVO implements Serializable{
+
+	private static final long serialVersionUID = 3748744848690820794L;
+	
 	private int id;
 	private RodamientoVO rodamiento;
 	private float precio;
