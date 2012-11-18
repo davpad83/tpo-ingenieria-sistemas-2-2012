@@ -9,16 +9,11 @@ import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 public class OficinaDeVentaEntity {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	private String name;
-	
+	private String nombre;
 	private String direccion;
-
-	public OficinaDeVentaVO getVO() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public int getId() {
 		return id;
@@ -28,12 +23,12 @@ public class OficinaDeVentaEntity {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNombre(String name) {
+		this.nombre = name;
 	}
 
 	public String getDireccion() {
@@ -44,7 +39,17 @@ public class OficinaDeVentaEntity {
 		this.direccion = direccion;
 	}
 	
-	
-	
-	
+	public OficinaDeVentaVO getVO() {
+		OficinaDeVentaVO odvvo = new OficinaDeVentaVO();
+		odvvo.setDireccion(this.direccion);
+		odvvo.setIdODV(this.getId());
+		odvvo.setNombre(this.getNombre());
+		return odvvo;
+	}
+
+	public void setVO(OficinaDeVentaVO odv) {
+		this.id = odv.getIdODV();
+		this.nombre = odv.getNombre();
+		this.direccion = odv.getDireccion();
+	}
 }

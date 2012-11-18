@@ -53,16 +53,18 @@ public class OrdenDeCompraEntity {
 		OrdenDeCompraVO pvo = new OrdenDeCompraVO();
 		pvo.setIdOrden(this.idOrden);
 		pvo.setEstado(this.estado);
-		pvo.setOdv(this.odv);
-		pvo.setItems(this.items);
+		pvo.setOdv(this.odv.getVO());
+		pvo.setItems(ItemRodamientoEntity.getVOList(this.items));
 		return pvo;
 	}
 	
 	public void setVO(OrdenDeCompraVO p){
 		this.idOrden = p.getIdOrden();
 		this.estado = p.getEstado();
-		this.items = p.getItems();
-		this.odv = p.getOdv();
+		this.items = ItemRodamientoEntity.getEntityList(p.getItems());
+		OficinaDeVentaEntity odve = new OficinaDeVentaEntity();
+		odve.setVO(p.getOdv());
+		this.odv = odve;
 	}
 
 	public static ArrayList<OrdenDeCompraVO> getVOList(

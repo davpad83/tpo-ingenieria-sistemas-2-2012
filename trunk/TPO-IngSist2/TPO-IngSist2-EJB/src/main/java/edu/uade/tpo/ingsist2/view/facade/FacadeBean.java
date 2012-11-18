@@ -27,10 +27,8 @@ public class FacadeBean implements Facade {
 	@EJB 
 	AdministrarCotizaciones adminCot;
 	
+	/*===========ÊABM PROVEEDORES ===========*/
 	
-	public FacadeBean() {
-	}
-
 	@Override
 	public void guardarProveedor(ProveedorVO p) {
 		adminProve.guardarProveedor(p);
@@ -51,6 +49,8 @@ public class FacadeBean implements Facade {
 		return adminProve.getProveedores();
 	}
 
+	/*===========ÊABM RODAMIENTOS ===========*/
+	
 	@Override
 	public void guardarRodamiento(RodamientoVO r) {
 		adminRod.guardarRodamiento(r);
@@ -71,13 +71,12 @@ public class FacadeBean implements Facade {
 		return adminRod.getRodamientos();
 	}
 	
+	/*===========ÊWEB METHODS ===========*/
+	
 	@Override
 	@WebMethod
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion (SolicitudCotizacionRequest scr) {
-				
 		return adminCot.procesarSolicitudCotizacion(scr);
  	}
 
-
-	
 }
