@@ -1,5 +1,12 @@
 package edu.uade.tpo.ingsist2.view.test;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Hashtable;
 
 import javax.jms.JMSException;
@@ -16,8 +23,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thoughtworks.xstream.XStream;
-
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
@@ -26,8 +31,8 @@ public class ProveedorMockTest {
 	private QueueSession qSession;
 	private QueueSender qSender;
 	private QueueConnection connection;
+	private static final String PATH_TO_WEB_PROJECT = "/Users/matiasfavale/Documents/WorkspaceJuno/TPO-IngSist2/TPO-IngSist2-WebClient";
 
-	@SuppressWarnings("unchecked")
 	@Before
 	public void prepararTest() {
 		Hashtable<String, String> props = new Hashtable<String, String>();
@@ -69,7 +74,7 @@ public class ProveedorMockTest {
 	}
 
 	@Test
-	public void basicJMSTest(){
+	public void basicJMSTest() {
 		try {
 			TextMessage message = qSession.createTextMessage();
 			message.setText("TEST - Testeando la cola de mensajes");
@@ -78,16 +83,72 @@ public class ProveedorMockTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void enviarNuevaListaPrecios() {
 		ListaPreciosVO listaPrecios = MockDataGenerator
-				.getRandomListaPreciosVO();
+				.getRandomListaPreciosVO(30);
 		try {
 			TextMessage message = qSession.createTextMessage();
 			message.setText(listaPrecios.toXML(true));
 			qSender.send(message);
+			salvarListaPreciosVO(listaPrecios);
 		} catch (JMSException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void enviarListasCreadas() {
+		int numero = 0;
+		File file = null;
+		do {
+			file = new File(PATH_TO_WEB_PROJECT + "/src/test/ListaPrecios"
+					+ numero + ".xml");
+			if (file.exists()) {
+				numero += 1;
+				try {
+					TextMessage message = qSession.createTextMessage();
+					message.setText(readFileToString(file));
+					qSender.send(message);
+				} catch (JMSException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} while (file.exists());
+	}
+
+	@SuppressWarnings("resource")
+	private String readFileToString(File file) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			result.append(line);
+			result.append("\n");
+		}
+		return result.toString();
+	}
+
+	private void salvarListaPreciosVO(ListaPreciosVO listaPrecios) {
+		int numero = 0;
+
+		File file = new File(PATH_TO_WEB_PROJECT + "/src/test/ListaPrecios"
+				+ numero + ".xml");
+		while (file.exists()) {
+			numero += 1;
+			file = new File(PATH_TO_WEB_PROJECT + "/src/test/ListaPrecios"
+					+ numero + ".xml");
+		}
+		try {
+			Writer writer = new BufferedWriter(new FileWriter(file));
+			writer.write(listaPrecios.toXML(true));
+			writer.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
