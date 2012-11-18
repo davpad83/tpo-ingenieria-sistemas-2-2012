@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Table(name=EntitiesTablesNames.REMITO)
 public class RemitoEntity {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idRemito;
 	
 	@ManyToOne
