@@ -97,17 +97,6 @@ public class ListaPreciosEntity {
 		this.vigenciaHasta = vigenciaHasta;
 	}
 
-	@PrePersist
-	public void prePersist(ListaPreciosEntity lpe) {
-		LOGGER.debug("Verificando Proveedor ...");
-		if (lpe.getProveedor().getId() < 1) {
-			LOGGER.debug("El id del proveedor no existe, buscando por nombre ...");
-			if ((adminProve.getProveedorPorNombre(lpe.getNombre())) == null) {
-				LOGGER.debug("La lista no puede ser agregada ya que no es un proveedor valido.");
-			}
-		}
-	}
-
 	public ListaPreciosVO getVO() {
 		ListaPreciosVO lpvo = new ListaPreciosVO();
 		lpvo.setIdLista(this.idLista);
