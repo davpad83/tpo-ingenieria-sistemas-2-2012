@@ -85,7 +85,7 @@ public class ProveedorMockTest {
 				.getRandomListaPreciosVO();
 		try {
 			TextMessage message = qSession.createTextMessage();
-			message.setText(listaPrecios.toXML());
+			message.setText(listaPrecios.toXML(true));
 			qSender.send(message);
 		} catch (JMSException e) {
 			e.printStackTrace();
@@ -97,9 +97,10 @@ public class ProveedorMockTest {
 		if (connection != null) {
 			try {
 				connection.close();
+				qSender.close();
+				qSession.close();
 			} catch (JMSException e) {
 			}
 		}
 	}
-
 }

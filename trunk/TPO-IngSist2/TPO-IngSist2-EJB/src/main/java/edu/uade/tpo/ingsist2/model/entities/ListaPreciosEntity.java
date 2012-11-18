@@ -3,26 +3,37 @@ package edu.uade.tpo.ingsist2.model.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
+import edu.uade.tpo.ingsist2.model.Proveedor;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 @Entity
-@Table(name=EntitiesTablesNames.LISTA_PRECIOS)
+@Table(name = EntitiesTablesNames.LISTA_PRECIOS)
 public class ListaPreciosEntity {
+
+	@Transient
+	private static final Logger LOGGER = Logger
+			.getLogger(ListaPreciosEntity.class);
+	@EJB
+	@Transient
+	private Proveedor adminProve;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idLista;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private ProveedorEntity proveedor;
 
-	@OneToMany (mappedBy="listaPrecio")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="listaPrecio")
 	private List<ItemListaEntity> items;
 
-	@OneToMany (mappedBy="listaPrecio")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="listaPrecio")
 	private List<CondicionVentaEntity> condicionesDeVenta;
 
 	private String nombre;
@@ -57,7 +68,8 @@ public class ListaPreciosEntity {
 		return condicionesDeVenta;
 	}
 
-	public void setCondicionesDeVenta(List<CondicionVentaEntity> condicionesDeVenta) {
+	public void setCondicionesDeVenta(
+			List<CondicionVentaEntity> condicionesDeVenta) {
 		this.condicionesDeVenta = condicionesDeVenta;
 	}
 
@@ -84,25 +96,45 @@ public class ListaPreciosEntity {
 	public void setVigenciaHasta(Date vigenciaHasta) {
 		this.vigenciaHasta = vigenciaHasta;
 	}
-	
-	public ListaPreciosVO getVO(){
+
+	@PrePersist
+	public void prePersist(ListaPreciosEntity lpe) {
+		LOGGER.debug("Verificando Proveedor ...");
+		if (lpe.getProveedor().getId() < 1) {
+			LOGGER.debug("El id del proveedor no existe, buscando por nombre ...");
+			if ((adminProve.getProveedorPorNombre(lpe.getNombre())) == null) {
+				LOGGER.debug("La lista no puede ser agregada ya que no es un proveedor valido.");
+			}
+		}
+	}
+
+	public ListaPreciosVO getVO() {
 		ListaPreciosVO lpvo = new ListaPreciosVO();
 		lpvo.setIdLista(this.idLista);
 		lpvo.setItems(ItemListaEntity.getVOList(this.items));
 		lpvo.setNombre(this.nombre);
 		lpvo.setVigenciaDesde(this.vigenciaDesde);
 		lpvo.setVigenciaHasta(this.vigenciaHasta);
-		lpvo.setCondicionesDeVenta(CondicionVentaEntity.getVOList(this.condicionesDeVenta));
+		lpvo.setCondicionesDeVenta(CondicionVentaEntity
+				.getVOList(this.condicionesDeVenta));
 		return lpvo;
 	}
-	
-	public void setVO(ListaPreciosVO lpvo){
+
+	public void setVO(ListaPreciosVO lpvo) {
 		this.setIdLista(lpvo.getIdLista());
-		//TODO
-		
+		this.setNombre(lpvo.getNombre());
+		if (lpvo.getCondicionesDeVenta() != null)
+			this.setCondicionesDeVenta(CondicionVentaEntity.getEntityList(lpvo
+					.getCondicionesDeVenta()));
+		this.setItems(ItemListaEntity.getEntityList(lpvo.getItems()));
+		ProveedorEntity p = new ProveedorEntity();
+		p.setVO(lpvo.getProveedor());
+		this.setProveedor(p);
+		this.setVigenciaDesde(lpvo.getVigenciaDesde());
+		this.setVigenciaHasta(lpvo.getVigenciaHasta());
 	}
-	
-	public static List<ListaPreciosVO> getVOList(List<ListaPreciosEntity> llp){
+
+	public static List<ListaPreciosVO> getVOList(List<ListaPreciosEntity> llp) {
 		return null;
 	}
 }

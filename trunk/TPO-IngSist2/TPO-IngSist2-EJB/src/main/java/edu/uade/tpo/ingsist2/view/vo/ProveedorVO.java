@@ -2,7 +2,7 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
 
-public class ProveedorVO implements Serializable{
+public class ProveedorVO implements Serializable {
 
 	private static final long serialVersionUID = 7706606121975723534L;
 	

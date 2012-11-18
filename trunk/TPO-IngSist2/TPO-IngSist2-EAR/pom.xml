@@ -8,6 +8,8 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>TPO-IngSist2-EAR</artifactId>
+	<groupId>edu.uade.tpo.ingsist2</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>ear</packaging>
 
 	<dependencies>
@@ -73,6 +75,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<groupId>edu.uade.tpo.ingsist2</groupId>
-	<version>0.0.1-SNAPSHOT</version>
 </project>

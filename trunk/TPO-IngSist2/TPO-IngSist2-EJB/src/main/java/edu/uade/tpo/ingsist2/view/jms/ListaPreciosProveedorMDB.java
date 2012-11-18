@@ -15,16 +15,20 @@ import com.thoughtworks.xstream.XStream;
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
-@MessageDriven(activationConfig = {
+@MessageDriven(
+	name="ListaPreciosProveedor",
+	activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/EnviarListaPrecios") })
-public class ListaPreciosProveedorQueue implements MessageListener {
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/EnviarListaPrecios") 
+	}
+)
+public class ListaPreciosProveedorMDB implements MessageListener {
 
 	@EJB
 	private MessagesFacade messagesFacade;
 
 	private static final Logger LOGGER = Logger
-			.getLogger(ListaPreciosProveedorQueue.class);
+			.getLogger(ListaPreciosProveedorMDB.class);
 
 	/**
 	 * Se recibe un mensaje de texto en formato XML con los datos necesarios
@@ -43,18 +47,11 @@ public class ListaPreciosProveedorQueue implements MessageListener {
 			LOGGER.debug("This is a test message, the message received is: "
 					+ textReceived);
 		} else {
-			try {
-				ListaPreciosVO lpr = deXMLAListaPreciosVO(ts.getText());
-				messagesFacade.agregarListaProveedor(lpr);
-			} catch (JMSException e) {
-				e.printStackTrace();
-			}
+			LOGGER.info(textReceived);
+			ListaPreciosVO lpr = new ListaPreciosVO();
+			lpr.fromXML(textReceived);
+			messagesFacade.agregarListaProveedor(lpr);
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private ListaPreciosVO deXMLAListaPreciosVO(String message) {
-		XStream xs = new XStream();
-		return (ListaPreciosVO) xs.fromXML(message);
-	}
 }
