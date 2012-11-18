@@ -19,4 +19,6 @@ public interface Proveedor {
 	public ProveedorEntity getProveedor(int id);
 
 	public ArrayList<ProveedorEntity> getProveedores();
+
+	public ProveedorEntity getProveedorPorCuit(String cuit);
 }

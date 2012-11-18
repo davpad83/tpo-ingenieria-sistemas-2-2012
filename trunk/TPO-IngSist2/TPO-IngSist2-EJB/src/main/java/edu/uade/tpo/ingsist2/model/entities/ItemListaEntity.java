@@ -20,9 +20,6 @@ public class ItemListaEntity {
 	
 	private float precio;
 	
-	@ManyToOne
-	private ListaPreciosEntity listaPrecio;
-
 	public int getId() {
 		return id;
 	}
@@ -70,14 +67,6 @@ public class ItemListaEntity {
 		return itlvo;
 	}
 
-	public ListaPreciosEntity getListaPrecio() {
-		return listaPrecio;
-	}
-
-	public void setListaPrecio(ListaPreciosEntity listaPrecio) {
-		this.listaPrecio = listaPrecio;
-	}	
-	
 	public static List<ItemListaEntity> getEntityList(List<ItemListaVO> lilvo){
 		List<ItemListaEntity> itl = new ArrayList<ItemListaEntity>();
 		for(ItemListaVO ilv : lilvo){

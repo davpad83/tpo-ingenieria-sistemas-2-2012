@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.model.Proveedor;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
@@ -27,13 +26,15 @@ public class ListaPreciosEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idLista;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private ProveedorEntity proveedor;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="listaPrecio")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn
 	private List<ItemListaEntity> items;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="listaPrecio")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn
 	private List<CondicionVentaEntity> condicionesDeVenta;
 
 	private String nombre;

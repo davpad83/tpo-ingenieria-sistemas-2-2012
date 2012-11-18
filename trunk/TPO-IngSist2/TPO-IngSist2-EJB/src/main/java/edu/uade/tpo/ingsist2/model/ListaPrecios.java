@@ -7,6 +7,7 @@ import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 @Local
 public interface ListaPrecios {
 
-	public void agregarListaProveedor(ListaPreciosEntity lpvo);
+	public void agregarListaPrecios(ListaPreciosEntity lpvo);
 	
+	public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista);
 }

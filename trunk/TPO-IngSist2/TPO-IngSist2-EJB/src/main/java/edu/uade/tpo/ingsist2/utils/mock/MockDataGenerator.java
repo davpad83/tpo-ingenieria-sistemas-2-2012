@@ -58,7 +58,7 @@ public class MockDataGenerator {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static ListaPreciosVO getRandomListaPreciosVO() {
+	public static ListaPreciosVO getRandomListaPreciosVO(int cantItems) {
 		ListaPreciosVO lista = new ListaPreciosVO();
 		lista.setNombre("Rodamientos Locos SRL");
 		lista.setProveedor(getRandomProveedorVO());
@@ -67,13 +67,13 @@ public class MockDataGenerator {
 		Date newDate = new Date();
 		cal.add(cal.DATE, 7);
 		lista.setVigenciaHasta(cal.getTime());
-		lista.setItems(getRandomListaItemListaVO());
+		lista.setItems(getRandomListaItemListaVO(cantItems));
 		return lista;
 	}
 
-	public static List<ItemListaVO> getRandomListaItemListaVO() {
+	public static List<ItemListaVO> getRandomListaItemListaVO(int cantItems) {
 		ArrayList<ItemListaVO> lilvo = new ArrayList<ItemListaVO>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < cantItems; i++) {
 			lilvo.add(getRandomItemListaVO());
 		}
 		return lilvo;
