@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
-
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 /**
@@ -26,7 +25,7 @@ public class RodamientoBean implements Rodamiento {
 		LOGGER.info("Procesando guardar rodamiento con codigoSKF " + r.getCodigoSKF());
 		RodamientoEntity rGuardado = null;
 		try {
-			rGuardado = (RodamientoEntity) entityManager.merge(r);
+			rGuardado = (RodamientoEntity) entityManager.merge (r);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar el rodamiento");
 			e.printStackTrace();

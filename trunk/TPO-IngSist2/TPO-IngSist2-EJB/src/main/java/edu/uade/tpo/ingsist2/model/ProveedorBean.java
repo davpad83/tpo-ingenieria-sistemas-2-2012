@@ -27,12 +27,12 @@ public class ProveedorBean implements Proveedor {
 		
 		ProveedorEntity pGuardado = null;
 		try {
-			pGuardado = (ProveedorEntity) entityManager.merge(p);
+             pGuardado = (ProveedorEntity) entityManager.merge(p);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar el proveedor");
 			LOGGER.error(e);
 		}
-		LOGGER.info("Proveedor guardado con id: " + pGuardado.getId());
+            LOGGER.info("Proveedor guardado con id: " + pGuardado.getId());
 	}
 
 	@Override
