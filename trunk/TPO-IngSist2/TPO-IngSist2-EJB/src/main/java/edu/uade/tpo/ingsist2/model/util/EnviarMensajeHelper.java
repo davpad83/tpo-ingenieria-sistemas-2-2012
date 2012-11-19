@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.model.util;
 
 import java.util.Hashtable;
-
 import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.QueueConnection;
@@ -11,7 +10,6 @@ import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
-
 import org.apache.log4j.Logger;
 
 public class EnviarMensajeHelper {
@@ -71,6 +69,18 @@ public class EnviarMensajeHelper {
 			e.printStackTrace();
 		}
 		LOGGER.info("El mensaje ha sido enviado.");
+	}
+
+	public void cerrarConexion() {
+		LOGGER.info("Cerrando conexion a la cola.");
+		try {
+			qSession.close();
+			connection.close();
+			qSender.close();
+		} catch (JMSException e) {
+			LOGGER.error("Se produjo un error el cerrar la conexion.");
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 
 /**
  * Session Bean implementation class OrdenDeCompra
@@ -16,14 +15,18 @@ import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 @Stateless
 public class OrdenDeCompraBean implements OrdenDeCompra {
 
-	private static final Logger LOGGER = Logger.getLogger(ProveedorBean.class);
+	private static final Logger LOGGER = Logger.getLogger(OrdenDeCompraBean.class);
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 
 	public boolean validarOrdenDeCompra(OrdenDeCompraEntity oc) {
-		// TODO IMPLEMENTAR
-		return false;
+		boolean esValido = true;
+		if(oc.getItems()==null || oc.getItems().isEmpty()){
+			LOGGER.error("La orden de compra es invalida, no contiene items.");
+			esValido = false;
+		}
+		return esValido;
 	}
 
 	@Override
