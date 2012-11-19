@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import com.thoughtworks.xstream.XStream;
+
 public class ItemRodamientoVO {
 	private int id;
 	private int cantidad;
@@ -45,6 +47,15 @@ public class ItemRodamientoVO {
 
 	public int getId() {
 		return id;
+	}
+
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
+		xs = RodamientoVO.setXMLParameters(xs, omitId);
+		xs = CotizacionVO.setXMLParameters(xs, omitId);
+		if(omitId)
+			xs.omitField(ItemRodamientoVO.class, "id");
+		return xs;
 	}
 
 }

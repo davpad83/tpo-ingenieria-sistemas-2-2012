@@ -2,6 +2,8 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.util.Date;
 
+import com.thoughtworks.xstream.XStream;
+
 public class CotizacionVO {
 
 	private int id;
@@ -75,6 +77,15 @@ public class CotizacionVO {
 
 	public void setTiempoEntrega(String tiempoEntrega) {
 		this.tiempoEntrega = tiempoEntrega;
+	}
+
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+		xs.alias("Cotizacion", CotizacionVO.class);
+		xs = OficinaDeVentaVO.setXMLParameters(xs, omitId);
+		xs = RodamientoVO.setXMLParameters(xs, omitId);
+		if(omitId)
+			xs.omitField(CotizacionVO.class, "id");
+		return xs;
 	}
 
 }

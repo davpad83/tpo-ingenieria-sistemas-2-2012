@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import com.thoughtworks.xstream.XStream;
+
 public class OficinaDeVentaVO {
 	private int idODV;
 	private String direccion;
@@ -27,5 +29,10 @@ public class OficinaDeVentaVO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+		xs.alias("OficinaDeVenta", OficinaDeVentaVO.class);
+		return xs;
 	}
 }

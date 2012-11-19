@@ -28,6 +28,10 @@ public class OrdenDeCompraEntity {
 	public int getIdOrden() {
 		return idOrden;
 	}
+	
+	public void setIdOrden(int idOrden) {
+		this.idOrden = idOrden;
+	}
 
 	public String getEstado() {
 		return estado;
