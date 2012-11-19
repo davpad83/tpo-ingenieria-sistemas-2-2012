@@ -44,7 +44,8 @@ public class CotizacionBean implements Cotizacion {
 		LOGGER.info("Buscando item lista con menor precio para codigoSKF: "
 				+ rod.getCodigoSKF() + ", pais: " + rod.getPais()
 				+ " y marca: " + rod.getMarca());
-		ItemListaEntity itEncontrado = null;
+	         ItemListaEntity itEncontrado = null;
+		
 		try {
 			Query query = entityManager
 					.createQuery(
@@ -54,6 +55,10 @@ public class CotizacionBean implements Cotizacion {
 									+ " FROM ItemListaEntity IL2" 
 									+ " WHERE IL2.rodamiento.codigoSKF = :codigo " 
 										+ "AND IL2.rodamiento.marca = :marca " 
+
+										+ "AND IL2.rodamiento.pais = :pais"
+						+ "GROUP BY IL2.rodamiento.marca)"
+
 										+ "AND IL2.rodamiento.pais = :pais)")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())
