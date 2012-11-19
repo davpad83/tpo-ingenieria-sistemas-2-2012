@@ -13,13 +13,14 @@ public class RemitoEntity {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idRemito;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private OrdenDeCompraEntity ordenDeCompra;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private OficinaDeVentaEntity odv;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn
 	private List<ItemRodamientoEntity> items;
 	
 	public RemitoEntity() {

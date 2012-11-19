@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +11,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 
 import edu.uade.tpo.ingsist2.controllers.AdministrarCotizacionesBean;
+import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -49,8 +54,7 @@ public class CotizacionBean implements Cotizacion {
 									+ " FROM ItemListaEntity IL2" 
 									+ " WHERE IL2.rodamiento.codigoSKF = :codigo " 
 										+ "AND IL2.rodamiento.marca = :marca " 
-										+ "AND IL2.rodamiento.pais = :pais"
-									+ "GROUP BY IL2.rodamiento.marca)")
+										+ "AND IL2.rodamiento.pais = :pais)")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())
 					.setParameter("pais", rod.getPais());
@@ -71,5 +75,20 @@ public class CotizacionBean implements Cotizacion {
 			RodamientoEntity rod) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Cotizacion getCotizacion(CotizacionEntity cotizacion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int verificarStock(ItemRodamientoEntity ire, Map<RodamientoEntity, ListaPreciosEntity> mapaRodEnt) {
+		RodamientoEntity rod = ire.getRodamiento();
+		if(rod.hayStockSuficiente(ire.getCantidad()))
+			return rod.getStock();
+		else
+			return 0;
 	}
 }

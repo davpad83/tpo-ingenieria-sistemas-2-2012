@@ -1,4 +1,4 @@
-package edu.uade.tpo.ingsist2.view.test;
+package edu.uade.tpo.ingsist2.view.proveedorMock;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 public class ProveedorMockTest {
@@ -49,7 +50,7 @@ public class ProveedorMockTest {
 					.lookup("ConnectionFactory");
 
 			// buscar la Cola en JNDI
-			Queue queue = (Queue) ctx.lookup("queue/EnviarListaPrecios");
+			Queue queue = (Queue) ctx.lookup("queue/" + JMSQueuesNames.LISTA_PRECIOS_QUEUE);
 
 			// crear la connection y la session a partir de la connection
 			connection = qfactory.createQueueConnection();

@@ -54,12 +54,12 @@ public class ItemRodamientoEntity {
 		this.rodamiento = rodamiento;
 	}
 
-	public CotizacionEntity getIdPedidoDeCotizacion() {
+	public CotizacionEntity getCotizacion() {
 		return cotizacion;
 	}
 
-	public void setIdPedidoDeCotizacion(CotizacionEntity idPedidoDeCotizacion) {
-		this.cotizacion = idPedidoDeCotizacion;
+	public void setCotizacion(CotizacionEntity cotizacion) {
+		this.cotizacion = cotizacion;
 	}
 
 	public static List<ItemRodamientoVO> toVOList(

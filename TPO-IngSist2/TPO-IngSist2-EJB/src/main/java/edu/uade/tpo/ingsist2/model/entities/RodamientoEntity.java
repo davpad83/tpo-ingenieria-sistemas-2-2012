@@ -63,6 +63,18 @@ public class RodamientoEntity {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+	
+	public void aumentarStock(int stock){
+		this.stock += stock;
+	}
+	
+	public void disminuirStock(int stock){
+		this.stock -= stock;
+	}
+	
+	public boolean hayStockSuficiente(int stock){
+		return this.stock >= stock;
+	}
 
 	public RodamientoVO getVO() {
 		RodamientoVO r = new RodamientoVO();

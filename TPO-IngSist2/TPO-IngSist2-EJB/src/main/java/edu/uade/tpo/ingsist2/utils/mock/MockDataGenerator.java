@@ -18,18 +18,18 @@ public class MockDataGenerator {
 		return lista;
 	}
 
-	private static ProveedorVO getRandomProveedorVO() {
+	public static ProveedorVO getRandomProveedorVO() {
 		ProveedorVO prove = new ProveedorVO();
 		prove.setCuit(getRandomCuit());
 		prove.setNombre(getRandomNombreProveedor());
 		return prove;
 	}
 
-	private static int getRandomId() {
+	public static int getRandomId() {
 		return new Random().nextInt(1000);
 	}
 
-	private static String getRandomNombreProveedor() {
+	public static String getRandomNombreProveedor() {
 		String[] nombresProveedor = { "Rodamientos Locos SRL", "Rodaditos",
 				"Patricio Rod y sus Rodamientos de Ricota",
 				"Rodamientos Red Ribbon", "Rodamientos por todos lados",
@@ -37,7 +37,7 @@ public class MockDataGenerator {
 		return nombresProveedor[new Random().nextInt(nombresProveedor.length)];
 	}
 
-	private static String getRandomNombre() {
+	public static String getRandomNombre() {
 		String[] nombres = { "Matias", "Pedro", "Joaco", "Juan", "Carlos",
 				"Pepe", "Alejandra", "Silvia", "Nicolas", "Howard" };
 		String[] apellidos = { "Fernandes", "Gonzalez", "Favale", "Attanasio",
@@ -47,7 +47,7 @@ public class MockDataGenerator {
 				+ apellidos[new Random().nextInt(apellidos.length)];
 	}
 
-	private static String getRandomCuit() {
+	public static String getRandomCuit() {
 		String cuit = "";
 		for (int i = 0; i < 11; i++) {
 			cuit += new Random().nextInt(9);
@@ -63,12 +63,16 @@ public class MockDataGenerator {
 		lista.setNombre("Rodamientos Locos SRL");
 		lista.setProveedor(getRandomProveedorVO());
 		lista.setVigenciaDesde(new Date());
+		lista.setVigenciaHasta(getRandomFechaVencimiento());
+		lista.setItems(getRandomListaItemListaVO(cantItems));
+		return lista;
+	}
+
+	public static Date getRandomFechaVencimiento() {
 		Calendar cal = Calendar.getInstance();
 		Date newDate = new Date();
 		cal.add(cal.DATE, 7);
-		lista.setVigenciaHasta(cal.getTime());
-		lista.setItems(getRandomListaItemListaVO(cantItems));
-		return lista;
+		return cal.getTime();
 	}
 
 	public static List<ItemListaVO> getRandomListaItemListaVO(int cantItems) {
@@ -82,15 +86,15 @@ public class MockDataGenerator {
 	public static ItemListaVO getRandomItemListaVO() {
 		ItemListaVO ilvo = new ItemListaVO();
 		ilvo.setPrecio(getRandomPrecio());
-		ilvo.setRodamiento(getRodamientoVO());
+		ilvo.setRodamiento(getRandomRodamientoVO());
 		return ilvo;
 	}
 
-	private static float getRandomPrecio() {
+	public static float getRandomPrecio() {
 		return new Random().nextInt(10000);
 	}
 
-	private static String getRandomCodigoSKF() {
+	public static String getRandomCodigoSKF() {
 		String[] codigosSKF = { "BAHB 311424 B", "BAH-0012", "VKDA 35201",
 				"LM11749", "LM11719", "10G-88107", "VKC 2123 C", "VKM 12500",
 				"VKM 12501", "VKM 22510", "BAH-0055 AAX", "BAF-011",
@@ -99,14 +103,14 @@ public class MockDataGenerator {
 		return codigosSKF[new Random().nextInt(codigosSKF.length)];
 	}
 
-	private static String getRandomPais() {
+	public static String getRandomPais() {
 		String[] paises = { "Argentina", "Brasil", "Estados Unicos", "Chile",
 				"Paraguay", "Uruguay", "China", "Japon", "Bolivia", "Peru",
 				"Costa Rica", "Canada", "Mexico", "Cuba", "Ecuador" };
 		return paises[new Random().nextInt(paises.length)];
 	}
 
-	public static RodamientoVO getRodamientoVO() {
+	public static RodamientoVO getRandomRodamientoVO() {
 		RodamientoVO rod = new RodamientoVO();
 		rod.setMarca(getRandomMarca());
 		rod.setPais(getRandomPais());
@@ -115,9 +119,67 @@ public class MockDataGenerator {
 		return rod;
 	}
 
-	private static String getRandomMarca() {
+	public static String getRandomMarca() {
 		String[] marcas = { "Renault", "BMW", "Alfa Romeo", "Fiat", "Ferrari",
 				"Volkswagen", "Dodge","Chrysler" };
 		return marcas[new Random().nextInt(marcas.length)];
+	}
+
+	public static OrdenDeCompraVO getRandomOrdenDeCompraVO() {
+		OrdenDeCompraVO ocvo = new OrdenDeCompraVO();
+		ocvo.setEstado("Nueva");
+		ocvo.setItems(getRandomListaItemRodamientoVO());
+		ocvo.setOdv(getRandomOdvVO());		
+		return ocvo;
+	}
+
+	public static OficinaDeVentaVO getRandomOdvVO() {
+		OficinaDeVentaVO odvvo = new OficinaDeVentaVO();
+		odvvo.setDireccion(getRandomDireccion());
+		odvvo.setNombre(getRandomNombreODV());
+		return null;
+	}
+
+	public static String getRandomDireccion() {
+		String[] direcciones = {
+				"Maipu 757", "Belgrano 1415", "9 de Julio 6161","Avenida de Mayo 120", "Lavalle 2131"
+		};
+		return direcciones[new Random().nextInt(direcciones.length)];
+	}
+
+	public static String getRandomNombreODV() {
+		String[] nombresODV = {
+				"Grupo 1", "Grupo 2","Grupo 3","Grupo 4","Grupo 5"
+		};
+		return nombresODV[new Random().nextInt(nombresODV.length)];
+	}
+
+	public static List<ItemRodamientoVO> getRandomListaItemRodamientoVO() {
+		ArrayList<ItemRodamientoVO> lirvo = new ArrayList<ItemRodamientoVO>();
+		for(int i=0 ; i < 5 ; i++){
+			lirvo.add(getRandomItemRodamientoVO());
+		}
+		return lirvo;
+	}
+
+	public static ItemRodamientoVO getRandomItemRodamientoVO() {
+		ItemRodamientoVO irvo = new ItemRodamientoVO();
+		irvo.setCantidad(getRandomCantidad());
+		irvo.setCotizacion(getRandomCotizacionVO());
+		irvo.setRodamiento(getRandomRodamientoVO());
+		return irvo;
+	}
+
+	public static CotizacionVO getRandomCotizacionVO() {
+		CotizacionVO cvo = new CotizacionVO();
+		cvo.setVencimiento(getRandomFechaVencimiento());
+		cvo.setFecha(new Date());
+		cvo.setTiempoEntrega(getRandomCantidad()+" dias");
+		cvo.setIdPedidoCotizacion(getRandomId());
+		return cvo;
+	}
+
+	public static int getRandomCantidad() {
+		return new Random().nextInt(100);
 	}
 }
