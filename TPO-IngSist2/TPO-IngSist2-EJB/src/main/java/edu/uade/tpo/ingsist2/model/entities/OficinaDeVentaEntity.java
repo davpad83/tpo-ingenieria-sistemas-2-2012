@@ -14,6 +14,9 @@ public class OficinaDeVentaEntity {
 	
 	private String nombre;
 	private String direccion;
+	private String ip;
+	private String puerto;
+	private String nombreColaRemito;
 
 	public int getId() {
 		return id;
@@ -39,6 +42,30 @@ public class OficinaDeVentaEntity {
 		this.direccion = direccion;
 	}
 	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getPuerto() {
+		return puerto;
+	}
+
+	public void setPuerto(String puerto) {
+		this.puerto = puerto;
+	}
+
+	public String getNombreColaRemito() {
+		return nombreColaRemito;
+	}
+
+	public void setNombreColaRemito(String nombreColaRemito) {
+		this.nombreColaRemito = nombreColaRemito;
+	}
+
 	public OficinaDeVentaVO getVO() {
 		OficinaDeVentaVO odvvo = new OficinaDeVentaVO();
 		odvvo.setDireccion(this.direccion);

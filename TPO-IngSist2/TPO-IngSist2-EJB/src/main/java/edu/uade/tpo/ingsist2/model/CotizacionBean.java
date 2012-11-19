@@ -1,5 +1,6 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.ejb.Stateless;
@@ -89,11 +90,19 @@ public class CotizacionBean implements Cotizacion {
 	}
 
 	@Override
-	public int verificarStock(ItemRodamientoEntity ire, Map<RodamientoEntity, ListaPreciosEntity> mapaRodEnt) {
+	public int verificarStock(ItemRodamientoEntity ire) {
 		RodamientoEntity rod = ire.getRodamiento();
 		if(rod.hayStockSuficiente(ire.getCantidad()))
 			return rod.getStock();
 		else
 			return 0;
+	}
+
+	@Override
+	public boolean validarVigenciaLista(ListaPreciosEntity lista) {
+		boolean valida = true;
+		if(lista.getVigenciaDesde().after(new Date()) || lista.getVigenciaHasta().before(new Date()))
+			valida = false;
+		return valida;
 	}
 }

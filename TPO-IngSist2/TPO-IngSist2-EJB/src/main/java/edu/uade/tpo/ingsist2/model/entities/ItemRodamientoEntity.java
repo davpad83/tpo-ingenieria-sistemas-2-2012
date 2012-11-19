@@ -30,6 +30,14 @@ public class ItemRodamientoEntity {
 	@OneToOne
 	private CotizacionEntity cotizacion;
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -60,14 +68,6 @@ public class ItemRodamientoEntity {
 
 	public void setCotizacion(CotizacionEntity cotizacion) {
 		this.cotizacion = cotizacion;
-	}
-
-	public static List<ItemRodamientoVO> toVOList(
-			ArrayList<ItemRodamientoEntity> items) {
-		ArrayList<ItemRodamientoVO> pVoList = new ArrayList<ItemRodamientoVO>();
-		for (ItemRodamientoEntity p : items)
-			pVoList.add(p.getVO());
-		return pVoList;
 	}
 
 	private ItemRodamientoVO getVO() {

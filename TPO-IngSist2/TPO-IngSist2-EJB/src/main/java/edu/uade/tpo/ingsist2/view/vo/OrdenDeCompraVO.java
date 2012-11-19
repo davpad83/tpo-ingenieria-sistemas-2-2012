@@ -72,15 +72,9 @@ public class OrdenDeCompraVO {
 	
 	public void fromXML(String textReceived) {
 		XStream xs = new XStream();
-		xs.alias("OficinaDeVenta", OficinaDeVentaVO.class);
-		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
-		xs.alias("Rodamiento", RodamientoVO.class);
-		xs.alias("Cotizacion", CotizacionVO.class);
-		xs.alias("OrdenDeCompra", OrdenDeCompraVO.class);
+		xs = setXMLParameters(xs, true);
 		//REVISAR LO QUE NOS MANDAN COMO ID QUE NOS MANDA LA ODV
 		xs.aliasField("idOC", OrdenDeCompraVO.class, "idRecibido");
-		xs.omitField(RodamientoVO.class, "stock");
-		xs.omitField(CotizacionVO.class, "id");
 		OrdenDeCompraVO ocvo = (OrdenDeCompraVO) xs.fromXML(textReceived);
 		this.idOrden = ocvo.getIdOrden();
 		this.estado = ocvo.getEstado();
@@ -94,6 +88,18 @@ public class OrdenDeCompraVO {
 
 	public void setIdRecibido(int idRecibido) {
 		this.idRecibido = idRecibido;
+	}
+
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+		xs.alias("OrdenDeCompra", OrdenDeCompraVO.class);
+		xs = OficinaDeVentaVO.setXMLParameters(xs, omitId);
+		xs = ItemRodamientoVO.setXMLParameters(xs, omitId);
+		xs = RodamientoVO.setXMLParameters(xs, omitId);
+		xs = CotizacionVO.setXMLParameters(xs, omitId);
+		xs.omitField(RodamientoVO.class, "stock");
+		if(omitId)
+			xs.omitField(CotizacionVO.class, "id");
+		return xs;
 	}
 
 }

@@ -37,5 +37,14 @@ public interface Cotizacion {
 	 * @return
 	 */
 	
-	public int verificarStock(ItemRodamientoEntity ire, Map<RodamientoEntity, ListaPreciosEntity> mapaRodEnt);
+	public int verificarStock(ItemRodamientoEntity ire);
+
+	/**
+	 * Devuelve verdadero si la lista de precios esta en vigencia
+	 * y falso si no lo esta.
+	 * 
+	 * @param lista
+	 * @return
+	 */
+	public boolean validarVigenciaLista(ListaPreciosEntity lista);
 }

@@ -2,6 +2,8 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
 
+import com.thoughtworks.xstream.XStream;
+
 public class RodamientoVO implements Serializable {
 	
 	private static final long serialVersionUID = 5442056498221211003L;
@@ -96,6 +98,12 @@ public class RodamientoVO implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+		xs.alias("Rodamiento", RodamientoVO.class);
+		if(omitId)
+			xs.omitField(RodamientoVO.class, "id");
+		return xs;
+	}
+
 }
