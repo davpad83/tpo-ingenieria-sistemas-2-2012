@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.persistence.*;
 
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Entity
@@ -110,10 +111,10 @@ public class PedidoDeAbastecimientoEntity {
 		pvo.setIdPedido(this.idPedido);
 		pvo.setCantidadPedida(this.cantidadPedida);
 		pvo.setCantidadPendiente(this.cantidadPendiente);
-		pvo.setOcAsociada(this.ocAsociada);
-		pvo.setProveedor(this.proveedor);
+		pvo.setOcAsociada(this.ocAsociada.getVO());
+		pvo.setProveedor(this.proveedor.getVO());
 		pvo.setRecibido(this.recibido);
-		pvo.setRodamiento(this.rodamiento);
+		pvo.setRodamiento(this.rodamiento.getVO());
 		return pvo;
 	}
 	
@@ -121,12 +122,16 @@ public class PedidoDeAbastecimientoEntity {
 		this.idPedido = p.getIdPedido();
 		this.cantidadPedida = p.getCantidadPedida();
 		this.cantidadPendiente = p.getCantidadPendiente();
-		this.ocAsociada = p.getOcAsociada();
-		this.rodamiento = p.getRodamiento();
+		OrdenDeCompraEntity  odve = new OrdenDeCompraEntity();
+		odve.setVO(p.getOcAsociada());
+		this.ocAsociada = odve;
+		RodamientoEntity re = new RodamientoEntity();
+		re.setVO(p.getRodamiento());
+		this.rodamiento = re;
+		
 		this.recibido = p.isRecibido();
 	}
-
-
+	
 	public static ArrayList<PedidoAbastecimientoVO> getVOList(
 		ArrayList<PedidoDeAbastecimientoEntity> ps) {
 		ArrayList<PedidoAbastecimientoVO> pVoList = new ArrayList<PedidoAbastecimientoVO>();
