@@ -19,7 +19,7 @@ import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 	name="ListaPreciosProveedor",
 	activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/EnviarListaPrecios") 
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/" + JMSQueuesNames.LISTA_PRECIOS_QUEUE) 
 	}
 )
 public class ListaPreciosProveedorMDB implements MessageListener {

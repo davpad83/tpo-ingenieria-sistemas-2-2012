@@ -8,11 +8,13 @@ import javax.persistence.OneToMany;
 import com.thoughtworks.xstream.XStream;
 
 import edu.uade.tpo.ingsist2.model.Cotizacion;
+import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 
 public class OrdenDeCompraVO {
 	private int idOrden;
+	private int idRecibido;
 	private String estado;
 	private OficinaDeVentaVO odv;
 	private List<ItemRodamientoVO> items;
@@ -55,15 +57,16 @@ public class OrdenDeCompraVO {
 		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Cotizacion", CotizacionVO.class);
+		xs.alias("OrdenDeCompra", OrdenDeCompraVO.class);
+		xs.aliasField("idOrdenODV", OrdenDeCompraVO.class, "idRecibido");
+		xs.omitField(RodamientoVO.class, "stock");
+		xs.omitField(CotizacionVO.class, "id");
 		if(omitId){
 			xs.omitField(OrdenDeCompraVO.class, "idOrden");
 			xs.omitField(OficinaDeVentaVO.class, "idODV");
 			xs.omitField(ItemRodamientoVO.class, "id");
 			xs.omitField(RodamientoVO.class, "id");
-			xs.omitField(Cotizacion.class, "id");
 		}
-		
-		
 		return xs.toXML(this);
 	}
 	
@@ -73,11 +76,24 @@ public class OrdenDeCompraVO {
 		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Cotizacion", CotizacionVO.class);
+		xs.alias("OrdenDeCompra", OrdenDeCompraVO.class);
+		//REVISAR LO QUE NOS MANDAN COMO ID QUE NOS MANDA LA ODV
+		xs.aliasField("idOC", OrdenDeCompraVO.class, "idRecibido");
+		xs.omitField(RodamientoVO.class, "stock");
+		xs.omitField(CotizacionVO.class, "id");
 		OrdenDeCompraVO ocvo = (OrdenDeCompraVO) xs.fromXML(textReceived);
 		this.idOrden = ocvo.getIdOrden();
 		this.estado = ocvo.getEstado();
 		this.odv = ocvo.getOdv();
 		this.items = ocvo.getItems();
+	}
+
+	public int getIdRecibido() {
+		return idRecibido;
+	}
+
+	public void setIdRecibido(int idRecibido) {
+		this.idRecibido = idRecibido;
 	}
 
 }

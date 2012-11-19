@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 
 import edu.uade.tpo.ingsist2.controllers.ListaPreciosController;
 import edu.uade.tpo.ingsist2.controllers.RecepcionRodamientosController;
+import edu.uade.tpo.ingsist2.controllers.RecepcionSolicitudDeCompraController;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
@@ -16,7 +17,10 @@ public class MessagesFacadeBean implements MessagesFacade {
 	private ListaPreciosController listaProveedor;
 	
 	@EJB
-	private RecepcionRodamientosController EnvioProveedor;
+	private RecepcionRodamientosController envioProveedor;
+	
+	@EJB
+	private RecepcionSolicitudDeCompraController recepcionSolicitudCompra;
 	
 	@Override
 	public void agregarListaProveedor(ListaPreciosVO lpr) {
@@ -25,13 +29,13 @@ public class MessagesFacadeBean implements MessagesFacade {
 
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO lpr) {
-		EnvioProveedor.recibirEnvioProveedor(lpr);
+		envioProveedor.recibirEnvioProveedor(lpr);
 		
 	}
 
 	@Override
 	public void recibirSolicitudCompraRodamientos(OrdenDeCompraVO oc) {
-		// TODO Auto-generated method stub
+		recepcionSolicitudCompra.procesarSolicitudDeCompra(oc);
 	}
 
 }

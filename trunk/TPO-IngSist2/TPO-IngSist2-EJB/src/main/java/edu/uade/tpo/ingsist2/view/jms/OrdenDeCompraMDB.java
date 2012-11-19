@@ -21,7 +21,7 @@ import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 @MessageDriven(name="OrdenDeCompra",
 	activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SolicitudCompraRodamientos") 
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/"+JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE) 
 	}
 )
 public class OrdenDeCompraMDB implements MessageListener {
@@ -32,9 +32,6 @@ public class OrdenDeCompraMDB implements MessageListener {
 	private static final Logger LOGGER = Logger
 			.getLogger(OrdenDeCompraMDB.class);
 
-	/**
-	 * @see MessageListener#onMessage(Message)
-	 */
 	public void onMessage(Message message) {
 		TextMessage ts = (TextMessage) message;
 		String textReceived = "";
@@ -46,6 +43,7 @@ public class OrdenDeCompraMDB implements MessageListener {
 		LOGGER.info(textReceived);
 		OrdenDeCompraVO ocvo = new OrdenDeCompraVO();
 		ocvo.fromXML(textReceived);
+		messagesFacade.recibirSolicitudCompraRodamientos(ocvo);
 	}
 
 }

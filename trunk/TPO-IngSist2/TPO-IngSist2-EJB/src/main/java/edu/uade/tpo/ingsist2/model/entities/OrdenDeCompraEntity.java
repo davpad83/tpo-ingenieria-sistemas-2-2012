@@ -13,6 +13,9 @@ public class OrdenDeCompraEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idOrden;
+
+	private int idRecibido;
+
 	private String estado;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -53,6 +56,7 @@ public class OrdenDeCompraEntity {
 	public OrdenDeCompraVO getVO() {
 		OrdenDeCompraVO pvo = new OrdenDeCompraVO();
 		pvo.setIdOrden(this.idOrden);
+		pvo.setIdRecibido(this.idRecibido);
 		pvo.setEstado(this.estado);
 		pvo.setOdv(this.odv.getVO());
 		pvo.setItems(ItemRodamientoEntity.getVOList(this.items));
@@ -61,6 +65,7 @@ public class OrdenDeCompraEntity {
 
 	public void setVO(OrdenDeCompraVO p) {
 		this.idOrden = p.getIdOrden();
+		this.idRecibido = p.getIdRecibido();
 		this.estado = p.getEstado();
 		this.items = ItemRodamientoEntity.getEntityList(p.getItems());
 		OficinaDeVentaEntity odve = new OficinaDeVentaEntity();
@@ -74,6 +79,14 @@ public class OrdenDeCompraEntity {
 		for (OrdenDeCompraEntity p : ps)
 			pVoList.add(p.getVO());
 		return pVoList;
+	}
+
+	public int getIdRecibido() {
+		return idRecibido;
+	}
+
+	public void setIdRecibido(int idRecibido) {
+		this.idRecibido = idRecibido;
 	}
 
 }
