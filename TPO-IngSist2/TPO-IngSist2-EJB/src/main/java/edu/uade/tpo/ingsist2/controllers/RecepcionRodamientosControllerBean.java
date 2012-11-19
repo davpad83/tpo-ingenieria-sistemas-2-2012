@@ -1,12 +1,18 @@
 package edu.uade.tpo.ingsist2.controllers;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
 
+import edu.uade.tpo.ingsist2.model.OrdenDeCompraBean;
+import edu.uade.tpo.ingsist2.model.RemitoBean;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
+import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
@@ -22,9 +28,16 @@ import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 public class RecepcionRodamientosControllerBean implements RecepcionRodamientosController {
 
 	private static final Logger LOGGER = Logger.getLogger(RecepcionRodamientosControllerBean.class);
+	@EJB
 	private AdministrarPedidosDeAbastecimiento pedidos;
+	@EJB
 	private AdministrarRodamientos rodamientos;
+	@EJB
 	private AdministrarOrdenDeCompra ordenesCompra;
+	@EJB
+	private OrdenDeCompraBean ocBean;
+	@EJB
+	private RemitoBean rBean;
 	
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
@@ -52,14 +65,39 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			
 			if(diferencia > 0 ){ //me llega menos de lo que necesito
 				pedido.setCantidadPendiente(diferencia);
+				pedidos.guardarPedido(pedido);
+				
 
 			}else{
 				//el pedido queda satisfecho
 				pedido.setCantidadPendiente(0);
 				pedido.setRecibido(true);
+
+				OrdenDeCompraVO oc = ordenesCompra.getOrdenCompra(pedido.getOcAsociada().getIdOrden());
 				
-				//Genero Remito para la OC asociada al pedido
-				EnviarRemito(pedido.getOcAsociada().getIdOrden());
+				//Actualizo la cantidad de items para el item de la OC
+				for(ItemRodamientoVO ir : oc.getItems()){
+					if(ir.getRodamiento() == pedido.getRodamiento()){
+						ir.setCantidad(0);
+					}
+				}
+				ordenesCompra.guardarOrdenCompra(oc);
+				
+				OrdenDeCompraEntity oce = new OrdenDeCompraEntity();
+				oce.setVO(oc);
+				
+				//En caso que esten todos los items completos, enviar remito
+				ocBean.verificarPendientes(oce);
+				if(oce.getEstado().equals("Completa")){
+					//Genero Remito para la OC asociada al pedido
+				OficinaDeVentaEntity ove = oce.getOdv();
+				RemitoEntity re= new RemitoEntity();
+				re.setItems(oce.getItems());
+				re.setOdv(ove);
+				re.setOrdenDeCompra(oce);
+				rBean.enviarRemito(re, ove);
+				}
+				
 				
 				if (diferencia < 0 ){//recibo mas de lo que necesito
 					//Actualizo Stock con el sobrante
@@ -72,16 +110,10 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		}
 	}
 
-	public void EnviarRemito(int idOC) {
-		//actualizo el estado de la OC
-		OrdenDeCompraVO oc = ordenesCompra.getOrdenCompra(idOC);
-		oc.setEstado("completo");
-		ordenesCompra.guardarOrdenCompra(oc);
+	@Override
+	public void EnviarRemito(int idoc) {
+		// TODO Auto-generated method stub
 		
-		//genero y envio el remito
-		RemitoVO remito= new RemitoVO();
-		remito.setItems(oc.getItems());
-		remito.setOdv(oc.getOdv());
-		remito.setOrdenDeCompra(oc);
 	}
+
 }
