@@ -42,7 +42,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		PedidoAbastecimientoVO pedido = pedidos.getPedido(id);
 		
 		//Validar que el rodamiento corresponda al pedido
-		RodamientoVO rod= pedido.getRodamiento().getVO();
+		RodamientoVO rod= pedido.getRodamiento();
 		if(rod.equals(envio.getRodamiento())){
 			
 			//En caso que coincida, se procede a completar el pedido.
