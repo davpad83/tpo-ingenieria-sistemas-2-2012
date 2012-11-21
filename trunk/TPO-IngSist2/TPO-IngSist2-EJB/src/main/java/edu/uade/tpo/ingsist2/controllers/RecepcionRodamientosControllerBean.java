@@ -6,18 +6,15 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 
-import edu.uade.tpo.ingsist2.model.OrdenDeCompraBean;
-import edu.uade.tpo.ingsist2.model.RemitoBean;
-import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
+import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
+import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
-import edu.uade.tpo.ingsist2.view.vo.RemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
@@ -35,9 +32,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	@EJB
 	private AdministrarOrdenDeCompra ordenesCompra;
 	@EJB
-	private OrdenDeCompraBean ocBean;
+	private OrdenDeCompra ocBean;
 	@EJB
-	private RemitoBean rBean;
+	private Remito rBean;
 	
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
@@ -50,6 +47,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	
 	private void procesarEnvio(RodamientoListaVO envio) {
 		
+		LOGGER.info("Procesando recepcion de rodamientos");
 		//Buscar el Pedido de Abastecimiento
 		int id= envio.getIdPedidoAbastecimiento();
 		PedidoAbastecimientoVO pedido = pedidos.getPedido(id);
