@@ -16,7 +16,7 @@ import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination" , propertyValue = "queue/"+JMSQueuesNames.LISTA_PRECIOS_QUEUE)
+		@ActivationConfigProperty(propertyName = "destination" , propertyValue = "queue/"+JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE)
 })
 public class ListaRecepcionRodamientosQueue implements MessageListener {
 

@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
@@ -106,12 +107,6 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			}
 			pedidos.guardarPedido(pedido);
 		}
-	}
-
-	@Override
-	public void EnviarRemito(int idoc) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

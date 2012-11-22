@@ -16,19 +16,18 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Stateless
-@WebService 
-(name="getCotizacionRodamiento", serviceName="getCotizacionRodamiento")
+@WebService(name = "getCotizacionRodamiento", serviceName = "getCotizacionRodamiento")
 public class FacadeBean implements Facade {
-	
+
 	@EJB
 	private AdministrarProveedores adminProve;
 	@EJB
 	private AdministrarRodamientos adminRod;
-	@EJB 
+	@EJB
 	AdministrarCotizaciones adminCot;
-	
-	/*===========ÊABM PROVEEDORES ===========*/
-	
+
+	/* ===========ÊABM PROVEEDORES =========== */
+
 	@Override
 	public void guardarProveedor(ProveedorVO p) {
 		adminProve.guardarProveedor(p);
@@ -49,8 +48,8 @@ public class FacadeBean implements Facade {
 		return adminProve.getProveedores();
 	}
 
-	/*===========ÊABM RODAMIENTOS ===========*/
-	
+	/* ===========ÊABM RODAMIENTOS =========== */
+
 	@Override
 	public void guardarRodamiento(RodamientoVO r) {
 		adminRod.guardarRodamiento(r);
@@ -70,13 +69,14 @@ public class FacadeBean implements Facade {
 	public ArrayList<RodamientoVO> getRodamientos() {
 		return adminRod.getRodamientos();
 	}
-	
-	/*===========ÊWEB METHODS ===========*/
-	
+
+	/* ===========ÊWEB METHODS =========== */
+
 	@Override
 	@WebMethod
-	public SolicitudCotizacionResponse recibirSolicitudCotizacion (SolicitudCotizacionRequest scr) {
+	public SolicitudCotizacionResponse recibirSolicitudCotizacion(
+			SolicitudCotizacionRequest scr) {
 		return adminCot.procesarSolicitudCotizacion(scr);
- 	}
+	}
 
 }

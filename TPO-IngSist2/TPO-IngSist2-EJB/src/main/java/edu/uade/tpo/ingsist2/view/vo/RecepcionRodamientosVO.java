@@ -7,7 +7,6 @@ public class RecepcionRodamientosVO {
 
 	private List<RodamientoListaVO> listaRodVO;
 	
-	
 	public RecepcionRodamientosVO(){
 		listaRodVO = new ArrayList<RodamientoListaVO>();
 	}
@@ -18,7 +17,6 @@ public class RecepcionRodamientosVO {
 		this.listaRodVO = listaRodVO;
 	}
 
-	
 	public class RodamientoListaVO {
 		private int cantidad;
 		private int idPedidoAbastecimiento;
