@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
@@ -26,7 +28,9 @@ import org.junit.Test;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
+import edu.uade.tpo.ingsist2.view.jms.ListaRecepcionRodamientosQueue;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
+import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 public class ProveedorMockTest {
 
@@ -97,6 +101,22 @@ public class ProveedorMockTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	private void enviarMercaderia(){
+		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();
+		
+		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO(); 
+		rlvo.setCantidad(20);
+		rlvo.setMarca("SKF");
+		rlvo.setPais("Argentina");
+		rlvo.setSKF("22310 EKW33");
+		
+		List<RecepcionRodamientosVO.RodamientoListaVO> listRecep = new ArrayList<RecepcionRodamientosVO.RodamientoListaVO>();
+		listRecep.add(rlvo);
+		
+//		rrvo.setListaRodVO(listaRecep) ;
 	}
 
 	@After

@@ -58,7 +58,7 @@ public class CotizacionBean implements Cotizacion {
 										+ "AND IL2.rodamiento.marca = :marca " 
 
 										+ "AND IL2.rodamiento.pais = :pais"
-						+ "GROUP BY IL2.rodamiento.marca)"
+										+ "GROUP BY IL2.rodamiento.marca)"
 
 										+ "AND IL2.rodamiento.pais = :pais)")
 					.setParameter("codigo", rod.getCodigoSKF())

@@ -19,9 +19,6 @@ public class CondicionVentaEntity {
 	private int cantidadDiasPago;
 	private float descuento;
 	
-	@ManyToOne
-	private ListaPreciosEntity listaPrecio;
-
 	public int getIdCondicion() {
 		return idCondicion;
 	}
