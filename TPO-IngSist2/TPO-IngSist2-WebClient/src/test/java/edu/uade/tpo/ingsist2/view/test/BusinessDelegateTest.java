@@ -2,13 +2,18 @@ package edu.uade.tpo.ingsist2.view.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
@@ -52,6 +57,16 @@ public class BusinessDelegateTest {
 		sr.setPais("brasil");
 		sr.setMarca("mika");
 		sr.setCantidad(40);
+		
+		RodamientoCotizadoVO rcbo = new RodamientoCotizadoVO();
+		rcbo.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
+		rcbo.setFechaInicio(new Date());
+		rcbo.setEnStock(10);
+		rcbo.setPrecioCotizado(134);
+		rcbo.setTiempoEstimadoEntrega("3 semanas");
+		
+		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
+		listrcVO.add(rcbo);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
 		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());
