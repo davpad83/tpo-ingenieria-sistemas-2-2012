@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.model;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,12 +10,10 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 
-import edu.uade.tpo.ingsist2.controllers.AdministrarCotizacionesBean;
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -33,9 +30,7 @@ public class CotizacionBean implements Cotizacion {
 	private static final Logger LOGGER = Logger.getLogger(CotizacionBean.class);
 
 	@Override
-	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
-			SolicitudCotizacionRequest scr) {
-		// TODO Auto-generated method stub
+	public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest scr) {
 		return null;
 	}
 
@@ -109,7 +104,7 @@ public class CotizacionBean implements Cotizacion {
 	
 	@Override
 	public void guardarCotizacion(CotizacionEntity c) {
-		LOGGER.info("Procesando guardar cotizacion con");
+		LOGGER.info("Procesando guardar cotizacion con id Pedido de Cotizacion: "+c.getIdPedidoCotizacion());
 		
 		CotizacionEntity cGuardado = null;
 		try {
