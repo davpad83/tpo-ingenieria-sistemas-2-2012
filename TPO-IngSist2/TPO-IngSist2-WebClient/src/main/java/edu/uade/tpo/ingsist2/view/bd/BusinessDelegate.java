@@ -9,6 +9,8 @@ import javax.naming.NamingException;
 import edu.uade.tpo.ingsist2.view.facade.Facade;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 public class BusinessDelegate {
 
@@ -82,4 +84,15 @@ public class BusinessDelegate {
 	public void eliminarRodamiento(int idRodamiento) {
 		adminFacade.eliminarRodamiento(idRodamiento);
 	}
+	
+	
+	
+	// TEST WS
+	
+
+	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest rq) {
+		return adminFacade.recibirSolicitudCotizacion(rq);
+	}
+	
+	
 }

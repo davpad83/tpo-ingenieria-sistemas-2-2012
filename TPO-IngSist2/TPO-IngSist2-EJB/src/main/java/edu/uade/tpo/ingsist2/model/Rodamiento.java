@@ -17,4 +17,8 @@ public interface Rodamiento {
 	
 	public ArrayList<RodamientoEntity> getRodamientos();
 	
+	public RodamientoEntity getRodamientoCotizacionConMarca(String skf,String pais,String marca);
+	
+	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais);
+	
 }

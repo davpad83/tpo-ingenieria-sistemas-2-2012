@@ -99,7 +99,7 @@ public class RodamientoVO implements Serializable {
 		return true;
 	}
 
-	public static XStream setXMLParameters(XStream xs, boolean omitId) {
+public static XStream setXMLParameters(XStream xs, boolean omitId) {
 		xs.alias("Rodamiento", RodamientoVO.class);
 		if(omitId)
 			xs.omitField(RodamientoVO.class, "id");

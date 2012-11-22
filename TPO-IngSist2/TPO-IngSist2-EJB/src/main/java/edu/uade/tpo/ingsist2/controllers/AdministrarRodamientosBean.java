@@ -45,7 +45,6 @@ public class AdministrarRodamientosBean implements AdministrarRodamientos {
 		return rodamiento.getRodamiento(id).getVO();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<RodamientoVO> getRodamientos() {
 		return RodamientoEntity.getVOList(rodamiento.getRodamientos());

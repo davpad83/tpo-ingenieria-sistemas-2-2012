@@ -57,7 +57,7 @@ public class MockDataGenerator {
 		return cuit;
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public static ListaPreciosVO getRandomListaPreciosVO(int cantItems) {
 		ListaPreciosVO lista = new ListaPreciosVO();
 		lista.setNombre("Rodamientos Locos SRL");

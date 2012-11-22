@@ -47,7 +47,7 @@ public class AdministrarProveedoresBean implements AdministrarProveedores {
 		return proveedor.getProveedor(id).getVO();
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public ArrayList<ProveedorVO> getProveedores() {
 		return ProveedorEntity.getVOList(proveedor.getProveedores());

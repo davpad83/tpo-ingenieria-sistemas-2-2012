@@ -1,7 +1,11 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
-public class SolicitudCotizacionRequest {
+import java.io.Serializable;
+
+public class SolicitudCotizacionRequest implements Serializable {
 	
+	private static final long serialVersionUID = -7844942363512341941L;
+
 	private int idPedidoCotizacion;
 	private int idODV;
 	private String SKF;

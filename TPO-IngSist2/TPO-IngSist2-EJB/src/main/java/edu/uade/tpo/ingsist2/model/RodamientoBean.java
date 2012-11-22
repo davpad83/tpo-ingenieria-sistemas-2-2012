@@ -69,7 +69,66 @@ public class RodamientoBean implements Rodamiento {
 		}
 		return r;
 	}
+	
+	@Override
+	public RodamientoEntity getRodamientoCotizacionConMarca(String skf,String pais,String marca) {
+		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf+" Pais: "+pais+ " y Marca: "+marca);
+		
+		RodamientoEntity rBean=null;
+    	
+    	try {
+    		rBean= (RodamientoEntity) entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and " +
+    				"r.pais=:pais and r.marca=:marca")
+    		.setParameter("codigo", skf)
+    		.setParameter("pais", pais)
+    		.setParameter("marca", marca)
+    		.getSingleResult();   		
+    	}
+        catch (Exception e) {
+        	LOGGER.error("Hubo un error al buscar el rodamiento");
+    		LOGGER.error(e);     
+        }
+		finally {		
+		if (rBean==null){
+			LOGGER.info("No existe el rodamiento solicitado");
+			return null;
+			}
+	        else
+			LOGGER.info("Se ha encontrado el rodamiento.");
+		}
+    	return rBean;
+	}
+	
+	@Override
+	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais) {
+		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf+" Pais: "+pais);
+		
+		RodamientoEntity rBean=null;
+    	
+    	try {
+    		rBean= (RodamientoEntity) entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and " +
+    				"r.pais=:pais and r.marca=:marca")
+    		.setParameter("codigo", skf)
+    		.setParameter("pais", pais)
+    		.getSingleResult();   		
+    	}
+        catch (Exception e) {
+        	LOGGER.error("Hubo un error al buscar el rodamiento.");
+    		LOGGER.error(e);      
+        }
+		finally {		
+		if (rBean==null){
+			LOGGER.info("No existe el rodamiento solicitado");
+		//	rBean.setCodigoSKF("-1");
+			return null;
+			}
+	        else
+			LOGGER.info("Se ha encontrado el rodamiento.");
+		}
+    	return rBean;
+	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<RodamientoEntity> getRodamientos() {
 		LOGGER.info("Buscando lista de Rodamientos");
