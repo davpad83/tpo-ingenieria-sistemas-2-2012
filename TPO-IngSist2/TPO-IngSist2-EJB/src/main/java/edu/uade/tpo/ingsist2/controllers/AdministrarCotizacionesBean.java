@@ -1,19 +1,21 @@
 package edu.uade.tpo.ingsist2.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.Cotizacion;
+import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
+import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.CotizacionVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
@@ -25,88 +27,57 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
-
+	
+	@EJB
+	private Rodamiento rodamiento;
+	
+	@EJB
+	private Cotizacion cotizacion;
+	
 	private static final Logger LOGGER = Logger
 			.getLogger(AdministrarCotizacionesBean.class);
 
 	private SolicitudCotizacionResponse scresp;
-
-	public AdministrarCotizacionesBean() {
-		// empty
-	}
-
-	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
-			SolicitudCotizacionRequest screq) {
-
-		LOGGER.debug("Procesar solicitud cotizacion: \n"
-				+ "Datos: \nCantidad: " + screq.getCantidad()
-				+ ", IdPedCotiz: " + screq.getIdPedidoCotizacion()
-				+ ", Marca: " + screq.getMarca() + ", Pais: " + screq.getPais()
-				+ ", SKF: " + screq.getSKF());
-
-		scresp = new SolicitudCotizacionResponse();
-		scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-		scresp.setIdODV(screq.getIdODV());
-
-		RodamientoEntity rBean = null;
-//		try {
-//			rBean = (RodamientoEntity) entityManager
-//					.createQuery(
-//							"from " + "RodamientoEntity r "
-//									+ "where r.codigoSKF=:codigo and "
-//									+ "r.pais=:pais and r.marca= :marca")
-//					.setParameter("codigo", screq.getSKF())
-//					.setParameter("pais", screq.getPais())
-//					.setParameter("marca", screq.getMarca()).getSingleResult();
-//
-//			if (rBean == null) {
-//				LOGGER.info("No existe el rodamiento solicitado");
-//				scresp.setIdPedidoCotizacion(-1);
-//				return scresp;
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
-		//HARDCOREO
-		RodamientoEntity re = new RodamientoEntity();
-		re.setCodigoSKF("22310 EKW33");
-		re.setMarca("SKF");
-		re.setPais("Argentina");
-		re.setStock(0);
-		re.setId(6);
-		rBean = re;
-
-		RodamientoCotizadoVO rcbo = new RodamientoCotizadoVO();
-		rcbo.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
-		rcbo.setFechaInicio(new Date());
-		rcbo.setEnStock(10);
-		rcbo.setPrecioCotizado(134);
-		rcbo.setMarca(re.getMarca());
-		rcbo.setSKF(re.getCodigoSKF());
-		rcbo.setPais(re.getPais());
-		rcbo.setTiempoEstimadoEntrega("3 semanas");
 	
-		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
-		listrcVO.add(rcbo);
-		scresp.setRodamientosCotizados(listrcVO);
-		
-		return scresp;
-		//========
-
-//		if (screq.getMarca() == null || screq.getMarca().isEmpty())
-//			procesarSinMarca(rBean, screq);
-//		else
-//			procesarConMarca(rBean, screq);
-//
-//		return scresp;
-	}
-
+    
+	public AdministrarCotizacionesBean() {
+    }
+    
+    
+    public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest screq) {
+    	
+    	scresp = new SolicitudCotizacionResponse(); 
+    	scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
+    	scresp.setIdODV(screq.getIdODV());
+    	
+    if(screq.getMarca()==null || screq.getMarca().isEmpty()){    		
+    		if (rodamiento.getRodamientosCotizacionSinMarca(screq.getSKF(), screq.getPais())!=null){
+    				procesarSinMarca(rodamiento.getRodamientosCotizacionSinMarca(screq.getSKF(), screq.getPais()),screq);
+    		}
+    		else{
+    			scresp.setIdPedidoCotizacion(-1);
+    		}    		
+    }
+    else
+    {
+    		if (rodamiento.getRodamientoCotizacionConMarca(screq.getSKF(), screq.getPais(),screq.getMarca())!=null){
+				procesarConMarca(rodamiento.getRodamientoCotizacionConMarca(screq.getSKF(), screq.getPais(),screq.getMarca()),screq);
+    		}
+    		else
+    		{
+    			scresp.setIdPedidoCotizacion(-1);
+    		}
+    }   
+    
+    return scresp;    
+    
+    }   
+    
+    
 	@SuppressWarnings("unchecked")
-	public void procesarConMarca(RodamientoEntity r,
-			SolicitudCotizacionRequest screq) {
-		LOGGER.info("Procesando Cotizacion con Marca ");
-
+	public void procesarConMarca (RodamientoEntity r, SolicitudCotizacionRequest screq) {
+	    LOGGER.info("Procesando Cotizacion con Marca ");
+	    
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
 		List<ItemListaEntity> iBeans = null;
 
@@ -130,7 +101,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			}
 			rcVO.setFechaFin(null);
 			rcVO.setFechaInicio(null);
-
+			
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion con marca");
 			e.printStackTrace();
@@ -139,25 +110,24 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
 		listrcVO.add(rcVO);
 		scresp.setRodamientosCotizados(listrcVO);
-
-		CotizacionVO ctVO = new CotizacionVO();
-		ctVO.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-		OficinaDeVentaVO ofe = new OficinaDeVentaVO();
-		ofe.setIdODV(screq.getIdODV());
-		ctVO.setOdv(ofe);
-		ctVO.setRodamiento(r.getVO());
-		ctVO.setFecha(rcVO.getFechaInicio());
-		ctVO.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
-		ctVO.setVencimiento(rcVO.getFechaFin());
-
-		guardarCotizacion(ctVO);
+						
+		CotizacionEntity ct = new CotizacionEntity();
+		ct.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());		
+		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
+		ofe.setId(screq.getIdODV());
+		ct.setOdv(ofe);
+		ct.setRodamiento(r);
+		ct.setFecha(rcVO.getFechaInicio());
+		ct.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
+		ct.setVencimiento(rcVO.getFechaFin());		
+				
+		cotizacion.guardarCotizacion(ct);	
 	}
 
 	@SuppressWarnings("unchecked")
-	public void procesarSinMarca(RodamientoEntity r,
-			SolicitudCotizacionRequest screq) {
+	public void procesarSinMarca (RodamientoEntity r, SolicitudCotizacionRequest screq) {
 		LOGGER.info("Procesando Cotizacion sin Marca ");
-
+		
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
 		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
 		List<ItemListaEntity> listaResultado = null;
@@ -204,28 +174,9 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			ctVO.setTiempoEntrega(listrcVO.get(i).getTiempoEstimadoEntrega());
 			ctVO.setVencimiento(listrcVO.get(i).getFechaFin());
 
-			guardarCotizacion(ctVO);
+
 		}
 	}
-
-	public void guardarCotizacion(CotizacionVO cVO) {
-		LOGGER.info("Procesando guardar cotizacion con idPedido"
-				+ cVO.getIdPedidoCotizacion() + "y ODV numero"
-				+ cVO.getOdv().getIdODV());
-
-		CotizacionEntity cBean = new CotizacionEntity();
-		cBean.setVO(cVO);
-		CotizacionEntity cGuardada = null;
-
-		try {
-			entityManager.persist(cBean);
-			cGuardada = (CotizacionEntity) entityManager.find(
-					CotizacionEntity.class, cBean);
-		} catch (Exception e) {
-			LOGGER.error("Hubo un error al guardar la cotizacion");
-			e.printStackTrace();
-		}
-		LOGGER.info("Cotizacion guardada con id: " + cGuardada.getId());
-	}
+	
 
 }
