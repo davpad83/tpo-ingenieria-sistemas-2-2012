@@ -3,24 +3,30 @@ package edu.uade.tpo.ingsist2.view.test;
 import static org.junit.Assert.*;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.TypeDef;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 
 public class BusinessDelegateTest {
 
 	Logger logger = Logger.getLogger(BusinessDelegateTest.class);
 	
-	BusinessDelegate bd;
+	private BusinessDelegate bd;
 	
 	@Before
 	public void setupTest(){
 		bd = new BusinessDelegate();
+	}
+	
+	@After
+	public void desp(){
+		System.out.println("se hizo desp");
 	}
 	
 	@Test
@@ -32,6 +38,25 @@ public class BusinessDelegateTest {
 	public void testGetProveedores(){
 		assertTrue(bd.getProveedores()==null || bd.getProveedores().isEmpty());
 	}
+	
+	// TEST WS
+	
+	@Test
+	public void testGetCotizacion(){
+		SolicitudCotizacionRequest sr = new SolicitudCotizacionRequest();
+		SolicitudCotizacionResponse scresp = new SolicitudCotizacionResponse();		
+		
+		sr.setIdPedidoCotizacion(88);
+		sr.setIdODV(5);
+		sr.setSKF("IKL90");
+		sr.setPais("brasil");
+		sr.setMarca("mika");
+		sr.setCantidad(40);
+		
+		scresp  =  bd.recibirSolicitudCotizacion(sr);
+		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());
+	}
+	
 	
 	@Test
 	public void testAgregarProveedor(){
@@ -46,7 +71,7 @@ public class BusinessDelegateTest {
 		
 		assertNotNull(pObtenido);
 		assertTrue(pObtenido instanceof ProveedorVO);
-//		assertEquals(p, bd.getProveedor(1));
+		assertEquals(p, bd.getProveedor(1));
 	}
 	
 	@Test

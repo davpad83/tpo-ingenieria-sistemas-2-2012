@@ -79,4 +79,5 @@ public class FacadeBean implements Facade {
 		return adminCot.procesarSolicitudCotizacion(scr);
 	}
 
+
 }

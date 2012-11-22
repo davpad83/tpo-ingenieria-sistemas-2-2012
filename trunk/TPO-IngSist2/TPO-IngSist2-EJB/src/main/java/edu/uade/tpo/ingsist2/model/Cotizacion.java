@@ -1,7 +1,5 @@
 package edu.uade.tpo.ingsist2.model;
 
-import java.util.Map;
-
 import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
@@ -25,6 +23,8 @@ public interface Cotizacion {
 			RodamientoEntity rod);
 
 	public Cotizacion getCotizacion(CotizacionEntity cotizacion);
+	
+	public void guardarCotizacion(CotizacionEntity cotizacion);
 
 	/**
 	 * Verifica el stock actual basado en el rodamiento y cantidad

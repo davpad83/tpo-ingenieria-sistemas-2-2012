@@ -11,7 +11,7 @@ public class ProveedorVO implements Serializable {
 	private String nombre;
 	
 	public ProveedorVO() {
-		//empty
+		
 	}
 
 	public int getId() {

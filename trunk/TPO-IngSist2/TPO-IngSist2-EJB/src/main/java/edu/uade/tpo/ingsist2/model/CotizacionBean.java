@@ -16,6 +16,7 @@ import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -58,7 +59,7 @@ public class CotizacionBean implements Cotizacion {
 										+ "AND IL2.rodamiento.marca = :marca " 
 
 										+ "AND IL2.rodamiento.pais = :pais"
-										+ "GROUP BY IL2.rodamiento.marca)"
+						+ "GROUP BY IL2.rodamiento.marca)"
 
 										+ "AND IL2.rodamiento.pais = :pais)")
 					.setParameter("codigo", rod.getCodigoSKF())
@@ -104,5 +105,19 @@ public class CotizacionBean implements Cotizacion {
 		if(lista.getVigenciaDesde().after(new Date()) || lista.getVigenciaHasta().before(new Date()))
 			valida = false;
 		return valida;
+	}
+	
+	@Override
+	public void guardarCotizacion(CotizacionEntity c) {
+		LOGGER.info("Procesando guardar cotizacion con");
+		
+		CotizacionEntity cGuardado = null;
+		try {
+             cGuardado = (CotizacionEntity) entityManager.merge(c);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al guardar el proveedor");
+			LOGGER.error(e);
+		}
+            LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());
 	}
 }
