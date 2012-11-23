@@ -9,6 +9,7 @@ import edu.uade.tpo.ingsist2.controllers.RecepcionSolicitudDeCompraController;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 @Stateless
 public class MessagesFacadeBean implements MessagesFacade {
@@ -34,8 +35,8 @@ public class MessagesFacadeBean implements MessagesFacade {
 	}
 
 	@Override
-	public void recibirSolicitudCompraRodamientos(OrdenDeCompraVO oc) {
-		recepcionSolicitudCompra.procesarSolicitudDeCompra(oc);
+	public void recibirSolicitudCompraRodamientos(SolicitudCompraRequest request) {
+		recepcionSolicitudCompra.procesarSolicitudDeCompra(request);
 	}
 
 }

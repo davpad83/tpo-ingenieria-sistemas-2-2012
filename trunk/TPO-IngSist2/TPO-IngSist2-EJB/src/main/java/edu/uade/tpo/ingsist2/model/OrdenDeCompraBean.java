@@ -1,5 +1,6 @@
 package edu.uade.tpo.ingsist2.model;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
  * Session Bean implementation class OrdenDeCompra
@@ -20,12 +23,29 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 
-	public boolean validarOrdenDeCompra(OrdenDeCompraEntity oc) {
+	@EJB
+	private OficinaDeVenta oficinaVenta;
+	@EJB
+	private Cotizacion cotizacion;
+	
+	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
+		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
 		if(oc.getItems()==null || oc.getItems().isEmpty()){
-			LOGGER.error("La orden de compra es invalida, no contiene items.");
+			LOGGER.error("La solicitud de compra es invalida, no contiene items.");
 			esValido = false;
 		}
+		if(oficinaVenta.existe(oc.getIdODV())){
+			esValido = false;
+			LOGGER.error("No existe la oficina de ventas con id: "+oc.getIdODV());
+		}
+		for(ItemVO ivo : oc.getItems()){
+			if(!cotizacion.existe(ivo.getId())){
+				LOGGER.warn("La cotizacion no existe en un item de la solicitud.");
+			}
+		}
+		if(esValido)
+			LOGGER.info("Validacion exitosa!");
 		return esValido;
 	}
 

@@ -8,14 +8,18 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.Cotizacion;
+import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
+import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
+import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
  * Session Bean implementation class RecepcionSolicitudDeCompraControllerBean
@@ -31,6 +35,12 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 	private OrdenDeCompra ordenDeCompra;
 
 	@EJB
+	private OficinaDeVenta oficinaVenta;
+	
+	@EJB
+	private Rodamiento rodamiento;
+	
+	@EJB
 	private Cotizacion cotizacion;
 
 	@EJB
@@ -40,17 +50,10 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 	private Remito remito;
 	
 	@Override
-	public void procesarSolicitudDeCompra(OrdenDeCompraVO ocvo) {
-		/**
-		 * Implementacion:
-		 * 
-		 * 1) Valido la OC. 2) La Registro. 3) Itero entre los ItemRodamiento
-		 * 3.1) Busco la cotizacion relacionada a ese item. 3.2)
-		 * 
-		 */
-		OrdenDeCompraEntity oce = new OrdenDeCompraEntity();
-		oce.setVO(ocvo);
-		if (ordenDeCompra.validarOrdenDeCompra(oce)) {
+	public void procesarSolicitudDeCompra(SolicitudCompraRequest request) {
+
+		if (ordenDeCompra.validarSolicitudCompra(request)) {
+			OrdenDeCompraEntity oce = fromRequestToOCEntity(request);
 			OrdenDeCompraEntity ocGuardada = ordenDeCompra.guardarOrdenDeCompra(oce);
 
 			RemitoEntity rem = null;
@@ -110,6 +113,27 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		} else {
 			LOGGER.error("La orden de compra es invalida.");
 		}
+	}
+
+	private OrdenDeCompraEntity fromRequestToOCEntity(
+			SolicitudCompraRequest request) {
+		OrdenDeCompraEntity oce = new OrdenDeCompraEntity();
+		oce.setIdRecibido(request.getIdOrdenDeCompra());
+		oce.setEstado("Nueva");
+		ArrayList<ItemRodamientoEntity> listItems = new ArrayList<ItemRodamientoEntity>();
+		for(ItemVO itReq : request.getItems()){
+			ItemRodamientoEntity iteOC = new ItemRodamientoEntity();
+			iteOC.setCantidad(itReq.getCantidad());
+			iteOC.setPendientes(itReq.getCantidad());
+			iteOC.setRodamiento(rodamiento.getRodamiento(itReq.getSKF(), itReq.getMarca(), itReq.getPais()));
+			//Si no existe la cotizacion del Item, lo omite.
+			if(!cotizacion.existe(itReq.getId()))
+				continue;
+			iteOC.setCotizacion(cotizacion.getCotizacion(itReq.getId()));
+			listItems.add(iteOC);
+		}
+		oce.setOdv(oficinaVenta.getOficina(request.getIdODV()));
+		return oce;
 	}
 
 }

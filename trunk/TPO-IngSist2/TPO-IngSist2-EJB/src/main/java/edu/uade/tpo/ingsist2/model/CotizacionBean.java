@@ -14,6 +14,7 @@ import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -80,9 +81,23 @@ public class CotizacionBean implements Cotizacion {
 	}
 
 	@Override
-	public Cotizacion getCotizacion(CotizacionEntity cotizacion) {
-		// TODO Auto-generated method stub
-		return null;
+	public CotizacionEntity getCotizacion(int idCot) {
+		LOGGER.info("Buscando Cotizacion con id " + idCot);
+		CotizacionEntity cot = null;
+		try {
+			cot = entityManager.find(CotizacionEntity.class, idCot);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar la cotizacion.");
+			LOGGER.error(e);
+		} finally {
+			if (cot != null)
+				LOGGER.info("Se ha encontrado la cotizacion, su id es: " + cot.getId());
+			else {
+				LOGGER.info("No se ha encontrado la cotizacion con id " + idCot);
+				return null;
+			}
+		}
+		return cot;
 	}
 
 	@Override
@@ -114,5 +129,10 @@ public class CotizacionBean implements Cotizacion {
 			LOGGER.error(e);
 		}
             LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());
+	}
+
+	@Override
+	public boolean existe(int id) {
+		return getCotizacion(id) == null;
 	}
 }

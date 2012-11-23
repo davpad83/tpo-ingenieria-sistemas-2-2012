@@ -5,6 +5,7 @@ import javax.ejb.Remote;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 @Remote
 public interface MessagesFacade {
@@ -13,6 +14,6 @@ public interface MessagesFacade {
 	
 	public void recibirEnvioProveedor(RecepcionRodamientosVO lpr);
 
-	public void recibirSolicitudCompraRodamientos(OrdenDeCompraVO oc);
+	public void recibirSolicitudCompraRodamientos(SolicitudCompraRequest request);
 	
 }

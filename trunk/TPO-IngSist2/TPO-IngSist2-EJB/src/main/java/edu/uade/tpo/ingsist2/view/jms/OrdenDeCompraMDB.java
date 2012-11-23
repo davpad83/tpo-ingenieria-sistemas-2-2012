@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
  * Message-Driven Bean implementation class for: OrdenDeCompraMDB
@@ -41,9 +42,9 @@ public class OrdenDeCompraMDB implements MessageListener {
 			e1.printStackTrace();
 		}
 		LOGGER.info(textReceived);
-		OrdenDeCompraVO ocvo = new OrdenDeCompraVO();
-		ocvo.fromXML(textReceived);
-		messagesFacade.recibirSolicitudCompraRodamientos(ocvo);
+		SolicitudCompraRequest request = new SolicitudCompraRequest();
+		request.fromXML(textReceived);
+		messagesFacade.recibirSolicitudCompraRodamientos(request);
 	}
 
 }

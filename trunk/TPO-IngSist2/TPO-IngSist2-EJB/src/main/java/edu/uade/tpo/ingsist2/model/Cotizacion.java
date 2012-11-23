@@ -22,7 +22,7 @@ public interface Cotizacion {
 	public ItemListaEntity getItemListaConMenorPrecioSinMarca(
 			RodamientoEntity rod);
 
-	public Cotizacion getCotizacion(CotizacionEntity cotizacion);
+	public CotizacionEntity getCotizacion(int idCot);
 	
 	public void guardarCotizacion(CotizacionEntity cotizacion);
 
@@ -47,4 +47,6 @@ public interface Cotizacion {
 	 * @return
 	 */
 	public boolean validarVigenciaLista(ListaPreciosEntity lista);
+
+	public boolean existe(int id);
 }
