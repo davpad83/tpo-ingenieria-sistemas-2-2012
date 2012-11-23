@@ -1,6 +1,7 @@
 package edu.uade.tpo.ingsist2.view.facade;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -10,6 +11,8 @@ import javax.jws.WebService;
 import edu.uade.tpo.ingsist2.controllers.AdministrarCotizaciones;
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
+import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
+import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
@@ -25,7 +28,9 @@ public class FacadeBean implements Facade {
 	private AdministrarRodamientos adminRod;
 	@EJB
 	AdministrarCotizaciones adminCot;
-
+	@EJB
+	OficinaDeVenta oficinaVenta;
+	
 	/* ===========ÊABM PROVEEDORES =========== */
 
 	@Override
@@ -69,7 +74,14 @@ public class FacadeBean implements Facade {
 	public ArrayList<RodamientoVO> getRodamientos() {
 		return adminRod.getRodamientos();
 	}
-
+	
+	/* ===========ÊABM DE OFICINA DE VENTA =========== */
+	
+	@Override
+	public void guardarOficinaDeVenta(OficinaDeVentaVO odv){
+		oficinaVenta.guardarOficinaDeVenta(odv);
+	}
+	
 	/* ===========ÊWEB METHODS =========== */
 
 	@Override

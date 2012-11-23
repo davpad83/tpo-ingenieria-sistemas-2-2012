@@ -6,8 +6,8 @@ import com.thoughtworks.xstream.XStream;
 
 public class RemitoResponse {
 	private int idRemito;
-	private int idOrdenDeCompra;
-	private List<ItemRodamientoVO> items;
+	private int idODV;
+	private List<ItemVO> items;
 
 	public int getIdRemito() {
 		return idRemito;
@@ -17,35 +17,30 @@ public class RemitoResponse {
 		this.idRemito = idRemito;
 	}
 
-	public int getIdOrdenDeCompra() {
-		return idOrdenDeCompra;
-	}
-
-	public void setIdOrdenDeCompra(int idOrdenDeCompra) {
-		this.idOrdenDeCompra = idOrdenDeCompra;
-	}
-
-	public List<ItemRodamientoVO> getItems() {
+	public List<ItemVO> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemRodamientoVO> items) {
+	public void setItems(List<ItemVO> items) {
 		this.items = items;
 	}
-	
-	public String toXML(){
+
+	public String toXML() {
 		XStream xs = new XStream();
 		xs.alias("Remito", RemitoResponse.class);
-		xs.alias("ItemRodamiento", ItemRodamientoVO.class);
-		xs.alias("Rodamiento", RodamientoVO.class);
-		
-		xs.omitField(ItemRodamientoVO.class, "id");
-		xs.omitField(ItemRodamientoVO.class, "pendientes");
-		xs.omitField(ItemRodamientoVO.class,"cotizacion");
-		xs.omitField(RodamientoVO.class, "serialVersionUID");
-		xs.omitField(RodamientoVO.class, "id");
-		xs.omitField(RodamientoVO.class, "stock");
+		xs.alias("ItemRemito", ItemVO.class);
+		xs.aliasField("idOrdenDeCompra", ItemVO.class, "id");
+
+		xs.omitField(ItemVO.class, "precio");
 		return xs.toXML(this);
+	}
+
+	public int getIdODV() {
+		return idODV;
+	}
+
+	public void setIdODV(int idODV) {
+		this.idODV = idODV;
 	}
 
 }

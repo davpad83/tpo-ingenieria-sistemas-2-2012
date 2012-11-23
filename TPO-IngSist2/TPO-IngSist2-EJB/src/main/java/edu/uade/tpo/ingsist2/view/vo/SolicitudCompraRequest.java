@@ -6,16 +6,16 @@ import com.thoughtworks.xstream.XStream;
 
 public class SolicitudCompraRequest {
 
-	private int idPedidoCotizacion;
+	private int idOrdenDeCompra;
 	private int idODV;
-	private List<ItemRodamientoVO> items;
+	private List<ItemVO> items;
 
-	public int getIdPedidoCotizacion() {
-		return idPedidoCotizacion;
+	public int getIdOrdenDeCompra() {
+		return idOrdenDeCompra;
 	}
 
-	public void setIdPedidoCotizacion(int idPedidoCotizacion) {
-		this.idPedidoCotizacion = idPedidoCotizacion;
+	public void setIdOrdenDeCompra(int idPedidoCotizacion) {
+		this.idOrdenDeCompra = idPedidoCotizacion;
 	}
 
 	public int getIdODV() {
@@ -26,27 +26,30 @@ public class SolicitudCompraRequest {
 		this.idODV = idODV;
 	}
 
-	public List<ItemRodamientoVO> getItems() {
+	public List<ItemVO> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemRodamientoVO> items) {
+	public void setItems(List<ItemVO> items) {
 		this.items = items;
 	}
 	
-	public String toXML(){
+	public void fromXML(String xml){
 		XStream xs = new XStream();
-		xs.alias("SolicitudCompraRequest", SolicitudCompraRequest.class);
-		xs.alias("ItemRodamiento",ItemRodamientoVO.class);
-		xs.alias("Rodamiento", RodamientoVO.class);
+		xs.alias("OrdenDeCompra", SolicitudCompraRequest.class);
+		xs.alias("ItemOrdenDeCompra", ItemVO.class);
+		xs.aliasField("idPedidoCotizacion", ItemVO.class, "id");
+		SolicitudCompraRequest scr = (SolicitudCompraRequest) xs.fromXML(xml);
+		this.idODV = scr.getIdODV();
+		this.idOrdenDeCompra = scr.getIdOrdenDeCompra();
+		this.items = scr.getItems();
+	}
 
-		xs.omitField(ItemRodamientoVO.class, "id");
-		xs.omitField(ItemRodamientoVO.class, "pendientes");
-		xs.omitField(ItemRodamientoVO.class,"cotizacion");
-		xs.omitField(RodamientoVO.class, "serialVersionUID");
-		xs.omitField(RodamientoVO.class, "id");
-		xs.omitField(RodamientoVO.class, "stock");
-		
+	public String toXML() {
+		XStream xs = new XStream();
+		xs.alias("OrdenDeCompra", SolicitudCompraRequest.class);
+		xs.alias("ItemOrdenDeCompra", ItemVO.class);
+		xs.aliasField("idPedidoCotizacion", ItemVO.class, "id");
 		return xs.toXML(this);
 	}
 

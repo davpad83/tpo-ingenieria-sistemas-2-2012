@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ejb.Remote;
 
+import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
@@ -35,6 +36,12 @@ public interface Facade {
 	public RodamientoVO getRodamiento(int id);
 	
 	public ArrayList<RodamientoVO> getRodamientos();
+	
+	/*==================================*/
+	/*			ABM de ODV				*/
+	/*==================================*/
+	
+	public void guardarOficinaDeVenta(OficinaDeVentaVO odv);
 	
 	/*====================================================================*/
 	/*   Web Service methods (Solicitud de Cotizaciones de Rodamientos)	  */
