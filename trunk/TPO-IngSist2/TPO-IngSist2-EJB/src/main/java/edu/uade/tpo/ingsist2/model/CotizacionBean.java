@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 
@@ -30,39 +29,39 @@ public class CotizacionBean implements Cotizacion {
 	private EntityManager entityManager;
 
 	private static final Logger LOGGER = Logger.getLogger(CotizacionBean.class);
-	
-	
-	
+
 	@Override
-	public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest scr) {
+	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
+			SolicitudCotizacionRequest scr) {
 		return null;
 	}
-	
-	
-	
-	public ItemListaEntity getItemListaConMenorPrecioConMarca (RodamientoEntity rod) {
+
+	public ItemListaEntity getItemListaConMenorPrecioConMarca(
+			RodamientoEntity rod) {
 		LOGGER.info("Buscando item lista con menor precio para codigoSKF: "
 				+ rod.getCodigoSKF() + ", pais: " + rod.getPais()
 				+ " y marca: " + rod.getMarca());
-	         ItemListaEntity itEncontrado = null;
-		
+		ItemListaEntity itEncontrado = null;
+
 		try {
 			Query query = entityManager
 					.createQuery(
-							"SELECT IL FROM ItemListaEntity IL" 
-							+" WHERE IL.precio = "
-									+ "(SELECT MIN(IL2.precio) " 
-									+ " FROM ItemListaEntity IL2" 
-									+ " WHERE IL2.rodamiento.codigoSKF = :codigo " 
-										+ "AND IL2.rodamiento.marca = :marca "
-										+ "AND IL2.rodamiento.pais = :pais "
-						            + "GROUP BY IL2.rodamiento.marca)")
+							"SELECT IL " 
+							+"FROM ItemListaEntity IL"
+							+ " WHERE IL.precio = "
+									+ "(SELECT MIN(IL2.precio) "
+										+ " FROM ItemListaEntity IL2"
+										+ " WHERE IL2.rodamiento.codigoSKF = :codigo "
+											+ "AND IL2.rodamiento.marca = :marca "
+											+ "AND IL2.rodamiento.pais = :pais "
+//										+ "GROUP BY IL2.rodamiento.marca)"
+											)
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())
 					.setParameter("pais", rod.getPais());
 			LOGGER.debug("Executing query: " + query.toString());
 			itEncontrado = (ItemListaEntity) query.getSingleResult();
-		} catch (HibernateException he){
+		} catch (HibernateException he) {
 			he.printStackTrace();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista.");
@@ -71,33 +70,47 @@ public class CotizacionBean implements Cotizacion {
 
 		return itEncontrado;
 	}
-	
-	
-	
+
 	@SuppressWarnings("unchecked")
-	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(RodamientoEntity rod) {
-		LOGGER.info("Buscando items en listas con menor precio para codigoSKF: "+ rod.getCodigoSKF() + ", pais: " + rod.getPais());
+	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(
+			RodamientoEntity rod) {
+		LOGGER.info("Buscando items en listas con menor precio para codigoSKF: "
+				+ rod.getCodigoSKF() + ", pais: " + rod.getPais());
 		List<ItemListaEntity> listaResultado = null;
-		
+
 		try {
-			/*listaResultado= entityManager.createQuery("select i, min(i.precio) from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo " +
-					"group by i.rodamiento.marca")*/
-			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo " +
-					"group by i.rodamiento.marca")
+			/*
+			 * listaResultado= entityManager.createQuery(
+			 * "select i, min(i.precio) from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo "
+			 * + "group by i.rodamiento.marca")
+			 */
+			// listaResultado=
+			// entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo "
+			// +
+			// "group by i.rodamiento.marca")
+			// .setParameter("codigo", rod.getCodigoSKF())
+			// .setParameter("pais", rod.getPais())
+			// .getResultList();
+
+			Query query = entityManager
+					.createQuery(
+							"SELECT IL FROM ItemListaEntity IL"
+									+ " WHERE IL.rodamiento.marca IN "
+									+ "(SELECT IL2.rodamiento.marca, MIN(IL2.precio) "
+										+ " FROM ItemListaEntity IL2"
+										+ " WHERE IL2.rodamiento.codigoSKF = :codigo "
+										+ "AND IL2.rodamiento.pais = :pais "
+										+ "GROUP BY IL2.rodamiento.marca)")
 					.setParameter("codigo", rod.getCodigoSKF())
-					.setParameter("pais", rod.getPais())
-					.getResultList();
-			
+					.setParameter("pais", rod.getPais());
+
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar los items en listas");
 		}
-				
+
 		return listaResultado;
 	}
-	
-	
-	
-	
+
 	@Override
 	public CotizacionEntity getCotizacion(int idCot) {
 		LOGGER.info("Buscando Cotizacion con id " + idCot);
@@ -109,7 +122,8 @@ public class CotizacionBean implements Cotizacion {
 			LOGGER.error(e);
 		} finally {
 			if (cot != null)
-				LOGGER.info("Se ha encontrado la cotizacion, su id es: " + cot.getId());
+				LOGGER.info("Se ha encontrado la cotizacion, su id es: "
+						+ cot.getId());
 			else {
 				LOGGER.info("No se ha encontrado la cotizacion con id " + idCot);
 				return null;
@@ -121,7 +135,7 @@ public class CotizacionBean implements Cotizacion {
 	@Override
 	public int verificarStock(ItemRodamientoEntity ire) {
 		RodamientoEntity rod = ire.getRodamiento();
-		if(rod.hayStockSuficiente(ire.getCantidad()))
+		if (rod.hayStockSuficiente(ire.getCantidad()))
 			return rod.getStock();
 		else
 			return 0;
@@ -130,23 +144,25 @@ public class CotizacionBean implements Cotizacion {
 	@Override
 	public boolean validarVigenciaLista(ListaPreciosEntity lista) {
 		boolean valida = true;
-		if(lista.getVigenciaDesde().after(new Date()) || lista.getVigenciaHasta().before(new Date()))
+		if (lista.getVigenciaDesde().after(new Date())
+				|| lista.getVigenciaHasta().before(new Date()))
 			valida = false;
 		return valida;
 	}
-	
+
 	@Override
 	public void guardarCotizacion(CotizacionEntity c) {
-		LOGGER.info("Procesando guardar cotizacion con id Pedido de Cotizacion: "+c.getIdPedidoCotizacion());
-		
+		LOGGER.info("Procesando guardar cotizacion con id Pedido de Cotizacion: "
+				+ c.getIdPedidoCotizacion());
+
 		CotizacionEntity cGuardado = null;
 		try {
-             cGuardado = (CotizacionEntity) entityManager.merge(c);
+			cGuardado = (CotizacionEntity) entityManager.merge(c);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar la cotizacion");
 			LOGGER.error(e);
 		}
-            LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());
+		LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());
 	}
 
 	@Override

@@ -146,8 +146,7 @@ public class CompleteIntegrationTest {
 		edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO rodCot1 = response1
 				.getRodamientosCotizados().get(0);
 		
-		
-		
+	
 		ocvo.setItems(items);
 
 		// item1.setCantidad(cot1.get);
