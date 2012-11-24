@@ -104,7 +104,7 @@ public class ProveedorMockTest {
 	}
 	
 	@Test
-	private void enviarMercaderia(){
+	public void enviarMercaderia(){
 		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();
 		
 		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO(); 

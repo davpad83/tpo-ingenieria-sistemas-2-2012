@@ -63,7 +63,6 @@ public class PedidoAbastecimientoVO implements Serializable{
 		this.cantidadPendiente = cantidadPendiente;
 	}
 	
-	
 	public String toXML(boolean omitId){
 		XStream xs = new XStream();
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
@@ -77,8 +76,6 @@ public class PedidoAbastecimientoVO implements Serializable{
 		return xs.toXML(this);
 	}
 	
-	
-	
 	public void fromXML(String textReceived) {
 		XStream xs = new XStream();
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
@@ -88,8 +85,5 @@ public class PedidoAbastecimientoVO implements Serializable{
 		this.idPedido = ocvo.getIdPedido();
 		this.proveedor = ocvo.getProveedor();
 		this.ocAsociada = ocvo.getOcAsociada();
-		
 	}
-
-	
 }

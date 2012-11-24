@@ -5,15 +5,15 @@ import java.io.Serializable;
 import com.thoughtworks.xstream.XStream;
 
 public class RodamientoVO implements Serializable {
-	
+
 	private static final long serialVersionUID = 5442056498221211003L;
-	
+
 	private int id;
 	private String codigoSKF;
 	private String marca;
 	private String pais;
 	private int stock;
-	
+
 	public RodamientoVO() {
 	}
 
@@ -28,16 +28,16 @@ public class RodamientoVO implements Serializable {
 	public String getCodigoSKF() {
 		return codigoSKF;
 	}
-	
+
 	public String getMarca() {
 		return marca;
 	}
-	
+
 	public String getPais() {
 		return pais;
 	}
-	
-	public int getStock(){
+
+	public int getStock() {
 		return stock;
 	}
 
@@ -99,11 +99,18 @@ public class RodamientoVO implements Serializable {
 		return true;
 	}
 
-public static XStream setXMLParameters(XStream xs, boolean omitId) {
+	public static XStream setXMLParameters(XStream xs, boolean omitId) {
 		xs.alias("Rodamiento", RodamientoVO.class);
-		if(omitId)
+		if (omitId)
 			xs.omitField(RodamientoVO.class, "id");
 		return xs;
+	}
+
+	@Override
+	public String toString() {
+		return "RodamientoVO [id=" + id + ", codigoSKF=" + codigoSKF
+				+ ", marca=" + marca + ", pais=" + pais + ", stock=" + stock
+				+ "]";
 	}
 
 }
