@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Entity
@@ -93,6 +94,7 @@ public class RodamientoEntity {
 		this.pais = rodamientoVO.getPais();
 		this.stock = rodamientoVO.getStock();
 	}
+
 
 	public static ArrayList<RodamientoVO> getVOList(List<RodamientoEntity> rList) {
 		if (rList != null && !rList.isEmpty()) {
