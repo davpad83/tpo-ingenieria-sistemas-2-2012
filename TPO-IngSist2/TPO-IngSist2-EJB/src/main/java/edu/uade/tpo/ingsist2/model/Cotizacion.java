@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
@@ -16,11 +18,9 @@ public interface Cotizacion {
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
 			SolicitudCotizacionRequest scr);
 
-	public ItemListaEntity getItemListaConMenorPrecioConMarca(
-			RodamientoEntity rod);
+	public ItemListaEntity getItemListaConMenorPrecioConMarca(RodamientoEntity rod);
 
-	public ItemListaEntity getItemListaConMenorPrecioSinMarca(
-			RodamientoEntity rod);
+	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(RodamientoEntity rod);
 
 	public CotizacionEntity getCotizacion(int idCot);
 	

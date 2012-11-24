@@ -1,6 +1,7 @@
 package edu.uade.tpo.ingsist2.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,16 +30,17 @@ public class CotizacionBean implements Cotizacion {
 	private EntityManager entityManager;
 
 	private static final Logger LOGGER = Logger.getLogger(CotizacionBean.class);
-
+	
+	
+	
 	@Override
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest scr) {
 		return null;
 	}
-
-	public ItemListaEntity getItemListaConMenorPrecioConMarca(
-			RodamientoEntity rod) {
-		if (rod.getMarca() == null || rod.getMarca().isEmpty())
-			return getItemListaConMenorPrecioSinMarca(rod);
+	
+	
+	
+	public ItemListaEntity getItemListaConMenorPrecioConMarca (RodamientoEntity rod) {
 		LOGGER.info("Buscando item lista con menor precio para codigoSKF: "
 				+ rod.getCodigoSKF() + ", pais: " + rod.getPais()
 				+ " y marca: " + rod.getMarca());
@@ -52,12 +54,9 @@ public class CotizacionBean implements Cotizacion {
 									+ "(SELECT MIN(IL2.precio) " 
 									+ " FROM ItemListaEntity IL2" 
 									+ " WHERE IL2.rodamiento.codigoSKF = :codigo " 
-										+ "AND IL2.rodamiento.marca = :marca " 
-
-										+ "AND IL2.rodamiento.pais = :pais"
-						+ "GROUP BY IL2.rodamiento.marca)"
-
-										+ "AND IL2.rodamiento.pais = :pais)")
+										+ "AND IL2.rodamiento.marca = :marca "
+										+ "AND IL2.rodamiento.pais = :pais "
+						            + "GROUP BY IL2.rodamiento.marca)")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())
 					.setParameter("pais", rod.getPais());
@@ -73,13 +72,35 @@ public class CotizacionBean implements Cotizacion {
 
 		return itEncontrado;
 	}
-
-	public ItemListaEntity getItemListaConMenorPrecioSinMarca(
-			RodamientoEntity rod) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(RodamientoEntity rod) {
+		LOGGER.info("Buscando items en listas con menor precio para codigoSKF: "+ rod.getCodigoSKF() + ", pais: " + rod.getPais());
+		List<ItemListaEntity> listaResultado = null;
+		
+		try {
+			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where exists " +
+					"(select min(il.precio) from ItemListaEntity il where il.rodamiento.pais=:pais and il.rodamiento.codigoSKF=:codigo " +
+					"group by il.rodamiento.marca)")
+					.setParameter("codigo", rod.getCodigoSKF())
+					.setParameter("pais", rod.getPais())
+					.getResultList();
+			
+			System.out.println(listaResultado.get(0));
+			
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar los items en listas");
+			e.printStackTrace();
+		}
+				
+		return listaResultado;
 	}
-
+	
+	
+	
+	
 	@Override
 	public CotizacionEntity getCotizacion(int idCot) {
 		LOGGER.info("Buscando Cotizacion con id " + idCot);
@@ -125,7 +146,7 @@ public class CotizacionBean implements Cotizacion {
 		try {
              cGuardado = (CotizacionEntity) entityManager.merge(c);
 		} catch (Exception e) {
-			LOGGER.error("Hubo un error al guardar el proveedor");
+			LOGGER.error("Hubo un error al guardar la cotizacion");
 			LOGGER.error(e);
 		}
             LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());

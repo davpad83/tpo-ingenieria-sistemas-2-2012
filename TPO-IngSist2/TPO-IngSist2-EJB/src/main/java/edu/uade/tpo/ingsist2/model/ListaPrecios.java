@@ -9,5 +9,7 @@ public interface ListaPrecios {
 
 	public void agregarListaPrecios(ListaPreciosEntity lpvo);
 	
-	public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista);
+	public int getIdListaPrecioPorIdItemLista(int idItemLista);
+	
+	 public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista);
 }
