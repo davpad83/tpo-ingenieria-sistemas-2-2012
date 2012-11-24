@@ -47,12 +47,12 @@ public class BusinessDelegateTest {
 		SolicitudCotizacionRequest sr = new SolicitudCotizacionRequest();
 		SolicitudCotizacionResponse scresp = new SolicitudCotizacionResponse();		
 		
-		sr.setIdPedidoCotizacion(150);
+		sr.setIdPedidoCotizacion(70);
 		sr.setIdODV(3);
 		sr.setSKF("IKL675");
 		sr.setMarca("");
 		sr.setPais("Holanda");
-		sr.setCantidad(125);
+		sr.setCantidad(190);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
 		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());

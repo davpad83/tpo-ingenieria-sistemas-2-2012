@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 
@@ -79,7 +80,10 @@ public class CotizacionBean implements Cotizacion {
 		List<ItemListaEntity> listaResultado = null;
 		
 		try {
-			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo")
+			/*listaResultado= entityManager.createQuery("select i, min(i.precio) from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo " +
+					"group by i.rodamiento.marca")*/
+			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo " +
+					"group by i.rodamiento.marca")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("pais", rod.getPais())
 					.getResultList();
