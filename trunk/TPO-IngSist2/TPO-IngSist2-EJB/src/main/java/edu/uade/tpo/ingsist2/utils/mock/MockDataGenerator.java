@@ -3,10 +3,10 @@ package edu.uade.tpo.ingsist2.utils.mock;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.*;
 
 public class MockDataGenerator {
@@ -181,5 +181,26 @@ public class MockDataGenerator {
 
 	public static int getRandomCantidad() {
 		return new Random().nextInt(100);
+	}
+
+	public static SolicitudCotizacionRequest getRandomSolicitudCotizacionRequestConMarca() {
+		SolicitudCotizacionRequest scr = new SolicitudCotizacionRequest();
+		scr.setCantidad(getRandomCantidad());
+		scr.setIdPedidoCotizacion(getRandomId());
+		scr.setMarca(getRandomMarca());
+		scr.setPais(getRandomPais());
+		scr.setSKF(getRandomCodigoSKF());
+		scr.setIdODV(getRandomId());
+		return scr;
+	}
+
+	public static SolicitudCotizacionRequest getRandomSolicitudCotizacionRequestSinMarca() {
+		SolicitudCotizacionRequest scr = new SolicitudCotizacionRequest();
+		scr.setCantidad(getRandomCantidad());
+		scr.setIdPedidoCotizacion(getRandomId());
+		scr.setPais(getRandomPais());
+		scr.setSKF(getRandomCodigoSKF());
+		scr.setIdODV(getRandomId());
+		return scr;
 	}
 }

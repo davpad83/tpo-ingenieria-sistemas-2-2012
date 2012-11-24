@@ -71,6 +71,4 @@ public class ODVMockTest {
 		
 		emHelper.enviarMensaje(ocvo.toXML(true));
 	}
-	
-	
 }

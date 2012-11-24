@@ -65,4 +65,10 @@ public class ProveedorVO implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ProveedorVO [id=" + id + ", cuit=" + cuit + ", nombre="
+				+ nombre + "]";
+	}
 }

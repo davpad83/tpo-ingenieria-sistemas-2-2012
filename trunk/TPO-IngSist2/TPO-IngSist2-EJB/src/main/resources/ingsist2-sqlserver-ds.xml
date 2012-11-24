@@ -10,8 +10,8 @@
 	<local-tx-datasource>
 		<jndi-name>IngSist2-SQL-DS</jndi-name>
 		
-		<connection-url>jdbc:sqlserver://10.10.90.113:1433;databaseName=IngSist2</connection-url>
-		
+		<connection-url>jdbc:sqlserver://10.10.90.114:1433;databaseName=IngSist2</connection-url>
+		<!-- <connection-url>jdbc:sqlserver://172.16.171.17:1433;databaseName=IngSist2</connection-url> -->
 		<!-- <connection-url>jdbc:microsoft:sqlserver://192.168.6.100:1433/IS_MA_05</connection-url> -->
 		
 		<driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver

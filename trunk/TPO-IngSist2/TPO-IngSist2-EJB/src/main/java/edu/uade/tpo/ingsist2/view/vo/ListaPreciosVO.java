@@ -122,4 +122,12 @@ public class ListaPreciosVO implements Serializable {
 		return xml;
 	}
 
+	@Override
+	public String toString() {
+		return "ListaPreciosVO [idLista=" + idLista + ", proveedor="
+				+ proveedor.toString() + ", items=" + items + ", condicionesDeVenta="
+				+ condicionesDeVenta.toString() + ", nombre=" + nombre
+				+ ", vigenciaDesde=" + vigenciaDesde + ", vigenciaHasta="
+				+ vigenciaHasta + "]";
+	}
 }

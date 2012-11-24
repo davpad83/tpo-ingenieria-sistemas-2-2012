@@ -88,4 +88,12 @@ public class CotizacionVO {
 		return xs;
 	}
 
+	@Override
+	public String toString() {
+		return "CotizacionVO [id=" + id + ", idPedidoCotizacion="
+				+ idPedidoCotizacion + ", odv=" + odv.getNombre() + ", rodamiento="
+				+ rodamiento.toString() + ", lista=" + lista.toString() + ", vencimiento="
+				+ vencimiento + ", fecha=" + fecha + ", tiempoEntrega="
+				+ tiempoEntrega + "]";
+	}
 }
