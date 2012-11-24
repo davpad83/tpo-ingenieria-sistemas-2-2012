@@ -7,8 +7,11 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 
 @Stateless
@@ -21,13 +24,16 @@ public class ListaPreciosBean implements ListaPrecios {
 	private EntityManager entityManager;
 
 	@EJB
+	private Rodamiento rodamiento;
+	
+	@EJB
 	private Proveedor proveedor;
 
 	@Override
 	public void agregarListaPrecios(ListaPreciosEntity lp) {
 		if (validarListaPreciosRequest(lp)) {
 			LOGGER.info("La Lista de precios es VALIDA. Guardando ...");
-
+			lp = buscarYAsignarRodamientos(lp);
 			try {
 				ListaPreciosEntity lpGuardado = entityManager.merge(lp);
 				if (lpGuardado.getIdLista() > 0)
@@ -40,8 +46,16 @@ public class ListaPreciosBean implements ListaPrecios {
 		}
 	}
 	
-	
-	
+	private ListaPreciosEntity buscarYAsignarRodamientos(ListaPreciosEntity lp) {
+		for(ItemListaEntity item: lp.getItems()){
+			RodamientoEntity rod = item.getRodamiento();
+			RodamientoEntity rodEncontrado = rodamiento.getRodamiento(rod.getCodigoSKF(), rod.getMarca(), rod.getPais());	
+			if(rodEncontrado !=null)
+				item.setRodamiento(rodEncontrado);
+		}
+		return lp;
+	}
+
 	@Override
 	public int getIdListaPrecioPorIdItemLista(int idItemLista) {
 		LOGGER.info("Buscando Id Lista de Precios por idItemLista " + idItemLista);

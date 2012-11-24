@@ -176,7 +176,7 @@ public class RodamientoBean implements Rodamiento {
 					.createQuery(
 							"FROM "
 									+ RodamientoEntity.class.getSimpleName()
-									+ "WHERE codigoSKF = :codSKF AND marca = :marca AND pais = :pais")
+									+ " WHERE codigoSKF = :codSKF AND marca = :marca AND pais = :pais")
 					.setParameter("codSKF", codSKF)
 					.setParameter("marca", marca).setParameter("pais", pais)
 					.getSingleResult();

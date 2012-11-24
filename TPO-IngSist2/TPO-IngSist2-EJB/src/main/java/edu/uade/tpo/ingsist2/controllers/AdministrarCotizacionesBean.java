@@ -1,6 +1,7 @@
 package edu.uade.tpo.ingsist2.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +21,7 @@ import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -109,8 +111,8 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 				rcVO.setTiempoEstimadoEntrega("3 semanas");
 				pendientes= screq.getCantidad()-rcVO.getEnStock();
 			}
-			rcVO.setFechaFin(null);
-			rcVO.setFechaInicio(null);
+			rcVO.setFechaInicio(new Date());
+			rcVO.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
 			
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion con marca");
