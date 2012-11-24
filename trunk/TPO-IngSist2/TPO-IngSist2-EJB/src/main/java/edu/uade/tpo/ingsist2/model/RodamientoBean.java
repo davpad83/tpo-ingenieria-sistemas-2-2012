@@ -1,12 +1,14 @@
 package edu.uade.tpo.ingsist2.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
+
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 /**
@@ -20,6 +22,8 @@ public class RodamientoBean implements Rodamiento {
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 
+	
+	
 	@Override
 	public void guardarRodamiento(RodamientoEntity r) {
 		LOGGER.info("Procesando guardar rodamiento con codigoSKF "
@@ -34,7 +38,9 @@ public class RodamientoBean implements Rodamiento {
 		LOGGER.info("Rodamiento guardado con id: " + rGuardado.getId());
 		entityManager.flush();
 	}
-
+	
+	
+	
 	@Override
 	public void eliminarRodamiento(int id) {
 		LOGGER.info("Procesando eliminar rodamiento con id: " + id);
@@ -49,7 +55,9 @@ public class RodamientoBean implements Rodamiento {
 		LOGGER.info("El rodamiento con id " + id
 				+ " se ha eliminado con exito.");
 	}
-
+	
+	
+	
 	@Override
 	public RodamientoEntity getRodamiento(int id) {
 		LOGGER.info("Buscando Rodamiento con id " + id);
@@ -73,6 +81,8 @@ public class RodamientoBean implements Rodamiento {
 		return r;
 	}
 
+	
+	
 	@Override
 	public RodamientoEntity getRodamientoCotizacionConMarca(String skf,
 			String pais, String marca) {
@@ -101,35 +111,39 @@ public class RodamientoBean implements Rodamiento {
 		return rBean;
 	}
 
+	
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,
-			String pais) {
-		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf + " Pais: "
-				+ pais);
+	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais) {
+		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf+" Pais: "+pais);
+		
+		List<RodamientoEntity> listaResultado = null;
+    	
+    	try {
+    		listaResultado= entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais")
+    		.setParameter("codigo", skf)
+    		.setParameter("pais", pais)
+    		.getResultList();   		
+    	}
+        catch (Exception e) {
+        	LOGGER.error("Hubo un error al buscar el rodamiento.");
+    		LOGGER.error(e);      
+        }
+		finally {		
+		if (listaResultado==null){
+			LOGGER.info("No existe el rodamiento solicitado");
 
-		RodamientoEntity rBean = null;
-
-		try {
-			rBean = (RodamientoEntity) entityManager
-					.createQuery(
-							"select r from RodamientoEntity r where r.codigoSKF=:codigo and "
-									+ "r.pais=:pais and r.marca=:marca")
-					.setParameter("codigo", skf).setParameter("pais", pais)
-					.getSingleResult();
-		} catch (Exception e) {
-			LOGGER.error("Hubo un error al buscar el rodamiento.");
-			LOGGER.error(e);
-		} finally {
-			if (rBean == null) {
-				LOGGER.info("No existe el rodamiento solicitado");
-				// rBean.setCodigoSKF("-1");
-				return null;
-			} else
-				LOGGER.info("Se ha encontrado el rodamiento.");
+			return null;
+			}
+	        else
+			LOGGER.info("Se ha encontrado el rodamiento.");
 		}
-		return rBean;
+    	return listaResultado.get(0);
 	}
-
+	
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<RodamientoEntity> getRodamientos() {
@@ -156,8 +170,7 @@ public class RodamientoBean implements Rodamiento {
 	}
 
 	@Override
-	public RodamientoEntity getRodamiento(String codSKF,
-			String marca, String pais) {
+	public RodamientoEntity getRodamiento(String codSKF, String marca, String pais) {
 		LOGGER.info("Buscando lista de Rodamientos por codigo: " + codSKF
 				+ ", marca: " + marca + " y pais: " + pais);
 		RodamientoEntity rodResultado = null;

@@ -21,7 +21,6 @@ public interface Rodamiento {
 	
 	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais);
 	
-	public RodamientoEntity getRodamiento(String codSKF,
-			String marca, String pais);
+	public RodamientoEntity getRodamiento(String codSKF, String marca, String pais);
 	
 }

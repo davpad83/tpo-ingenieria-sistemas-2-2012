@@ -7,10 +7,10 @@
 http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 
     <persistence-unit name="CPR">
-        <jta-data-source>java:IngSist2-SQL-DS</jta-data-source>
+        <jta-data-source>java:IngSist2-MySQL-DS</jta-data-source>
         <properties>
             <property name="hibernate.show-sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

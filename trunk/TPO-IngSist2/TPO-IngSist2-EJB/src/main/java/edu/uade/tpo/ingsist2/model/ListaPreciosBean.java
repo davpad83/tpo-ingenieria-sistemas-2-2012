@@ -7,14 +7,10 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
-import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
-/**
- * Session Bean implementation class ListaPreciosBean
- */
+
 @Stateless
 public class ListaPreciosBean implements ListaPrecios {
 
@@ -43,27 +39,52 @@ public class ListaPreciosBean implements ListaPrecios {
 			}
 		}
 	}
-
+	
+	
+	
 	@Override
-	public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista) {
-		LOGGER.info("Buscando Lista de Precios por idItemLista " + idItemLista);
-		ListaPreciosEntity listaEncontrada = null;
+	public int getIdListaPrecioPorIdItemLista(int idItemLista) {
+		LOGGER.info("Buscando Id Lista de Precios por idItemLista " + idItemLista);
+		int idlista=0;
+		
 		try {
-			listaEncontrada = (ListaPreciosEntity) entityManager
-					.createQuery(
-							"FROM " + ListaPreciosEntity.class.getSimpleName()
-									+ "LP WHERE LP.items.id = :idItem")
-					.setParameter("idItem", idItemLista).getSingleResult();
+			 idlista = (Integer) entityManager.createQuery
+					("select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
+					.setParameter("iditem",idItemLista)
+					.getSingleResult();
 		} catch (Exception e) {
-			LOGGER.error("Hubo un error al buscar el item lista.");
+			LOGGER.error("Hubo un error al buscar el item lista");
 			LOGGER.error(e);
 		}
-		LOGGER.info("Lista de Precios encontrada, su id es: "
-				+ listaEncontrada.getIdLista());
+		LOGGER.info("Lista de Precios encontrada, su id es: "+ idlista);
 
-		return listaEncontrada;
+		return idlista;
 	}
+	
+	
+	
+    @Override
+    public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista) {
+            LOGGER.info("Buscando Lista de Precios por idItemLista " + idItemLista);
+            ListaPreciosEntity listaEncontrada = null;
+            try {
+                    listaEncontrada = (ListaPreciosEntity) entityManager
+                                    .createQuery(
+                                                    "FROM " + ListaPreciosEntity.class.getSimpleName()
+                                                                    + "LP WHERE LP.items.id = :idItem")
+                                    .setParameter("idItem", idItemLista).getSingleResult();
+            } catch (Exception e) {
+                    LOGGER.error("Hubo un error al buscar el item lista.");
+                    LOGGER.error(e);
+            }
+            LOGGER.info("Lista de Precios encontrada, su id es: "
+                            + listaEncontrada.getIdLista());
 
+            return listaEncontrada;
+    }
+    
+	
+	
 	private boolean validarListaPreciosRequest(ListaPreciosEntity lpr) {
 		boolean valid = true;
 		String logPrefix = "Error de validacion de ListaPrecios ";
