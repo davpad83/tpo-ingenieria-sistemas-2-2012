@@ -9,7 +9,6 @@ import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 public class OficinaDeVentaEntity {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	private String nombre;
