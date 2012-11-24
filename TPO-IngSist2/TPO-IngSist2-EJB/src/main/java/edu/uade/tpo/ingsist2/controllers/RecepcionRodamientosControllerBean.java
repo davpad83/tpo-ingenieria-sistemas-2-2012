@@ -72,14 +72,93 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	}
 	
 	private void enviarRemito(RemitoResponse remito) {
-		// TODO Auto-generated method stub
+		// generar un remito, persistirlo y enviarlo
+		rBean.enviarRemito(remito);
 		
 	}
 
 	private ItemVO procesarEnvio(RodamientoListaVO envio) {
 		ItemVO item = new ItemVO();
+		int id= envio.getIdPedidoAbastecimiento();
+		PedidoAbastecimientoVO pedido = pedidos.getPedido(id);
+		if(pedido == null)
+			LOGGER.info("No se encontro el pedido id:"+id);
 		
+		//Validar que el rodamiento corresponda al pedido
+		LOGGER.info("analizando pedido "+id+" - "+envio.getSKF()+ " " +envio.getMarca()+" " + envio.getPais());
+
+		RodamientoVO rod= pedido.getRodamiento();
+		
+		if(!rod.equals(envio.getRodamiento()))
+				LOGGER.info("No coincide el pedido"+id+" con Rodamiento "+envio.getSKF()+ " " +envio.getMarca()+" " + envio.getPais());
+		else	{	
+			
+			/////******Pedido******\\\\\\
+			ActualizarPedido(pedido, envio);
+
+			/////******Ordenes de compra******\\\\\\
+			int consumo = ActualizarItemsOCs(pedido, envio);	
+			
+			/////******Stock******\\\\\\
+			ActualizarStock(consumo, pedido);
+			
+			
+			
+			
+			
+			
+			
+			/////******Generar Remito de compra******\\\\\\
+			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
+			item.setCantidad(consumo);
+			item.setRodamiento(envio.getRodamiento());
+		}
 		return item ;
+	}
+
+	private void ActualizarStock(int consumo, PedidoAbastecimientoVO pedido) {
+		RodamientoVO rod = rodamientos.getRodamiento(pedido.getRodamiento().getId());
+		rod.setStock(consumo+ rod.getStock());
+		rodamientos.guardarRodamiento(rod);
+
+		
+	}
+
+	private int ActualizarItemsOCs(PedidoAbastecimientoVO pedido,
+			RodamientoListaVO envio) {
+		OrdenDeCompraVO oc = ordenesCompra.getOrdenCompra(pedido.getOcAsociada().getIdOrden());	
+		int total= envio.getCantidad();
+				
+		for(ItemRodamientoVO ir : oc.getItems()){
+			if(ir.getRodamiento() == pedido.getRodamiento()){
+				
+				int cant = ir.getPendientes() - envio.getCantidad();
+				if(!(cant>0)){
+					total=ir.getPendientes()-cant;
+					envio.setCantidad(envio.getCantidad()-ir.getPendientes());
+					cant=0;
+				}
+				ir.setPendientes(cant);
+				envio.setCantidad(0);
+			}
+		}
+		
+		OrdenDeCompraEntity oco = new OrdenDeCompraEntity() ;
+		OrdenDeCompraVO ovo = ordenesCompra.getOrdenCompra(pedido.getOcAsociada().getIdOrden());
+		oco.setVO(ovo);
+		ocBean.verificarPendientes(oco);
+		ocBean.guardarOrdenDeCompra(oco);
+		return total;
+	}
+
+	private void ActualizarPedido(PedidoAbastecimientoVO pedido,
+			RodamientoListaVO envio) {
+		int resto = pedido.getCantidadPendiente() - envio.getCantidad();
+		pedido.setCantidadPendiente(resto);
+		if(resto == 0)
+			pedido.setRecibido(true);
+		LOGGER.info("Actualizando pedido:"+pedido.getIdPedido());
+		pedidos.guardarPedido(pedido);
 	}
 
 	//Obtengo ODVs Asociadas
