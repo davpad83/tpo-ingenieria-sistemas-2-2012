@@ -14,4 +14,5 @@ public interface EntitiesTablesNames {
 	static final String LISTA_PRECIOS = "ListaPrecios";
 	static final String ORDEN_DE_COMPRA = "OrdenDeCompra";
 	static final String ITEM_RODAMIENTO = "ItemRodamiento";
+	static final String ITEM_REMITO = "ItemRemito";
 }
