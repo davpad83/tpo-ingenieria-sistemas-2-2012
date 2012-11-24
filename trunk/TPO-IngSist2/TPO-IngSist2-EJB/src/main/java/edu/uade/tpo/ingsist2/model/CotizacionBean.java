@@ -15,7 +15,6 @@ import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
@@ -66,7 +65,6 @@ public class CotizacionBean implements Cotizacion {
 			he.printStackTrace();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista.");
-			e.printStackTrace();
 		}
 		LOGGER.info("ItemLista encontrado, su id es: " + itEncontrado.getId());
 
@@ -81,18 +79,13 @@ public class CotizacionBean implements Cotizacion {
 		List<ItemListaEntity> listaResultado = null;
 		
 		try {
-			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where exists " +
-					"(select min(il.precio) from ItemListaEntity il where il.rodamiento.pais=:pais and il.rodamiento.codigoSKF=:codigo " +
-					"group by il.rodamiento.marca)")
+			listaResultado= entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("pais", rod.getPais())
 					.getResultList();
 			
-			System.out.println(listaResultado.get(0));
-			
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar los items en listas");
-			e.printStackTrace();
 		}
 				
 		return listaResultado;

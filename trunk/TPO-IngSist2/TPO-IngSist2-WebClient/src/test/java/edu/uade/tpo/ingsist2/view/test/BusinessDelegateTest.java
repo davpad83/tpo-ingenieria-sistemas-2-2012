@@ -47,12 +47,12 @@ public class BusinessDelegateTest {
 		SolicitudCotizacionRequest sr = new SolicitudCotizacionRequest();
 		SolicitudCotizacionResponse scresp = new SolicitudCotizacionResponse();		
 		
-		sr.setIdPedidoCotizacion(66);
+		sr.setIdPedidoCotizacion(150);
 		sr.setIdODV(3);
 		sr.setSKF("IKL675");
 		sr.setMarca("");
 		sr.setPais("Holanda");
-		sr.setCantidad(111);
+		sr.setCantidad(125);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
 		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());
@@ -60,8 +60,8 @@ public class BusinessDelegateTest {
 		
 		for(int i=0;i<scresp.getRodamientosCotizados().size();i++){
 
-		System.out.println("marca: "+scresp.getRodamientosCotizados().get(0).getMarca());
-		System.out.println("precio: "+scresp.getRodamientosCotizados().get(0).getPrecioCotizado());
+		System.out.println("marca: "+scresp.getRodamientosCotizados().get(i).getMarca());
+		System.out.println("precio: "+scresp.getRodamientosCotizados().get(i).getPrecioCotizado());
 			
 		}
 	}
