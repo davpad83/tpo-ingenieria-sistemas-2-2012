@@ -2,18 +2,13 @@ package edu.uade.tpo.ingsist2.view.test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.bd.BusinessDelegate;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
-import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
@@ -48,28 +43,27 @@ public class BusinessDelegateTest {
 	
 	@Test
 	public void testGetCotizacion(){
+		
 		SolicitudCotizacionRequest sr = new SolicitudCotizacionRequest();
 		SolicitudCotizacionResponse scresp = new SolicitudCotizacionResponse();		
 		
-		sr.setIdPedidoCotizacion(88);
-		sr.setIdODV(5);
-		sr.setSKF("IKL90");
-		sr.setPais("brasil");
-		sr.setMarca("mika");
-		sr.setCantidad(40);
-		
-		RodamientoCotizadoVO rcbo = new RodamientoCotizadoVO();
-		rcbo.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
-		rcbo.setFechaInicio(new Date());
-		rcbo.setEnStock(10);
-		rcbo.setPrecioCotizado(134);
-		rcbo.setTiempoEstimadoEntrega("3 semanas");
-		
-		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
-		listrcVO.add(rcbo);
+		sr.setIdPedidoCotizacion(66);
+		sr.setIdODV(3);
+		sr.setSKF("IKL675");
+		sr.setMarca("");
+		sr.setPais("Holanda");
+		sr.setCantidad(111);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
 		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());
+		System.out.println("con precios: ");
+		
+		for(int i=0;i<scresp.getRodamientosCotizados().size();i++){
+
+		System.out.println("marca: "+scresp.getRodamientosCotizados().get(0).getMarca());
+		System.out.println("precio: "+scresp.getRodamientosCotizados().get(0).getPrecioCotizado());
+			
+		}
 	}
 	
 	
