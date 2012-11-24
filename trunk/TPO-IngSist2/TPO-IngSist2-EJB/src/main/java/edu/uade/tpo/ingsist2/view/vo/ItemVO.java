@@ -18,6 +18,7 @@ public class ItemVO {
 	private String pais;
 	private String marca;
 	private int cantidad;
+	private int idOrdenDeCompra;
 	private float precio;
 
 	public int getId() {
@@ -66,5 +67,19 @@ public class ItemVO {
 
 	public void setPrecio(float precio) {
 		this.precio = precio;
+	}
+
+	public void setRodamiento(RodamientoVO rodamiento) {
+		this.marca=rodamiento.getMarca();
+		this.pais=rodamiento.getPais();
+		this.SKF=rodamiento.getCodigoSKF();
+	}
+
+	public void setIdOrdenDeCompra(int idOrdenDeCompra) {
+		this.idOrdenDeCompra = idOrdenDeCompra;
+	}
+
+	public int getIdOrdenDeCompra() {
+		return idOrdenDeCompra;
 	}
 }
