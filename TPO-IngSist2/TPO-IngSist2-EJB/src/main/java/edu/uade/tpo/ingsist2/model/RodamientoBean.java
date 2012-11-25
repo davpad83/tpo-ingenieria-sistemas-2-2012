@@ -168,7 +168,7 @@ public class RodamientoBean implements Rodamiento {
 
 	@Override
 	public RodamientoEntity getRodamiento(String codSKF, String marca, String pais) {
-		LOGGER.info("Buscando lista de Rodamientos por codigo: " + codSKF
+		LOGGER.info("Buscando Rodamiento por codigo: " + codSKF
 				+ ", marca: " + marca + " y pais: " + pais);
 		RodamientoEntity rodResultado = null;
 		try {
@@ -193,5 +193,4 @@ public class RodamientoBean implements Rodamiento {
 		}
 		return rodResultado;
 	}
-
 }

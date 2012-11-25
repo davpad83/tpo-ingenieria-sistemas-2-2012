@@ -8,7 +8,7 @@ import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 @Local
 public interface OficinaDeVenta {
 
-	public void guardarOficinaDeVenta(OficinaDeVentaVO odv);
+	public void guardarOficinaDeVenta(OficinaDeVentaEntity odve);
 
 	public OficinaDeVentaEntity getOficina(int idODV);
 

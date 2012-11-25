@@ -42,7 +42,7 @@ public class CompleteIntegrationTest {
 
 	@Before
 	public void prepararTest() {
-		emHelper = new EnviarMensajeHelper("127.0.0.1", "1099",
+		emHelper = new EnviarMensajeHelper("127.0.0.1", 1099,
 				JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE);
 		// web_service = getRodService.getGetCotizacionRodamientoPort();
 	}

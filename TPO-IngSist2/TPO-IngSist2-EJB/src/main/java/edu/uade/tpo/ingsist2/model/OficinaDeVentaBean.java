@@ -8,19 +8,29 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
+import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 
 @Stateless
 public class OficinaDeVentaBean implements OficinaDeVenta {
 	
 	private static final Logger LOGGER = Logger
-			.getLogger(ListaPreciosBean.class);
+			.getLogger(OficinaDeVentaBean.class);
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 
-	public void guardarOficinaDeVenta(OficinaDeVentaVO odv){
-		LOGGER.info("LLEGO EL MENSAJE!");
+	public void guardarOficinaDeVenta(OficinaDeVentaEntity odv){
+		LOGGER.info("Procesando guardar oficina de Venta " + odv.getNombre() + " con ip: "+odv.getIp());
+		
+		OficinaDeVentaEntity odvGuardada = null;
+		try {
+			odvGuardada = (OficinaDeVentaEntity) entityManager.merge(odv);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al guardar la oficina de venta");
+			LOGGER.error(e);
+		}
+            LOGGER.info("Oficina De Venta guardada con id: " + odvGuardada.getId());
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class ProveedorMockTest {
 
 	@Before
 	public void prepararTest() {
-		 emHelper = new EnviarMensajeHelper("127.0.0.1", "1099", JMSQueuesNames.LISTA_PRECIOS_QUEUE);
+		 emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.LISTA_PRECIOS_QUEUE);
 	}
 
 	@Test

@@ -13,7 +13,6 @@ import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
-
 @Stateless
 public class ListaPreciosBean implements ListaPrecios {
 
@@ -25,7 +24,7 @@ public class ListaPreciosBean implements ListaPrecios {
 
 	@EJB
 	private Rodamiento rodamiento;
-	
+
 	@EJB
 	private Proveedor proveedor;
 
@@ -45,60 +44,60 @@ public class ListaPreciosBean implements ListaPrecios {
 			}
 		}
 	}
-	
+
 	private ListaPreciosEntity buscarYAsignarRodamientos(ListaPreciosEntity lp) {
-		for(ItemListaEntity item: lp.getItems()){
+		for (ItemListaEntity item : lp.getItems()) {
 			RodamientoEntity rod = item.getRodamiento();
-			RodamientoEntity rodEncontrado = rodamiento.getRodamiento(rod.getCodigoSKF(), rod.getMarca(), rod.getPais());	
-			if(rodEncontrado !=null)
-				item.setRodamiento(rodEncontrado);
+			if(rod.getId() < 1){
+				RodamientoEntity rodEncontrado = rodamiento.getRodamiento(
+						rod.getCodigoSKF(), rod.getMarca(), rod.getPais());
+				if (rodEncontrado != null)
+					item.setRodamiento(rodEncontrado);
+			}
 		}
 		return lp;
 	}
 
 	@Override
 	public int getIdListaPrecioPorIdItemLista(int idItemLista) {
-		LOGGER.info("Buscando Id Lista de Precios por idItemLista " + idItemLista);
-		int idlista=0;
-		
+		LOGGER.info("Buscando Id Lista de Precios por idItemLista "
+				+ idItemLista);
+		int idlista = 0;
+
 		try {
-			 idlista = (Integer) entityManager.createQuery
-					("select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
-					.setParameter("iditem",idItemLista)
-					.getSingleResult();
+			idlista = (Integer) entityManager
+					.createQuery(
+							"select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
+					.setParameter("iditem", idItemLista).getSingleResult();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista");
 			LOGGER.error(e);
 		}
-		LOGGER.info("Lista de Precios encontrada, su id es: "+ idlista);
+		LOGGER.info("Lista de Precios encontrada, su id es: " + idlista);
 
 		return idlista;
 	}
-	
-	
-	
-    @Override
-    public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista) {
-            LOGGER.info("Buscando Lista de Precios por idItemLista " + idItemLista);
-            ListaPreciosEntity listaEncontrada = null;
-            try {
-                    listaEncontrada = (ListaPreciosEntity) entityManager
-                                    .createQuery(
-                                                    "FROM " + ListaPreciosEntity.class.getSimpleName()
-                                                                    + "LP WHERE LP.items.id = :idItem")
-                                    .setParameter("idItem", idItemLista).getSingleResult();
-            } catch (Exception e) {
-                    LOGGER.error("Hubo un error al buscar el item lista.");
-                    LOGGER.error(e);
-            }
-            LOGGER.info("Lista de Precios encontrada, su id es: "
-                            + listaEncontrada.getIdLista());
 
-            return listaEncontrada;
-    }
-    
-	
-	
+	@Override
+	public ListaPreciosEntity getListaPrecioPorIdItemLista(int idItemLista) {
+		LOGGER.info("Buscando Lista de Precios por idItemLista " + idItemLista);
+		ListaPreciosEntity listaEncontrada = null;
+		try {
+			listaEncontrada = (ListaPreciosEntity) entityManager
+					.createQuery(
+							"FROM " + ListaPreciosEntity.class.getSimpleName()
+									+ "LP WHERE LP.items.id = :idItem")
+					.setParameter("idItem", idItemLista).getSingleResult();
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar el item lista.");
+			LOGGER.error(e);
+		}
+		LOGGER.info("Lista de Precios encontrada, su id es: "
+				+ listaEncontrada.getIdLista());
+
+		return listaEncontrada;
+	}
+
 	private boolean validarListaPreciosRequest(ListaPreciosEntity lpr) {
 		boolean valid = true;
 		String logPrefix = "Error de validacion de ListaPrecios ";
@@ -109,12 +108,15 @@ public class ListaPreciosBean implements ListaPrecios {
 			LOGGER.error(logPrefix + "- La lista de items esta vacia.");
 			valid = false;
 		}
-		ProveedorEntity prove = proveedor.getProveedorPorCuit(lpr.getProveedor().getCuit());
-		if (prove == null) {
-			LOGGER.error(logPrefix + "- El proveedor es nulo.");
-			valid = false;
-		} else
-			lpr.getProveedor().setId(prove.getId());
+		if (lpr.getProveedor().getId() < 1) {
+			ProveedorEntity prove = proveedor.getProveedorPorCuit(lpr
+					.getProveedor().getCuit());
+			if (prove == null) {
+				LOGGER.error(logPrefix + "- El proveedor es nulo.");
+				valid = false;
+			} else
+				lpr.getProveedor().setId(prove.getId());
+		}
 		return valid;
 	}
 }
