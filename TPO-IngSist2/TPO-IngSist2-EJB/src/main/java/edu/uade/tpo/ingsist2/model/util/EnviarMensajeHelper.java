@@ -19,11 +19,11 @@ public class EnviarMensajeHelper {
 	private QueueConnection connection;
 	private static final Logger LOGGER = Logger.getLogger(EnviarMensajeHelper.class);
 	
-	public EnviarMensajeHelper (String ip, String puerto, String queueName){
+	public EnviarMensajeHelper (String ip, int puerto, String queueName){
 		inicializar(ip, puerto, queueName);
 	}
 	
-	private void inicializar(String ip, String puerto, String queueName){
+	private void inicializar(String ip, int puerto, String queueName){
 		LOGGER.info("===Inicializando conexion a la cola.===");
 		Hashtable<String, String> props = new Hashtable<String, String>();
 

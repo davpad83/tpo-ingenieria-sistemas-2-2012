@@ -8,13 +8,13 @@ import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 @Table(name=EntitiesTablesNames.OFICINA_DE_VENTA)
 public class OficinaDeVentaEntity {
 
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	private String nombre;
 	private String direccion;
 	private String ip;
-	private String puerto;
+	private int puerto;
 	private String nombreColaRemito;
 
 	public int getId() {
@@ -49,11 +49,11 @@ public class OficinaDeVentaEntity {
 		this.ip = ip;
 	}
 
-	public String getPuerto() {
+	public int getPuerto() {
 		return puerto;
 	}
 
-	public void setPuerto(String puerto) {
+	public void setPuerto(int puerto) {
 		this.puerto = puerto;
 	}
 
@@ -77,5 +77,8 @@ public class OficinaDeVentaEntity {
 		this.id = odv.getIdODV();
 		this.nombre = odv.getNombre();
 		this.direccion = odv.getDireccion();
+		this.ip = odv.getIp();
+		this.puerto = odv.getPuerto();
+		this.nombreColaRemito = odv.getNombreColaRemito();
 	}
 }
