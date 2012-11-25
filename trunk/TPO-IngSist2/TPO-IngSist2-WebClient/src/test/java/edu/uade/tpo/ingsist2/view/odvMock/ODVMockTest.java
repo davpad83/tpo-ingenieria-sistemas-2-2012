@@ -32,7 +32,7 @@ public class ODVMockTest {
 	
 	@Before
 	public void prepararTest() {
-		 emHelper = new EnviarMensajeHelper("127.0.0.1", "1099", JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE);
+		 emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE);
 	}	
 	
 	@After

@@ -14,7 +14,7 @@ package edu.uade.tpo.ingsist2.view.vo;
 public class ItemVO {
 
 	private int id;
-	private String SKF;
+	private String skf;
 	private String pais;
 	private String marca;
 	private int cantidad;
@@ -30,11 +30,11 @@ public class ItemVO {
 	}
 
 	public String getSKF() {
-		return SKF;
+		return skf;
 	}
 
 	public void setSKF(String sKF) {
-		SKF = sKF;
+		skf = sKF;
 	}
 
 	public String getPais() {
@@ -72,7 +72,7 @@ public class ItemVO {
 	public void setRodamiento(RodamientoVO rodamiento) {
 		this.marca=rodamiento.getMarca();
 		this.pais=rodamiento.getPais();
-		this.SKF=rodamiento.getCodigoSKF();
+		this.skf=rodamiento.getCodigoSKF();
 	}
 
 	public void setIdOrdenDeCompra(int idOrdenDeCompra) {

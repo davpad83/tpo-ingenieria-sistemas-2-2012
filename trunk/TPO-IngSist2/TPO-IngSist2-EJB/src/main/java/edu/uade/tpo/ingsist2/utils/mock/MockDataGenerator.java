@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.*;
 
 public class MockDataGenerator {
@@ -202,5 +201,260 @@ public class MockDataGenerator {
 		scr.setSKF(getRandomCodigoSKF());
 		scr.setIdODV(getRandomId());
 		return scr;
+	}
+
+	public static ArrayList<ProveedorVO> getControlledProveedoresList() {
+		ArrayList<ProveedorVO> proveedores = new ArrayList<ProveedorVO>();
+		ProveedorVO pvo1 = nuevoProveedorVO("20-34343431-2", "Rodamientos S.A.");
+		ProveedorVO pvo2 = nuevoProveedorVO("20-34343432-2", "Rodaditos Expertos");
+		ProveedorVO pvo3 = nuevoProveedorVO("20-34343433-2", "Los rodados ruedan");
+		ProveedorVO pvo4 = nuevoProveedorVO("20-34343434-2", "R con R Rodado");
+		
+		proveedores.add(pvo1);
+		proveedores.add(pvo2);
+		proveedores.add(pvo3);
+		proveedores.add(pvo4);
+		
+		return proveedores;
+	}
+
+	private static ProveedorVO nuevoProveedorVO(String cuit, String nombre) {
+		ProveedorVO pvo = new ProveedorVO();
+		pvo.setCuit(cuit);
+		pvo.setNombre(nombre);
+		return pvo;
+	}
+
+	public static ArrayList<ListaPreciosVO> getControlledListaPrecioList() {
+		/* ItemListas para la lista 1 */
+			/* item lista 1 */
+		ItemListaVO ilvo_list1_1 = nuevoItemListaVO(1, 310.7f); 
+		ItemListaVO ilvo_list1_2 = nuevoItemListaVO(2, 249f); 
+		ItemListaVO ilvo_list1_3 = nuevoItemListaVO(3, 7.1f); 
+		ItemListaVO ilvo_list1_4 = nuevoItemListaVO(4, 7.1f); 
+		ItemListaVO ilvo_list1_5 = nuevoItemListaVO(5, 13.49f); 
+		ItemListaVO ilvo_list1_6 = nuevoItemListaVO(6, 67.01f); 
+		ItemListaVO ilvo_list1_7 = nuevoItemListaVO(7, 107f); 
+		ItemListaVO ilvo_list1_8 = nuevoItemListaVO(8, 132f); 
+		ItemListaVO ilvo_list1_9 = nuevoItemListaVO(9, 10f); 
+		ItemListaVO ilvo_list1_10 = nuevoItemListaVO(10, 10f); 
+		ItemListaVO ilvo_list1_11 = nuevoItemListaVO(11, 310f); 
+		ItemListaVO ilvo_list1_12 = nuevoItemListaVO(12, 249f); 
+		ItemListaVO ilvo_list1_13 = nuevoItemListaVO(13, 7.1f); 
+		ItemListaVO ilvo_list1_14 = nuevoItemListaVO(14, 7.1f); 
+		ItemListaVO ilvo_list1_15 = nuevoItemListaVO(15, 13.9f); 
+		ItemListaVO ilvo_list1_16 = nuevoItemListaVO(16, 67f); 
+		ItemListaVO ilvo_list1_17 = nuevoItemListaVO(17, 80f); 
+		ItemListaVO ilvo_list1_18 = nuevoItemListaVO(18, 132f); 
+
+		/* ItemListas para la lista 2 */
+		ItemListaVO ilvo_list2_1 = nuevoItemListaVO(1, 290f); 
+		ItemListaVO ilvo_list2_2 = nuevoItemListaVO(2, 230f); 
+		ItemListaVO ilvo_list2_3 = nuevoItemListaVO(3, 6f); 
+		ItemListaVO ilvo_list2_4 = nuevoItemListaVO(4, 10f); 
+		ItemListaVO ilvo_list2_5 = nuevoItemListaVO(5, 20f); 
+		ItemListaVO ilvo_list2_6 = nuevoItemListaVO(6, 75f); 
+		ItemListaVO ilvo_list2_7 = nuevoItemListaVO(7, 105f); 
+		ItemListaVO ilvo_list2_8 = nuevoItemListaVO(8, 154f); 
+		ItemListaVO ilvo_list2_9 = nuevoItemListaVO(9, 13f); 
+		ItemListaVO ilvo_list2_10 = nuevoItemListaVO(10, 9f); 
+		ItemListaVO ilvo_list2_11 = nuevoItemListaVO(11, 309.9f);
+		
+		/* ItemListas para la lista 3 */
+		ItemListaVO ilvo_list3_1 = nuevoItemListaVO(1, 289f); 
+		ItemListaVO ilvo_list3_2 = nuevoItemListaVO(2, 240f); 
+		ItemListaVO ilvo_list3_3 = nuevoItemListaVO(3, 7f); 
+		ItemListaVO ilvo_list3_4 = nuevoItemListaVO(4, 30f); 
+		ItemListaVO ilvo_list3_5 = nuevoItemListaVO(10, 16f); 
+		ItemListaVO ilvo_list3_6 = nuevoItemListaVO(12, 230f); 
+		ItemListaVO ilvo_list3_7 = nuevoItemListaVO(13, 7.2f); 
+		ItemListaVO ilvo_list3_8 = nuevoItemListaVO(14, 7.0f); 
+		ItemListaVO ilvo_list3_9 = nuevoItemListaVO(15, 14f); 
+		ItemListaVO ilvo_list3_10 = nuevoItemListaVO(16, 69f); 
+		ItemListaVO ilvo_list3_11 = nuevoItemListaVO(18, 133f);
+		
+		/* ItemListas para la lista 4 */
+		ItemListaVO ilvo_list4_1 = nuevoItemListaVO(5, 12f); 
+		ItemListaVO ilvo_list4_2 = nuevoItemListaVO(9, 9f); 
+		ItemListaVO ilvo_list4_3 = nuevoItemListaVO(11, 313f); 
+		ItemListaVO ilvo_list4_4 = nuevoItemListaVO(13, 7.9f); 
+		ItemListaVO ilvo_list4_5 = nuevoItemListaVO(15, 20f); 
+		ItemListaVO ilvo_list4_6 = nuevoItemListaVO(17, 83f); 
+		
+		/* Cargo list item lista para la lista 1 */
+		ArrayList<ItemListaVO> listaIL1 = new ArrayList<ItemListaVO>();
+		listaIL1.add(ilvo_list1_1);
+		listaIL1.add(ilvo_list1_2);
+		listaIL1.add(ilvo_list1_3);
+		listaIL1.add(ilvo_list1_4);
+		listaIL1.add(ilvo_list1_5);
+		listaIL1.add(ilvo_list1_6);
+		listaIL1.add(ilvo_list1_7);
+		listaIL1.add(ilvo_list1_8);
+		listaIL1.add(ilvo_list1_9);
+		listaIL1.add(ilvo_list1_10);
+		listaIL1.add(ilvo_list1_11);
+		listaIL1.add(ilvo_list1_12);
+		listaIL1.add(ilvo_list1_13);
+		listaIL1.add(ilvo_list1_14);
+		listaIL1.add(ilvo_list1_15);
+		listaIL1.add(ilvo_list1_16);
+		listaIL1.add(ilvo_list1_17);
+		listaIL1.add(ilvo_list1_18);
+		
+		/* Cargo list item lista para la lista 2 */
+		ArrayList<ItemListaVO> listaIL2 = new ArrayList<ItemListaVO>();
+		listaIL2.add(ilvo_list2_1);
+		listaIL2.add(ilvo_list2_2);
+		listaIL2.add(ilvo_list2_3);
+		listaIL2.add(ilvo_list2_4);
+		listaIL2.add(ilvo_list2_5);
+		listaIL2.add(ilvo_list2_6);
+		listaIL2.add(ilvo_list2_7);
+		listaIL2.add(ilvo_list2_8);
+		listaIL2.add(ilvo_list2_9);
+		listaIL2.add(ilvo_list2_10);
+		listaIL2.add(ilvo_list2_11);
+		
+		/* Cargo list item lista para la lista 3 */
+		ArrayList<ItemListaVO> listaIL3 = new ArrayList<ItemListaVO>();
+		listaIL3.add(ilvo_list3_1);
+		listaIL3.add(ilvo_list3_2);
+		listaIL3.add(ilvo_list3_3);
+		listaIL3.add(ilvo_list3_4);
+		listaIL3.add(ilvo_list3_5);
+		listaIL3.add(ilvo_list3_6);
+		listaIL3.add(ilvo_list3_7);
+		listaIL3.add(ilvo_list3_8);
+		listaIL3.add(ilvo_list3_9);
+		listaIL3.add(ilvo_list3_10);
+		listaIL3.add(ilvo_list3_11);
+		
+		/* Cargo list item lista para la lista 4 */
+		ArrayList<ItemListaVO> listaIL4 = new ArrayList<ItemListaVO>();
+		listaIL4.add(ilvo_list4_1);
+		listaIL4.add(ilvo_list4_2);
+		listaIL4.add(ilvo_list4_3);
+		listaIL4.add(ilvo_list4_4);
+		listaIL4.add(ilvo_list4_5);
+		listaIL4.add(ilvo_list4_6);
+		
+		ListaPreciosVO lpvo1 = nuevaListaPrecios("Lista Rodaditos Expertos", new Date(), getRandomFechaVencimiento(), 1, null,listaIL1);
+		ListaPreciosVO lpvo2 = nuevaListaPrecios("Lista Rodamientos S.A.", new Date(), getRandomFechaVencimiento(), 2, null,listaIL2);
+	  	ListaPreciosVO lpvo3 = nuevaListaPrecios("Lista Los rodados ruedan", new Date(), getRandomFechaVencimiento(), 3, null,listaIL3);
+		ListaPreciosVO lpvo4 = nuevaListaPrecios("Lista R con R Rodado", new Date(), getRandomFechaVencimiento(), 4, null,listaIL4);
+		
+		ArrayList<ListaPreciosVO> lpvoList = new ArrayList<ListaPreciosVO>();
+		lpvoList.add(lpvo1);
+		lpvoList.add(lpvo2);
+		lpvoList.add(lpvo3);
+		lpvoList.add(lpvo4);
+		
+		return lpvoList;
+	}
+
+	private static ItemListaVO nuevoItemListaVO(int idRod, float precio) {
+		RodamientoVO rvo = new RodamientoVO();
+		rvo.setId(idRod);
+		ItemListaVO ilvo = new ItemListaVO();
+		ilvo.setPrecio(precio);
+		ilvo.setRodamiento(rvo);
+		return ilvo;
+	}
+
+	private static ListaPreciosVO nuevaListaPrecios(String nombre, Date fechaInicio,
+			Date fechaFin, int idProveedor, ArrayList<CondicionVentaVO> condiciones, ArrayList<ItemListaVO> listaItems) {
+		ListaPreciosVO lpvo = new ListaPreciosVO();
+		lpvo.setNombre(nombre);
+		lpvo.setVigenciaDesde(fechaInicio);
+		lpvo.setVigenciaHasta(fechaFin);
+		ProveedorVO prove = new ProveedorVO();
+		prove.setId(idProveedor);
+		lpvo.setProveedor(prove);
+		lpvo.setCondicionesDeVenta(condiciones);
+		lpvo.setItems(listaItems);
+		return lpvo;
+	}
+
+	public static ArrayList<RodamientoVO> getControlledRodamientosList() {
+		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 0);
+		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 0);
+		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 0);
+		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 0);
+		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 0);
+		RodamientoVO rod6 = nuevoRodamientoVO("6204 2RSC3", "SFK", "Brasil", 0);
+		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 0);
+		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 0);
+		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 0);
+		RodamientoVO rod10 = nuevoRodamientoVO("NJ 208 EMC3", "STEYR", "Francia", 0);
+		RodamientoVO rod11 = nuevoRodamientoVO("NJ 208 EMC3", "FAG", "Francia", 0);
+		RodamientoVO rod12 = nuevoRodamientoVO("NJ 208 EMC3", "ZKL", "Francia", 0);
+		RodamientoVO rod13 = nuevoRodamientoVO("6200", "ZKL", "Alemania", 0);
+		RodamientoVO rod14 = nuevoRodamientoVO("6200", "FAG", "Alemania", 0);
+		RodamientoVO rod15 = nuevoRodamientoVO("6200 ZZ", "ZKL", "Reino Unido", 0);
+		RodamientoVO rod16 = nuevoRodamientoVO("6200 ZZ", "ZKL", "Suecia", 0);
+		RodamientoVO rod17 = nuevoRodamientoVO("6204 2RSC3", "ZKL", "Brasil", 0);
+		RodamientoVO rod18 = nuevoRodamientoVO("K25580/25520", "FAG", "Japon", 0);
+
+		ArrayList<RodamientoVO> rodamientos = new ArrayList<RodamientoVO>();
+		rodamientos.add(rod1);
+		rodamientos.add(rod2);
+		rodamientos.add(rod3);
+		rodamientos.add(rod4);
+		rodamientos.add(rod5);
+		rodamientos.add(rod6);
+		rodamientos.add(rod7);
+		rodamientos.add(rod8);
+		rodamientos.add(rod9);
+		rodamientos.add(rod10);
+		rodamientos.add(rod11);
+		rodamientos.add(rod12);
+		rodamientos.add(rod13);
+		rodamientos.add(rod14);
+		rodamientos.add(rod15);
+		rodamientos.add(rod16);
+		rodamientos.add(rod17);
+		rodamientos.add(rod18);
+		
+		return rodamientos;
+	}
+
+	private static RodamientoVO nuevoRodamientoVO(String skf, String marca, String pais, int stock) {
+		RodamientoVO rod = new RodamientoVO();
+		rod.setCodigoSKF(skf);
+		rod.setMarca(marca);
+		rod.setPais(pais);
+		rod.setStock(stock);
+		return rod;
+	}
+
+	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "", 1099, "EnviarRemito");
+		
+		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
+		odvvo.add(odv1);
+		odvvo.add(odv2);
+		odvvo.add(odv3);
+		odvvo.add(odv4);
+		odvvo.add(odv5);
+		odvvo.add(odv6);
+		
+		return odvvo;
+	}
+
+	private static OficinaDeVentaVO nuevaOficinaDeVentaVO(String nombre,
+			String direccion, String ip, int puerto, String nombreColaRemito) {
+		OficinaDeVentaVO odv = new OficinaDeVentaVO();
+		odv.setNombre(nombre);
+		odv.setDireccion(direccion);
+		odv.setIp(ip);
+		odv.setPuerto(puerto);
+		odv.setNombreColaRemito(nombreColaRemito);
+		return odv;
 	}
 }

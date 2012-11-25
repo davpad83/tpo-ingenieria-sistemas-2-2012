@@ -3,15 +3,19 @@ package edu.uade.tpo.ingsist2.view.facade;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import edu.uade.tpo.ingsist2.controllers.AdministrarCotizaciones;
+import edu.uade.tpo.ingsist2.controllers.AdministrarOficinaDeVenta;
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
 import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
+import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
@@ -29,8 +33,10 @@ public class FacadeBean implements Facade {
 	@EJB
 	AdministrarCotizaciones adminCot;
 	@EJB
-	OficinaDeVenta oficinaVenta;
-	
+	AdministrarOficinaDeVenta adminOficinaVenta;
+	@EJB
+	MessagesFacade messagesFacade;
+
 	/* ===========ÊABM PROVEEDORES =========== */
 
 	@Override
@@ -74,14 +80,14 @@ public class FacadeBean implements Facade {
 	public ArrayList<RodamientoVO> getRodamientos() {
 		return adminRod.getRodamientos();
 	}
-	
+
 	/* ===========ÊABM DE OFICINA DE VENTA =========== */
-	
+
 	@Override
-	public void guardarOficinaDeVenta(OficinaDeVentaVO odv){
-		oficinaVenta.guardarOficinaDeVenta(odv);
+	public void guardarOficinaDeVenta(OficinaDeVentaVO odv) {
+		adminOficinaVenta.guardarOficinaDeVenta(odv);
 	}
-	
+
 	/* ===========ÊWEB METHODS =========== */
 
 	@Override
@@ -91,5 +97,33 @@ public class FacadeBean implements Facade {
 		return adminCot.procesarSolicitudCotizacion(scr);
 	}
 
+	/* =========== GENERAR DATA DE INICIAL DE PRUEBA ========== */
 
+	@PostConstruct
+	public void generateInitialData() {
+		ArrayList<ProveedorVO> proveedoresACargar = MockDataGenerator
+				.getControlledProveedoresList();
+		ArrayList<ListaPreciosVO> listaPrecioACargar = MockDataGenerator
+				.getControlledListaPrecioList();
+		ArrayList<RodamientoVO> rodamientosACargar = MockDataGenerator
+				.getControlledRodamientosList();
+		ArrayList<OficinaDeVentaVO> odvsACargar = MockDataGenerator
+				.getControlledOficinasDeVentaList();
+
+		for (ProveedorVO p : proveedoresACargar) {
+			guardarProveedor(p);
+		}
+		
+		for (RodamientoVO r : rodamientosACargar) {
+			guardarRodamiento(r);
+		}
+		
+		for (OficinaDeVentaVO odv : odvsACargar) {
+			guardarOficinaDeVenta(odv);
+		}
+		
+		for (ListaPreciosVO l : listaPrecioACargar) {
+			messagesFacade.agregarListaProveedor(l);
+		}
+	}
 }

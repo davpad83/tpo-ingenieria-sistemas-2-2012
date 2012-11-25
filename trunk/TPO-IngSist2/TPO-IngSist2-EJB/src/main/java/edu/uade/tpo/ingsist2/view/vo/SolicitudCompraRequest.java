@@ -47,10 +47,9 @@ public class SolicitudCompraRequest {
 
 	public String toXML() {
 		XStream xs = new XStream();
-		xs.alias("OrdenDeCompra", SolicitudCompraRequest.class);
-		xs.alias("ItemOrdenDeCompra", ItemVO.class);
-		xs.aliasField("idPedidoCotizacion", ItemVO.class, "id");
+		xs.alias("ordendecompra", SolicitudCompraRequest.class);
+		xs.alias("itemordendecompra", ItemVO.class);
+		xs.aliasField("idpedidocotizacion", ItemVO.class, "id");
 		return xs.toXML(this);
 	}
-
 }
