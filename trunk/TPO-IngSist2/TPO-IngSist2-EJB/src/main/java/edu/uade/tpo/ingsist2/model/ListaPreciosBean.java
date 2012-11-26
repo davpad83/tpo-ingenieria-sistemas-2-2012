@@ -66,8 +66,7 @@ public class ListaPreciosBean implements ListaPrecios {
 
 		try {
 			idlista = (Integer) entityManager
-					.createQuery(
-							"select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
+					.createQuery("select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
 					.setParameter("iditem", idItemLista).getSingleResult();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista");

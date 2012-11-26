@@ -9,14 +9,10 @@ import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
-import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Local
 public interface Cotizacion {
-
-	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
-			SolicitudCotizacionRequest scr);
+	
 
 	public ItemListaEntity getItemListaConMenorPrecioConMarca(RodamientoEntity rod);
 

@@ -48,13 +48,6 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			.getLogger(AdministrarCotizacionesBean.class);
 
 	private SolicitudCotizacionResponse scresp;
-	
-	int pendientes=0;
-	
-    
-	public AdministrarCotizacionesBean() {
-    }
-    
     
 	
     public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest screq) {
@@ -62,6 +55,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     	scresp = new SolicitudCotizacionResponse(); 
     	scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
     	scresp.setIdODV(screq.getIdODV());
+    	scresp.setRodamientosCotizados(new ArrayList<RodamientoCotizadoVO>());
     	RodamientoEntity r = new RodamientoEntity();
     	List<RodamientoEntity> listaResultado = null;
     	
@@ -72,7 +66,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     		}
     		else{
     			scresp.setIdPedidoCotizacion(-1);
-    		}    		
+    		}
     }
     else
     {
@@ -97,6 +91,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 	    
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
 		ItemListaEntity it = new ItemListaEntity();
+		int pendientes=0;
 
 		rcVO.setSKF(r.getCodigoSKF());
 		rcVO.setPais(r.getPais());
@@ -108,7 +103,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			rcVO.setPrecioCotizado(it.getPrecio());
 
 			if (screq.getCantidad() > rcVO.getEnStock()) {
-				rcVO.setTiempoEstimadoEntrega("3 semanas");
+				rcVO.setTiempoEstimadoEntrega(MockDataGenerator.getRandomCantidad() +" semanas");
 				pendientes= screq.getCantidad()-rcVO.getEnStock();
 			}
 			rcVO.setFechaInicio(new Date());
@@ -133,7 +128,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		int idlista= listaprecio.getIdListaPrecioPorIdItemLista(it.getId());
 		ListaPreciosEntity lp =new ListaPreciosEntity();
 		lp.setIdLista(idlista);
-		ct.setLista(lp);		 
+		ct.setLista(lp);	 
 		
 		ct.setFecha(rcVO.getFechaInicio());
 		ct.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
@@ -157,59 +152,66 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
 		List<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
 		List<ItemListaEntity> listaResultado = null;
+		List<Integer> pendientes = new ArrayList<Integer>();
 
 		try {
-			listaResultado=cotizacion.getItemsListaConMenorPrecioSinMarca(lrod.get(0));		
-			
-			for (int i = 0; i < listaResultado.size(); i++) {
-
-				rcVO.setSKF(listaResultado.get(i).getRodamiento().getCodigoSKF());
-				rcVO.setPais(listaResultado.get(i).getRodamiento().getPais());
-				rcVO.setEnStock(lrod.get(0).getStock());
-				rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
-				rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());			
-
-				if (screq.getCantidad() > rcVO.getEnStock()) {
-					rcVO.setTiempoEstimadoEntrega("3 semanas");
-					pendientes= screq.getCantidad()-rcVO.getEnStock();
-				}
-				rcVO.setFechaFin(null);
-				rcVO.setFechaInicio(null);
-				listrcVO.add(rcVO);
-			}
-			scresp.setRodamientosCotizados(listrcVO);
-			
+			listaResultado=cotizacion.getItemsListaConMenorPrecioSinMarca(lrod.get(0));	
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion sin marca");
 			e.printStackTrace();
 		}
+		
+		for (int i = 0; i < listaResultado.size(); i++) {
+
+				rcVO.setSKF(listaResultado.get(i).getRodamiento().getCodigoSKF());
+				rcVO.setPais(listaResultado.get(i).getRodamiento().getPais());
+				rcVO.setEnStock(listaResultado.get(i).getRodamiento().getStock());
+				rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
+				rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());		
+
+				if (screq.getCantidad() > rcVO.getEnStock()) {
+					rcVO.setTiempoEstimadoEntrega(MockDataGenerator.getRandomCantidad()+" semanas");
+					pendientes.add(screq.getCantidad()-rcVO.getEnStock());
+				}
+				else{
+					pendientes.add(0);
+				}
+				rcVO.setFechaInicio(new Date());
+				rcVO.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
 				
+				listrcVO.add(rcVO);	
+					
+					System.out.println("marca: "+listrcVO.get(i).getMarca());
+					System.out.println("pais: "+listrcVO.get(i).getPais());
+					System.out.println("SKF: "+listrcVO.get(i).getSKF());
+					System.out.println("precio: "+listrcVO.get(i).getPrecioCotizado());
+							
+			}
+						
+		scresp.setRodamientosCotizados(listrcVO);
+		
 		CotizacionEntity ct = new CotizacionEntity();
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
+		ct.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
+		ofe.setId(screq.getIdODV());
+		ct.setOdv(ofe);
+		ItemRodamientoEntity ir = new ItemRodamientoEntity();	
 		int idlista=0;
 
 		for (int j = 0; j < listaResultado.size(); j++) {
-			
-			ct.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-			ofe.setId(screq.getIdODV());
-			ct.setOdv(ofe);
-			ct.setRodamiento(listaResultado.get(j).getRodamiento());
 						
 			idlista= listaprecio.getIdListaPrecioPorIdItemLista(listaResultado.get(j).getId());
 			ListaPreciosEntity lp =new ListaPreciosEntity();
 			lp.setIdLista(idlista);
-			ct.setLista(lp);		 
+			ct.setLista(lp);
+			ct.setRodamiento(listaResultado.get(j).getRodamiento());
 			
-			ct.setFecha(rcVO.getFechaInicio());
-			ct.setTiempoEntrega(rcVO.getTiempoEstimadoEntrega());
-			ct.setVencimiento(rcVO.getFechaFin());  	
-					
-//			cotizacion.guardarCotizacion(ct);
+			ct.setFecha(listrcVO.get(j).getFechaInicio());
+			ct.setTiempoEntrega("3 semanas");
+			ct.setVencimiento(listrcVO.get(j).getFechaFin());
 			
-			ItemRodamientoEntity ir = new ItemRodamientoEntity();		
-			
-			ir.setCantidad(screq.getCantidad());	
-			ir.setPendientes(pendientes);
+			ir.setCantidad(screq.getCantidad());
+			ir.setPendientes(pendientes.get(j));
 			ir.setRodamiento(listaResultado.get(j).getRodamiento());
 			ir.setCotizacion(ct);
 			

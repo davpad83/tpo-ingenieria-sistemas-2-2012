@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class RodamientoCotizadoVO implements Serializable {
 
-	private static final long serialVersionUID = 5473872926535750305L;
-
+	private static final long serialVersionUID = 8082908768080946797L;
+	
 	private String SKF;
 	private String marca;
 	private String pais;
@@ -21,7 +21,7 @@ public class RodamientoCotizadoVO implements Serializable {
 	}
 
 	public void setSKF(String sKF) {
-		SKF = sKF;
+		this.SKF = sKF;
 	}
 
 	public String getMarca() {

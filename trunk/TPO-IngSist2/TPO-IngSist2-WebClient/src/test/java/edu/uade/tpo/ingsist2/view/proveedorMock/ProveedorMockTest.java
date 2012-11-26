@@ -8,18 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +17,6 @@ import org.junit.Test;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
-import edu.uade.tpo.ingsist2.view.jms.ListaRecepcionRodamientosQueue;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
@@ -84,6 +72,7 @@ public class ProveedorMockTest {
 		return result.toString();
 	}
 
+	@SuppressWarnings("unused")
 	private void salvarListaPreciosVO(ListaPreciosVO listaPrecios) {
 		int numero = 0;
 
