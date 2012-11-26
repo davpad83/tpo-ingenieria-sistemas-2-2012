@@ -16,8 +16,6 @@ import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
-import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 /**
  * Session Bean implementation class CotizacionBean
@@ -30,87 +28,80 @@ public class CotizacionBean implements Cotizacion {
 
 	private static final Logger LOGGER = Logger.getLogger(CotizacionBean.class);
 
-	@Override
-	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
-			SolicitudCotizacionRequest scr) {
-		return null;
-	}
 
-	public ItemListaEntity getItemListaConMenorPrecioConMarca(
-			RodamientoEntity rod) {
-		LOGGER.info("Buscando item lista con menor precio para codigoSKF: "
-				+ rod.getCodigoSKF() + ", pais: " + rod.getPais()
+
+	
+	public ItemListaEntity getItemListaConMenorPrecioConMarca(RodamientoEntity rod) {
+		LOGGER.info("Buscando item lista con menor precio para codigoSKF: "+ rod.getCodigoSKF() + ", pais: " + rod.getPais()
 				+ " y marca: " + rod.getMarca());
 		ItemListaEntity itEncontrado = null;
 
 		try {
 			Query query = entityManager
-					.createQuery(
-							"SELECT IL " 
-							+"FROM ItemListaEntity IL"
-							+ " WHERE IL.precio = "
-									+ "(SELECT MIN(IL2.precio) "
-										+ " FROM ItemListaEntity IL2"
-										+ " WHERE IL2.rodamiento.codigoSKF = :codigo "
-											+ "AND IL2.rodamiento.marca = :marca "
-											+ "AND IL2.rodamiento.pais = :pais "
-//										+ "GROUP BY IL2.rodamiento.marca)"
-											)
+                    .createQuery("SELECT IL FROM ItemListaEntity IL WHERE IL.precio = "+
+				             "(SELECT MIN(IL2.precio) FROM ItemListaEntity IL2 " +
+				              "WHERE IL2.rodamiento.codigoSKF = :codigo " +
+								"AND IL2.rodamiento.pais = :pais) " +
+								"AND IL.rodamiento.codigoSKF = :codigo AND IL.rodamiento.pais = :pais AND IL.rodamiento.marca = :marca")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())
 					.setParameter("pais", rod.getPais());
 			LOGGER.debug("Executing query: " + query.toString());
 			itEncontrado = (ItemListaEntity) query.getSingleResult();
-		} catch (HibernateException he) {
-			he.printStackTrace();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista.");
+			LOGGER.error(e);
 		}
-		LOGGER.info("ItemLista encontrado, su id es: " + itEncontrado.getId());
-
+		finally {
+		if (itEncontrado == null) {
+			LOGGER.info("No existe el item lista");
+			return null;
+		} else
+			LOGGER.info("Se ha encontrado el item lista para el rodamiento.");
+		}
 		return itEncontrado;
 	}
-
+	
+	
+	
 	@SuppressWarnings("unchecked")
-	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(
-			RodamientoEntity rod) {
+	public List<ItemListaEntity> getItemsListaConMenorPrecioSinMarca(RodamientoEntity rod) {
 		LOGGER.info("Buscando items en listas con menor precio para codigoSKF: "
 				+ rod.getCodigoSKF() + ", pais: " + rod.getPais());
 		List<ItemListaEntity> listaResultado = null;
 
 		try {
-			/*
-			 * listaResultado= entityManager.createQuery(
-			 * "select i, min(i.precio) from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo "
-			 * + "group by i.rodamiento.marca")
-			 */
-			// listaResultado=
-			// entityManager.createQuery("select i from ItemListaEntity i where i.rodamiento.pais=:pais and i.rodamiento.codigoSKF=:codigo "
-			// +
-			// "group by i.rodamiento.marca")
-			// .setParameter("codigo", rod.getCodigoSKF())
-			// .setParameter("pais", rod.getPais())
-			// .getResultList();
-
-			Query query = entityManager
-					.createQuery(
-							"SELECT IL FROM ItemListaEntity IL"
-									+ " WHERE IL.rodamiento.marca IN "
-									+ "(SELECT IL2.rodamiento.marca, MIN(IL2.precio) "
-										+ " FROM ItemListaEntity IL2"
-										+ " WHERE IL2.rodamiento.codigoSKF = :codigo "
-										+ "AND IL2.rodamiento.pais = :pais "
-										+ "GROUP BY IL2.rodamiento.marca)")
-					.setParameter("codigo", rod.getCodigoSKF())
-					.setParameter("pais", rod.getPais());
-
+			String sqlString = "SELECT IL.id, IL.precio, IL.rodamiento_id ,IL.items_idlista " +
+					"FROM ItemLista IL INNER JOIN rodamiento ROD on (IL.rodamiento_id = ROD.id)  WHERE IL.precio = " +
+					"(SELECT distinct MIN(IL2.precio) FROM ItemLista IL2 inner join rodamiento ROD2 on (IL2.rodamiento_id = ROD2.id) " +
+					"WHERE ROD2.codigoSKF = ROD.codigoSKF AND ROD2.pais = ROD.pais AND ROD2.marca = rod.marca " +
+					"GROUP BY ROD2.marca) " +
+					"AND ROD.codigoSKF = :codigo AND rod.pais = :pais";
+			
+			Query q= entityManager.createNativeQuery(sqlString, ItemListaEntity.class);
+			q.setParameter("codigo", rod.getCodigoSKF());
+			q.setParameter("pais", rod.getPais());
+			LOGGER.debug("Executing query: " + q.toString());
+			listaResultado= (List<ItemListaEntity>) q.getResultList();
+			
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar los items en listas");
 		}
-
-		return listaResultado;
+		finally {
+			if (listaResultado == null) {
+				LOGGER.info("No existe ningun item lista");
+				return null;
+			} else
+				LOGGER.info("Se ha encontrado los items lista para el rodamiento sin marca.");
+			}
+			return listaResultado;
 	}
-
+	
+	
+	
 	@Override
 	public CotizacionEntity getCotizacion(int idCot) {
 		LOGGER.info("Buscando Cotizacion con id " + idCot);
@@ -132,6 +123,7 @@ public class CotizacionBean implements Cotizacion {
 		return cot;
 	}
 
+	
 	@Override
 	public int verificarStock(ItemRodamientoEntity ire) {
 		RodamientoEntity rod = ire.getRodamiento();
@@ -169,4 +161,5 @@ public class CotizacionBean implements Cotizacion {
 	public boolean existe(int id) {
 		return getCotizacion(id) == null;
 	}
+
 }

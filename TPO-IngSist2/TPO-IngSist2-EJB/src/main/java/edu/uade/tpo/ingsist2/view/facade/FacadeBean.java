@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.view.facade;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,7 +12,6 @@ import edu.uade.tpo.ingsist2.controllers.AdministrarCotizaciones;
 import edu.uade.tpo.ingsist2.controllers.AdministrarOficinaDeVenta;
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
-import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
@@ -92,8 +90,7 @@ public class FacadeBean implements Facade {
 
 	@Override
 	@WebMethod
-	public SolicitudCotizacionResponse recibirSolicitudCotizacion(
-			SolicitudCotizacionRequest scr) {
+	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr) {
 		return adminCot.procesarSolicitudCotizacion(scr);
 	}
 

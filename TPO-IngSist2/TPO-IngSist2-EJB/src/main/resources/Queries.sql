@@ -15,6 +15,7 @@ SELECT *
 FROM ItemLista IL
      INNER JOIN rodamiento ROD on (IL.rodamiento_id = ROD.id) 
 WHERE IL.precio = 
+
         (SELECT MIN(IL2.precio)
          FROM ItemLista IL2
              inner join rodamiento ROD2 on (IL2.rodamiento_id = ROD2.id)
@@ -22,5 +23,6 @@ WHERE IL.precio =
 	        AND ROD2.pais = ROD.pais 
 	        AND ROD2.marca = ROD.marca
 	 GROUP BY ROD2.marca)
+	 
 AND rod.codigoSKF = 'NJ 208 EMC3'
 AND rod.pais = 'Francia'

@@ -6,7 +6,8 @@ import java.util.List;
 
 public class SolicitudCotizacionResponse implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -3555679828805635020L;
 	
 	private int idPedidoCotizacion;
 	private int idODV;
@@ -31,8 +32,7 @@ public class SolicitudCotizacionResponse implements Serializable {
 	public List<RodamientoCotizadoVO> getRodamientosCotizados() {
 		return rodamientosCotizados;
 	}
-	public void setRodamientosCotizados(
-			List<RodamientoCotizadoVO> rodamientosCotizados) {
+	public void setRodamientosCotizados(List<RodamientoCotizadoVO> rodamientosCotizados) {
 		this.rodamientosCotizados = rodamientosCotizados;
 	}
 

@@ -26,8 +26,7 @@ public class RodamientoBean implements Rodamiento {
 	
 	@Override
 	public void guardarRodamiento(RodamientoEntity r) {
-		LOGGER.info("Procesando guardar rodamiento con codigoSKF "
-				+ r.getCodigoSKF());
+		LOGGER.info("Procesando guardar rodamiento con codigoSKF "+ r.getCodigoSKF());
 		RodamientoEntity rGuardado = null;
 		try {
 			rGuardado = (RodamientoEntity) entityManager.merge(r);
@@ -85,8 +84,7 @@ public class RodamientoBean implements Rodamiento {
 	
 	@Override
 	public RodamientoEntity getRodamientoCotizacionConMarca(String skf,	String pais, String marca) {
-		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf + " Pais: "
-				+ pais + " y Marca: " + marca);
+		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf + " Pais: "+ pais + " y Marca: " + marca);
 
 		RodamientoEntity rBean = null;
 
@@ -94,7 +92,8 @@ public class RodamientoBean implements Rodamiento {
 			rBean = (RodamientoEntity) entityManager
 					.createQuery(
 							"select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais and r.marca=:marca")
-					.setParameter("codigo", skf).setParameter("pais", pais)
+					.setParameter("codigo", skf)
+					.setParameter("pais", pais)
 					.setParameter("marca", marca).getSingleResult();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento");

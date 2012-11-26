@@ -377,24 +377,24 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<RodamientoVO> getControlledRodamientosList() {
-		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 0);
-		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 0);
-		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 0);
-		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 0);
-		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 0);
+		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 6);
+		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 7);
+		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 13);
+		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 45);
+		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 40);
 		RodamientoVO rod6 = nuevoRodamientoVO("6204 2RSC3", "SFK", "Brasil", 0);
-		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 0);
-		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 0);
-		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 0);
-		RodamientoVO rod10 = nuevoRodamientoVO("NJ 208 EMC3", "STEYR", "Francia", 0);
-		RodamientoVO rod11 = nuevoRodamientoVO("NJ 208 EMC3", "FAG", "Francia", 0);
+		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 170);
+		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 56);
+		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 55);
+		RodamientoVO rod10 = nuevoRodamientoVO("NJ 208 EMC3", "STEYR", "Francia", 12);
+		RodamientoVO rod11 = nuevoRodamientoVO("NJ 208 EMC3", "FAG", "Francia", 29);
 		RodamientoVO rod12 = nuevoRodamientoVO("NJ 208 EMC3", "ZKL", "Francia", 0);
 		RodamientoVO rod13 = nuevoRodamientoVO("6200", "ZKL", "Alemania", 0);
-		RodamientoVO rod14 = nuevoRodamientoVO("6200", "FAG", "Alemania", 0);
+		RodamientoVO rod14 = nuevoRodamientoVO("6200", "FAG", "Alemania", 58);
 		RodamientoVO rod15 = nuevoRodamientoVO("6200 ZZ", "ZKL", "Reino Unido", 0);
-		RodamientoVO rod16 = nuevoRodamientoVO("6200 ZZ", "ZKL", "Suecia", 0);
+		RodamientoVO rod16 = nuevoRodamientoVO("6200 ZZ", "ZKL", "Suecia", 89);
 		RodamientoVO rod17 = nuevoRodamientoVO("6204 2RSC3", "ZKL", "Brasil", 0);
-		RodamientoVO rod18 = nuevoRodamientoVO("K25580/25520", "FAG", "Japon", 0);
+		RodamientoVO rod18 = nuevoRodamientoVO("K25580/25520", "FAG", "Japon", 11);
 
 		ArrayList<RodamientoVO> rodamientos = new ArrayList<RodamientoVO>();
 		rodamientos.add(rod1);

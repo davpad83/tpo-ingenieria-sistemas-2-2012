@@ -49,23 +49,27 @@ public class BusinessDelegateTest {
 		
 		sr.setIdPedidoCotizacion(70);
 		sr.setIdODV(3);
-		sr.setSKF("IKL675");
+		sr.setSKF("NJ 208 EMC3");
 		sr.setMarca("");
-		sr.setPais("Holanda");
+		sr.setPais("Francia");
 		sr.setCantidad(190);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
 		System.out.println("termino con idpedido: "+scresp.getIdPedidoCotizacion());
+		System.out.println("oficina: "+scresp.getIdODV());
 		System.out.println("con precios: ");
 		
-		for(int i=0;i<scresp.getRodamientosCotizados().size();i++){
-
-		System.out.println("marca: "+scresp.getRodamientosCotizados().get(i).getMarca());
-		System.out.println("precio: "+scresp.getRodamientosCotizados().get(i).getPrecioCotizado());
+		for(int h=0;h<scresp.getRodamientosCotizados().size();h++){
+			
+		System.out.println("marca: "+scresp.getRodamientosCotizados().get(h).getMarca());
+		System.out.println("pais: "+scresp.getRodamientosCotizados().get(h).getPais());
+		System.out.println("SKF: "+scresp.getRodamientosCotizados().get(h).getSKF());
+		System.out.println("precio: "+scresp.getRodamientosCotizados().get(h).getPrecioCotizado());
+		System.out.println("Cantidad: "+scresp.getRodamientosCotizados().get(h).getEnStock());
 			
 		}
 	}
-	
+	//
 	
 	@Test
 	public void testAgregarProveedor(){
