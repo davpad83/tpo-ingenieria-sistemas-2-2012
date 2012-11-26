@@ -155,6 +155,6 @@ public class CompleteIntegrationTest {
 
 	@Test
 	public void enviarMercaderiaDelProveedorTest() {
-
+		
 	}
 }

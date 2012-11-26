@@ -36,9 +36,10 @@ public class SolicitudCompraRequest {
 	
 	public void fromXML(String xml){
 		XStream xs = new XStream();
-		xs.alias("OrdenDeCompra", SolicitudCompraRequest.class);
-		xs.alias("ItemOrdenDeCompra", ItemVO.class);
-		xs.aliasField("idPedidoCotizacion", ItemVO.class, "id");
+		xs.alias("ordendecompra", SolicitudCompraRequest.class);
+		xs.alias("itemordendecompra", ItemVO.class);
+		xs.omitField(ItemVO.class, "idOrdenDeCompra");
+		xs.aliasField("idpedidocotizacion", ItemVO.class, "id");
 		SolicitudCompraRequest scr = (SolicitudCompraRequest) xs.fromXML(xml);
 		this.idODV = scr.getIdODV();
 		this.idOrdenDeCompra = scr.getIdOrdenDeCompra();
@@ -50,6 +51,7 @@ public class SolicitudCompraRequest {
 		xs.alias("ordendecompra", SolicitudCompraRequest.class);
 		xs.alias("itemordendecompra", ItemVO.class);
 		xs.aliasField("idpedidocotizacion", ItemVO.class, "id");
+		xs.omitField(ItemVO.class, "idOrdenDeCompra");
 		return xs.toXML(this);
 	}
 }
