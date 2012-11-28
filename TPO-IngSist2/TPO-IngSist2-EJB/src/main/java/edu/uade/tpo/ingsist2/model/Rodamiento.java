@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ejb.Local;
 
@@ -20,7 +19,7 @@ public interface Rodamiento {
 	
 	public RodamientoEntity getRodamientoCotizacionConMarca(String skf,String pais,String marca);
 	
-	public List<RodamientoEntity> getRodamientosCotizacionSinMarca(String skf,String pais);
+	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais);
 	
 	public RodamientoEntity getRodamiento(String codSKF, String marca, String pais);
 	

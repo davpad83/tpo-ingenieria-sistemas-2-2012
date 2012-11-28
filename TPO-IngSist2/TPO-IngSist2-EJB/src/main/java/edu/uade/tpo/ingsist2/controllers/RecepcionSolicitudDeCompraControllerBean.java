@@ -18,7 +18,6 @@ import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
@@ -114,9 +113,11 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 			LOGGER.error("La orden de compra es invalida.");
 		}
 	}
-
-	private OrdenDeCompraEntity fromRequestToOCEntity(
-			SolicitudCompraRequest request) {
+	
+	
+	
+	private OrdenDeCompraEntity fromRequestToOCEntity(SolicitudCompraRequest request) {
+		
 		OrdenDeCompraEntity oce = new OrdenDeCompraEntity();
 		oce.setIdRecibido(request.getIdOrdenDeCompra());
 		oce.setEstado("Nueva");

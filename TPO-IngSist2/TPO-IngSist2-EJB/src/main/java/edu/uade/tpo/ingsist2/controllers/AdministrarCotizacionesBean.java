@@ -57,12 +57,11 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
     	scresp.setIdODV(screq.getIdODV());
     	scresp.setRodamientosCotizados(new ArrayList<RodamientoCotizadoVO>());
     	RodamientoEntity r = new RodamientoEntity();
-    	List<RodamientoEntity> listaResultado = null;
     	
     if(screq.getMarca()==null || screq.getMarca().isEmpty()){    
-    	listaResultado= rodamiento.getRodamientosCotizacionSinMarca(screq.getSKF(), screq.getPais());
-    		if (listaResultado!=null){
-    				procesarSinMarca(listaResultado,screq);
+    	r = rodamiento.getRodamientosCotizacionSinMarca(screq.getSKF(), screq.getPais());
+    		if (r!=null){
+    				procesarSinMarca(r,screq);
     		}
     		else{
     			scresp.setIdPedidoCotizacion(-1);
@@ -113,10 +112,8 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			LOGGER.error("Hubo un error al procesar la cotizacion con marca");
 			e.printStackTrace();
 		}
-
-		ArrayList<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
-		listrcVO.add(rcVO);
-		scresp.setRodamientosCotizados(listrcVO);
+		
+		scresp.getRodamientosCotizados().add(rcVO);
 		
 		CotizacionEntity ct = new CotizacionEntity();
 		ct.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());		
@@ -146,22 +143,23 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 	
 	
 	
-	public void procesarSinMarca (List<RodamientoEntity> lrod, SolicitudCotizacionRequest screq) {
+	public void procesarSinMarca (RodamientoEntity rod, SolicitudCotizacionRequest screq) {
 		LOGGER.info("Procesando Cotizacion sin Marca ");
 		
-		RodamientoCotizadoVO rcVO = new RodamientoCotizadoVO();
-		List<RodamientoCotizadoVO> listrcVO = new ArrayList<RodamientoCotizadoVO>();
+		RodamientoCotizadoVO rcVO;
 		List<ItemListaEntity> listaResultado = null;
 		List<Integer> pendientes = new ArrayList<Integer>();
 
 		try {
-			listaResultado=cotizacion.getItemsListaConMenorPrecioSinMarca(lrod.get(0));	
+			listaResultado=cotizacion.getItemsListaConMenorPrecioSinMarca(rod);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion sin marca");
 			e.printStackTrace();
 		}
 		
 		for (int i = 0; i < listaResultado.size(); i++) {
+			
+			    rcVO = new RodamientoCotizadoVO();
 
 				rcVO.setSKF(listaResultado.get(i).getRodamiento().getCodigoSKF());
 				rcVO.setPais(listaResultado.get(i).getRodamiento().getPais());
@@ -179,16 +177,8 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 				rcVO.setFechaInicio(new Date());
 				rcVO.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
 				
-				listrcVO.add(rcVO);	
-					
-					System.out.println("marca: "+listrcVO.get(i).getMarca());
-					System.out.println("pais: "+listrcVO.get(i).getPais());
-					System.out.println("SKF: "+listrcVO.get(i).getSKF());
-					System.out.println("precio: "+listrcVO.get(i).getPrecioCotizado());
-							
+				scresp.getRodamientosCotizados().add(rcVO);
 			}
-						
-		scresp.setRodamientosCotizados(listrcVO);
 		
 		CotizacionEntity ct = new CotizacionEntity();
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
@@ -206,9 +196,9 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			ct.setLista(lp);
 			ct.setRodamiento(listaResultado.get(j).getRodamiento());
 			
-			ct.setFecha(listrcVO.get(j).getFechaInicio());
-			ct.setTiempoEntrega("3 semanas");
-			ct.setVencimiento(listrcVO.get(j).getFechaFin());
+			ct.setFecha(scresp.getRodamientosCotizados().get(j).getFechaInicio());
+			ct.setTiempoEntrega(scresp.getRodamientosCotizados().get(j).getTiempoEstimadoEntrega());
+			ct.setVencimiento(scresp.getRodamientosCotizados().get(j).getFechaFin());
 			
 			ir.setCantidad(screq.getCantidad());
 			ir.setPendientes(pendientes.get(j));

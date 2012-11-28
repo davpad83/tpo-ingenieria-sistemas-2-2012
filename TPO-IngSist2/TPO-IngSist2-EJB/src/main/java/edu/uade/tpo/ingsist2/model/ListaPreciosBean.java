@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
-import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;

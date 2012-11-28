@@ -90,11 +90,11 @@ public class RodamientoBean implements Rodamiento {
 
 		try {
 			rBean = (RodamientoEntity) entityManager
-					.createQuery(
-							"select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais and r.marca=:marca")
+					.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais and r.marca=:marca")
 					.setParameter("codigo", skf)
 					.setParameter("pais", pais)
-					.setParameter("marca", marca).getSingleResult();
+					.setParameter("marca", marca)
+					.getSingleResult();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento");
 			LOGGER.error(e);
@@ -112,30 +112,28 @@ public class RodamientoBean implements Rodamiento {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RodamientoEntity> getRodamientosCotizacionSinMarca(String skf,String pais) {
-		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf+" Pais: "+pais);
+	public RodamientoEntity getRodamientosCotizacionSinMarca(String skf,String pais) {
+		LOGGER.info("Buscando Rodamiento con Codigo SKF: " + skf+" y Pais: "+pais);
 		
-		List<RodamientoEntity> listaResultado = null;
+		List<RodamientoEntity> lrBean = null;
     	
-    	try {
-    		listaResultado= entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais")
+    try {
+    		lrBean = (List<RodamientoEntity>) entityManager.createQuery("select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais")
     		.setParameter("codigo", skf)
     		.setParameter("pais", pais)
-    		.getResultList();   		
-    	}
-        catch (Exception e) {
-        	LOGGER.error("Hubo un error al buscar el rodamiento.");
-    		LOGGER.error(e);      
-        }
-		finally {		
-		if (listaResultado==null){
+    		.getResultList();
+    	
+	} catch (Exception e) {
+		LOGGER.error("Hubo un error al buscar el rodamiento");
+		LOGGER.error(e);
+	} finally {
+		if (lrBean.isEmpty()) {
 			LOGGER.info("No existe el rodamiento solicitado");
 			return null;
-			}
-	        else
+		} else
 			LOGGER.info("Se ha encontrado el rodamiento.");
-		}
-    	return listaResultado;
+	}
+	return lrBean.get(0);
 	}
 	
 	
