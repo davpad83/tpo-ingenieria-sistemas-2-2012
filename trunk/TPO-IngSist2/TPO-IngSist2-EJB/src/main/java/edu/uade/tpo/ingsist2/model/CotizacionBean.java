@@ -41,7 +41,8 @@ public class CotizacionBean implements Cotizacion {
                     .createQuery("SELECT IL FROM ItemListaEntity IL WHERE IL.precio = "+
 				             "(SELECT MIN(IL2.precio) FROM ItemListaEntity IL2 " +
 				              "WHERE IL2.rodamiento.codigoSKF = :codigo " +
-								"AND IL2.rodamiento.pais = :pais) " +
+								"AND IL2.rodamiento.pais = :pais " +
+								"AND IL2.rodamiento.marca = :marca) " +
 								"AND IL.rodamiento.codigoSKF = :codigo AND IL.rodamiento.pais = :pais AND IL.rodamiento.marca = :marca")
 					.setParameter("codigo", rod.getCodigoSKF())
 					.setParameter("marca", rod.getMarca())

@@ -4,12 +4,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
-import org.junit.Test;
 
 import edu.uade.tpo.ingsist2.model.ListaPrecios;
-import edu.uade.tpo.ingsist2.model.ProveedorBean;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 /**
@@ -18,8 +15,7 @@ import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 @Stateless
 public class ListaPreciosControllerBean implements ListaPreciosController {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ListaPreciosControllerBean.class);
+	private static final Logger LOGGER = Logger.getLogger(ListaPreciosControllerBean.class);
 
 	@EJB
 	private ListaPrecios listaPrecios;
@@ -29,6 +25,7 @@ public class ListaPreciosControllerBean implements ListaPreciosController {
 		ListaPreciosEntity lp = new ListaPreciosEntity();
 		lp.setVO(lpvo);
 		listaPrecios.agregarListaPrecios(lp);
+		LOGGER.info("Agregando nueva lista del proveedor: "+lpvo.getProveedor().getNombre());
 	}
 
 }
