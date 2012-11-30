@@ -1,12 +1,10 @@
 package edu.uade.tpo.ingsist2.model.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
-import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 import edu.uade.tpo.ingsist2.view.vo.RemitoVO;
 
 @Entity

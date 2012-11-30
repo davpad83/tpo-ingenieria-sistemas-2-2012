@@ -11,8 +11,6 @@ import javax.jms.TextMessage;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
-import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
