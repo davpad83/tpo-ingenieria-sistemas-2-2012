@@ -3,6 +3,7 @@ package edu.uade.tpo.ingsist2.model;
 import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 @Local
@@ -14,4 +15,5 @@ public interface OrdenDeCompra {
 
 	public void verificarPendientes(OrdenDeCompraEntity oce);
 	
+	public OrdenDeCompraEntity getOrdenDeCompra(int id);
 }

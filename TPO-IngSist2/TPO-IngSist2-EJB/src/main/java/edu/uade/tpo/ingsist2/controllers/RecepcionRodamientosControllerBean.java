@@ -11,9 +11,11 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
+import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
@@ -33,13 +35,11 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 
 	private static final Logger LOGGER = Logger.getLogger(RecepcionRodamientosControllerBean.class);
 	@EJB
-	private AdministrarPedidosDeAbastecimiento pedidos;
+	private PedidoDeAbastecimiento pedidos;
 	@EJB
 	private AdministrarRodamientos rodamientos;
 	@EJB
-	private AdministrarOrdenDeCompra ordenesCompra;
-	@EJB
-	private OrdenDeCompra ocBean;
+	private OrdenDeCompra ordenDeCompra;
 	@EJB
 	private Remito rBean;
 	@Override
@@ -80,7 +80,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	private ItemVO procesarEnvio(RodamientoListaVO envio) {
 		ItemVO item = new ItemVO();
 		int id= envio.getIdPedidoAbastecimiento();
-		PedidoAbastecimientoVO pedido = pedidos.getPedido(id);
+		PedidoAbastecimientoVO pedido = pedidos.getPedido(id).getVO();
 		if(pedido == null)
 			LOGGER.info("No se encontro el pedido id:"+id);
 		
@@ -126,7 +126,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 
 	private int ActualizarItemsOCs(PedidoAbastecimientoVO pedido,
 			RodamientoListaVO envio) {
-		OrdenDeCompraVO oc = ordenesCompra.getOrdenCompra(pedido.getOcAsociada().getIdOrden());	
+		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();	
 		int total= envio.getCantidad();
 				
 		for(ItemRodamientoVO ir : oc.getItems()){
@@ -144,10 +144,10 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		}
 		
 		OrdenDeCompraEntity oco = new OrdenDeCompraEntity() ;
-		OrdenDeCompraVO ovo = ordenesCompra.getOrdenCompra(pedido.getOcAsociada().getIdOrden());
+		OrdenDeCompraVO ovo = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();
 		oco.setVO(ovo);
-		ocBean.verificarPendientes(oco);
-		ocBean.guardarOrdenDeCompra(oco);
+		ordenDeCompra.verificarPendientes(oco);
+		ordenDeCompra.guardarOrdenDeCompra(oco);
 		return total;
 	}
 
@@ -158,7 +158,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		if(resto == 0)
 			pedido.setRecibido(true);
 		LOGGER.info("Actualizando pedido:"+pedido.getIdPedido());
-		pedidos.guardarPedido(pedido);
+		PedidoDeAbastecimientoEntity pae = new PedidoDeAbastecimientoEntity();
+		pae.setVO(pedido);
+		pedidos.guardarPedido(pae);
 	}
 
 	//Obtengo ODVs Asociadas
@@ -180,7 +182,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	}
 	
 	private OficinaDeVentaVO getOdvo(RodamientoListaVO envio){
-		PedidoAbastecimientoVO p= pedidos.getPedido(envio.getIdPedidoAbastecimiento());
+		PedidoAbastecimientoVO p= pedidos.getPedido(envio.getIdPedidoAbastecimiento()).getVO();
 		OficinaDeVentaVO odvo= p.getOcAsociada().getOdv();
 		return odvo;
 	}

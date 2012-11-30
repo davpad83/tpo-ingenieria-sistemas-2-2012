@@ -7,7 +7,7 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 
 @Local
-public interface AdministrarCotizaciones {
+public interface RecepcionCotizacionController {
 	
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion (SolicitudCotizacionRequest scr);
 	

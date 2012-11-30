@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import edu.uade.tpo.ingsist2.controllers.AdministrarCotizaciones;
+import edu.uade.tpo.ingsist2.controllers.RecepcionCotizacionController;
 import edu.uade.tpo.ingsist2.controllers.AdministrarOficinaDeVenta;
 import edu.uade.tpo.ingsist2.controllers.AdministrarProveedores;
 import edu.uade.tpo.ingsist2.controllers.AdministrarRodamientos;
@@ -29,7 +29,7 @@ public class FacadeBean implements Facade {
 	@EJB
 	private AdministrarRodamientos adminRod;
 	@EJB
-	AdministrarCotizaciones adminCot;
+	RecepcionCotizacionController adminCot;
 	@EJB
 	AdministrarOficinaDeVenta adminOficinaVenta;
 	@EJB
