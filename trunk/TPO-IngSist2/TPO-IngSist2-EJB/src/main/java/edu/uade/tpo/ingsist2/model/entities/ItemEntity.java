@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import edu.uade.tpo.ingsist2.view.vo.ItemListaVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 @Entity
 @Table(name = EntitiesTablesNames.ITEM_REMITO)

@@ -11,7 +11,6 @@ import javax.jms.TextMessage;
 import com.thoughtworks.xstream.XStream;
 
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
-import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 @MessageDriven(activationConfig = {
@@ -39,7 +38,7 @@ public class ListaRecepcionRodamientosQueue implements MessageListener {
 		}
 	}
 	
-	@SuppressWarnings("unused")
+
 	private RecepcionRodamientosVO deXMLARecepcionRodamientoRequest(String message){
 		XStream xs = new XStream();
 		return (RecepcionRodamientosVO) xs.fromXML(message);

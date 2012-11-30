@@ -6,10 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
-import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 
 @Stateless
 public class OficinaDeVentaBean implements OficinaDeVenta {

@@ -10,8 +10,6 @@ import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 
-import com.thoughtworks.xstream.XStream;
-
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 

@@ -1,11 +1,9 @@
 package edu.uade.tpo.ingsist2.model;
 
-import java.util.List;
 
 import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
-import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 

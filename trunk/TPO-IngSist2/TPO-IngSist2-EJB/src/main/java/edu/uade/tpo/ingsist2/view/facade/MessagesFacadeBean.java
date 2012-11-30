@@ -7,7 +7,6 @@ import edu.uade.tpo.ingsist2.controllers.ListaPreciosController;
 import edu.uade.tpo.ingsist2.controllers.RecepcionRodamientosController;
 import edu.uade.tpo.ingsist2.controllers.RecepcionSolicitudDeCompraController;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 

@@ -9,14 +9,11 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 
-import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
-import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
-import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
@@ -42,8 +39,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	private OrdenDeCompra ordenDeCompra;
 	@EJB
 	private Remito rBean;
-	@Override
 	
+	
+	@Override	
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
 		LOGGER.info("Obteniendo ODVs Asociadas");
 		List <OficinaDeVentaVO> ODVs = getODVs(rodamientos);	
