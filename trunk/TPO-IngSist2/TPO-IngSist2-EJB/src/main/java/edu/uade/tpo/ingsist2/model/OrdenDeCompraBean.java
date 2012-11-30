@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
@@ -83,5 +84,27 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			oce.setEstado("Completa");
 		else 
 			oce.setEstado("Pendiente");
+	}
+	
+	@Override
+	public OrdenDeCompraEntity getOrdenDeCompra(int id) {
+		LOGGER.info("Buscando pedido con id " + id);
+		OrdenDeCompraEntity oc = null;
+		try {
+			oc = entityManager.find(OrdenDeCompraEntity.class, id);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar la orden de compra.");
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (oc != null)
+				LOGGER.info("la orden de compra con id " + id
+						+ " se ha encontrado");
+			else {
+				LOGGER.info("No se ha encontrado la orden de compra con id " + id);
+				return null;
+			}
+		}
+		return oc;
 	}
 }

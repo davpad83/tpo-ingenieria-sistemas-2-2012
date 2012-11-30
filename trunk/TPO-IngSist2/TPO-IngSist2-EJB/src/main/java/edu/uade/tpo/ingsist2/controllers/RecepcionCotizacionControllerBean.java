@@ -27,7 +27,7 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionResponse;
 
 @Stateless
-public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
+public class RecepcionCotizacionControllerBean implements RecepcionCotizacionController {
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
@@ -45,7 +45,7 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 	private ListaPrecios listaprecio;
 	
 	private static final Logger LOGGER = Logger
-			.getLogger(AdministrarCotizacionesBean.class);
+			.getLogger(RecepcionCotizacionControllerBean.class);
 
 	private SolicitudCotizacionResponse scresp;
     
@@ -208,6 +208,4 @@ public class AdministrarCotizacionesBean implements AdministrarCotizaciones {
 			itemRodamiento.guardarItemRodamientoCotizacion(ir);
 		}
 	}
-	
-
 }
