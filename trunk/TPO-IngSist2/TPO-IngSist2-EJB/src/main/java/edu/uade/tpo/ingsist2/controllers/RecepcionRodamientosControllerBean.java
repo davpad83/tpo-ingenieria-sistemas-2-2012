@@ -41,6 +41,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	private Remito rBean;
 	
 	
+	
 	@Override	
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
 		LOGGER.info("Obteniendo ODVs Asociadas");
@@ -62,16 +63,14 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 				}
 			LOGGER.info("Generando remito para ODV: "+odv.getIdODV());
 			remito.setItems(items);
-			enviarRemito(remito);
+			rBean.enviarRemito(remito);
+			rBean.guardarRemito(remito);
 			}
 		}
 	}
 	
-	private void enviarRemito(RemitoResponse remito) {
-		// generar un remito, persistirlo y enviarlo
-		rBean.enviarRemito(remito);
-	}
-
+	
+	
 	private ItemVO procesarEnvio(RodamientoListaVO envio) {
 		ItemVO item = new ItemVO();
 		int id= envio.getIdPedidoAbastecimiento();
@@ -89,13 +88,13 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		else	{	
 			
 			/////******Pedido******\\\\\\
-			ActualizarPedido(pedido, envio);
+			actualizarPedido(pedido, envio);
 
 			/////******Ordenes de compra******\\\\\\
-			int consumo = ActualizarItemsOCs(pedido, envio);	
+			int consumo = actualizarItemsOCs(pedido, envio);	
 			
 			/////******Stock******\\\\\\
-			ActualizarStock(consumo, pedido);
+			actualizarStock(consumo, pedido);
 			
 			/////******Generar Remito de compra******\\\\\\
 			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
@@ -104,17 +103,18 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		}
 		return item ;
 	}
-
-	private void ActualizarStock(int consumo, PedidoAbastecimientoVO pedido) {
+	
+	
+	
+	private void actualizarStock(int consumo, PedidoAbastecimientoVO pedido) {
 		RodamientoVO rod = rodamientos.getRodamiento(pedido.getRodamiento().getId());
 		rod.setStock(consumo+ rod.getStock());
 		rodamientos.guardarRodamiento(rod);
-
-		
 	}
-
-	private int ActualizarItemsOCs(PedidoAbastecimientoVO pedido,
-			RodamientoListaVO envio) {
+	
+	
+	
+	private int actualizarItemsOCs(PedidoAbastecimientoVO pedido,RodamientoListaVO envio) {
 		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();	
 		int total= envio.getCantidad();
 				
@@ -139,8 +139,10 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		ordenDeCompra.guardarOrdenDeCompra(oco);
 		return total;
 	}
-
-	private void ActualizarPedido(PedidoAbastecimientoVO pedido,
+	
+	
+	
+	private void actualizarPedido(PedidoAbastecimientoVO pedido,
 			RodamientoListaVO envio) {
 		int resto = pedido.getCantidadPendiente() - envio.getCantidad();
 		pedido.setCantidadPendiente(resto);
@@ -151,7 +153,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		pae.setVO(pedido);
 		pedidos.guardarPedido(pae);
 	}
-
+	
+	
+	
 	//Obtengo ODVs Asociadas
 	private List<OficinaDeVentaVO> getODVs(RecepcionRodamientosVO listaEnvio) {
 		List <OficinaDeVentaVO> aux = new ArrayList<OficinaDeVentaVO>();
@@ -169,6 +173,8 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		
 		return aux;
 	}
+	
+	
 	
 	private OficinaDeVentaVO getOdvo(RodamientoListaVO envio){
 		PedidoAbastecimientoVO p= pedidos.getPedido(envio.getIdPedidoAbastecimiento()).getVO();

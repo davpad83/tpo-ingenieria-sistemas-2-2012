@@ -105,7 +105,8 @@ public class ProveedorMockTest {
 		List<RecepcionRodamientosVO.RodamientoListaVO> listRecep = new ArrayList<RecepcionRodamientosVO.RodamientoListaVO>();
 		listRecep.add(rlvo);
 		
-//		rrvo.setListaRodVO(listaRecep);
+		
+		//emHelper.enviarMensaje(readFileToString(file));
 	}
 
 	@After

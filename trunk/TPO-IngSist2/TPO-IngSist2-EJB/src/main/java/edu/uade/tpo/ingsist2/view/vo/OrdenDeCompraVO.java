@@ -3,14 +3,7 @@ package edu.uade.tpo.ingsist2.view.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.OneToMany;
-
 import com.thoughtworks.xstream.XStream;
-
-import edu.uade.tpo.ingsist2.model.Cotizacion;
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
-import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
-import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 
 public class OrdenDeCompraVO {
 	private int idOrden;

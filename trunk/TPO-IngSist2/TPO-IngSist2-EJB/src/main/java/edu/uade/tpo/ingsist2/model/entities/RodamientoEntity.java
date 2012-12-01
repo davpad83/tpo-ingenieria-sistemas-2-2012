@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
-import edu.uade.tpo.ingsist2.view.vo.RodamientoCotizadoVO;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Entity

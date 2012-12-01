@@ -5,7 +5,6 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 
 import edu.uade.tpo.ingsist2.model.Remito;
-import edu.uade.tpo.ingsist2.model.Rodamiento;
 
 public class RemitoVO {
 	private int idRemito;

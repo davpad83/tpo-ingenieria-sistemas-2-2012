@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import edu.uade.tpo.ingsist2.view.vo.*;
-import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 
 public class MockDataGenerator {
 

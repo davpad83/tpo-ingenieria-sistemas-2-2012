@@ -4,8 +4,6 @@ package edu.uade.tpo.ingsist2.model.entities;
 import java.util.ArrayList;
 
 import javax.persistence.*;
-
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Entity
