@@ -14,7 +14,7 @@ public interface Remito {
 
 	public void enviarRemito(RemitoResponse remito);
 
-	public void guardarRemito(RemitoEntity rem);
+	public RemitoEntity guardarRemito(RemitoEntity rem);
 	
 	public void  guardarRemito (RemitoResponse remito);
 	

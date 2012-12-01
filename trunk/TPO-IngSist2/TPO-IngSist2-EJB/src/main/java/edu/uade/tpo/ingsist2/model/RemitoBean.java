@@ -11,6 +11,7 @@ import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
+import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Stateless
@@ -19,31 +20,47 @@ public class RemitoBean implements Remito {
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
 	private OficinaDeVenta ODV;
-	
-	
+
 	private static final Logger LOGGER = Logger.getLogger(RemitoBean.class);
-	
+
 	@Override
 	public void enviarRemito(RemitoEntity remito, OficinaDeVentaEntity odv) {
-		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(), odv.getPuerto(), odv.getNombreColaRemito());
+		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
+				odv.getPuerto(), odv.getNombreColaRemito());
+
+		RemitoResponse remitoAEnviar = new RemitoResponse();
 		
-		LOGGER.info("Enviando remito...");
-		emHelper.enviarMensaje(remito.getVO().toXML());
+		remitoAEnviar.setIdODV(odv.getId());
+		remitoAEnviar.setIdRemito(remito.getIdRemito());
+		remitoAEnviar.setItems(ItemVO.getVOList(remito.getItems()));
+		
+		if (emHelper.isConnectionWorking()) {
+			LOGGER.info("Enviando remito...");
+			LOGGER.info(remitoAEnviar.toXML());
+			emHelper.enviarMensaje(remitoAEnviar.toXML());
+		}
 	}
 
 	@Override
 	public void enviarRemito(RemitoResponse remito) {
-		
+
 		OficinaDeVentaEntity odv = ODV.getOficina(remito.getIdODV());
-		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(), odv.getPuerto(), odv.getNombreColaRemito());
-		
+		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
+				odv.getPuerto(), odv.getNombreColaRemito());
+
 		LOGGER.info("Enviando remito...");
-		emHelper = new EnviarMensajeHelper("127.0.0.1 IP de ODV", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		emHelper = new EnviarMensajeHelper("127.0.0.1 IP de ODV", 1099,
+				JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		emHelper.enviarMensaje(remito.toXML());
+		emHelper.cerrarConexion();
 	}
-	
-	
-	public void  guardarRemito (RemitoResponse remito) {
+
+	public void guardarRemito(RemitoResponse remito) {
 		RemitoEntity r = new RemitoEntity();
 		r.setIdRemito(remito.getIdRemito());
 		r.setItemsList(remito.getItems());
@@ -51,16 +68,16 @@ public class RemitoBean implements Remito {
 		LOGGER.info("Procesando guardar remito con id " + r.getIdRemito());
 		RemitoEntity rGuardado = null;
 		try {
-             rGuardado = (RemitoEntity) entityManager.merge(r);
+			rGuardado = (RemitoEntity) entityManager.merge(r);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar el remito");
 			LOGGER.error(e);
 		}
-            LOGGER.info("Remito guardado con id: " + +rGuardado.getIdRemito());
+		LOGGER.info("Remito guardado con id: " + +rGuardado.getIdRemito());
 	}
 
 	@Override
-	public void guardarRemito(RemitoEntity rem) {
+	public RemitoEntity guardarRemito(RemitoEntity rem) {
 		LOGGER.info("Procesando guardar remito.");
 
 		RemitoEntity rGuardado = null;
@@ -71,6 +88,7 @@ public class RemitoBean implements Remito {
 			LOGGER.error(e);
 		}
 		LOGGER.info("Remito guardado con id: " + rGuardado.getIdRemito());
+		return rGuardado;
 	}
 
 }

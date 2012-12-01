@@ -163,7 +163,7 @@ public class CotizacionBean implements Cotizacion {
 
 	@Override
 	public boolean existe(int id) {
-		return getCotizacion(id) == null;
+		return getCotizacion(id) != null;
 	}
 
 	@SuppressWarnings("unchecked")

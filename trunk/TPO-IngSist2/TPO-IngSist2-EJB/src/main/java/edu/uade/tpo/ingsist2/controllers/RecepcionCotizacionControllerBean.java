@@ -56,6 +56,8 @@ public class RecepcionCotizacionControllerBean implements
 
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
 			SolicitudCotizacionRequest screq) {
+		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION BEGIN==================");
+		LOGGER.info("Request enviado de ODV: " + screq.getIdODV());
 
 		scresp = new SolicitudCotizacionResponse();
 		scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
@@ -81,6 +83,7 @@ public class RecepcionCotizacionControllerBean implements
 			}
 		}
 
+		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION END==================");
 		return scresp;
 
 	}
@@ -170,8 +173,7 @@ public class RecepcionCotizacionControllerBean implements
 			rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());
 
 			if (screq.getCantidad() > rcVO.getEnStock()) {
-				rcVO.setTiempoEstimadoEntrega(MockDataGenerator
-						.getRandomCantidad() + " semanas");
+				rcVO.setTiempoEstimadoEntrega(proveedor.getTiempoDeEntrega(listaResultado.get(i).getId()));
 				pendientes.add(screq.getCantidad() - rcVO.getEnStock());
 			} else {
 				pendientes.add(0);

@@ -1,6 +1,10 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 
 /**
  * Este itemVO es usado por RemitoResponse y SolicitudCompraRequest porque se
@@ -85,5 +89,25 @@ public class ItemVO implements Serializable{
 
 	public int getIdOrdenDeCompra() {
 		return idOrdenDeCompra;
+	}
+
+	public static List<ItemVO> getVOList(List<ItemRodamientoEntity> itemsEntityList) {
+		List<ItemVO> items = new ArrayList<ItemVO>();
+		for(ItemRodamientoEntity it : itemsEntityList){
+			items.add(getItemVO(it));
+		}
+		return items;
+	}
+
+	private static ItemVO getItemVO(ItemRodamientoEntity it) {
+		ItemVO itemVO = new ItemVO();
+		
+		itemVO.setCantidad(it.getCantidad());
+		itemVO.setId(it.getId());
+		itemVO.setMarca(it.getRodamiento().getMarca());
+		itemVO.setSKF(it.getRodamiento().getCodigoSKF());
+		itemVO.setPais(it.getRodamiento().getPais());
+		
+		return itemVO;
 	}
 }
