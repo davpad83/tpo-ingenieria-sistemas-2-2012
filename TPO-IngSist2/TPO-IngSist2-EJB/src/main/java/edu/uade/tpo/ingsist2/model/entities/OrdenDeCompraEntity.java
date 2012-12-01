@@ -18,10 +18,10 @@ public class OrdenDeCompraEntity {
 
 	private String estado;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private OficinaDeVentaEntity odv;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinColumn
 	private List<ItemRodamientoEntity> items;
 

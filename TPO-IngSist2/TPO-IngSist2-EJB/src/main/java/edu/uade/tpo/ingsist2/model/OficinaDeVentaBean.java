@@ -52,7 +52,7 @@ public class OficinaDeVentaBean implements OficinaDeVenta {
 
 	@Override
 	public boolean existe(int idODV) {
-		return getOficina(idODV) == null;
+		return getOficina(idODV) != null;
 	}
 	
 }

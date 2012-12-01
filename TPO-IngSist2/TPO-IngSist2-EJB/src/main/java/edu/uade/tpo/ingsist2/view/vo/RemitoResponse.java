@@ -33,6 +33,7 @@ public class RemitoResponse {
 		xs.aliasField("idremito", RemitoResponse.class, "idRemito");
 		xs.aliasField("idodv", RemitoResponse.class, "idODV");
 		
+		xs.omitField(ItemVO.class, "idOrdenDeCompra");
 		xs.omitField(ItemVO.class, "precio");
 		return xs.toXML(this);
 	}

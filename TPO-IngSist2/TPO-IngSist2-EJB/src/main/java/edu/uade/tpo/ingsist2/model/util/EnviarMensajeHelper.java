@@ -17,13 +17,14 @@ public class EnviarMensajeHelper {
 	private QueueSession qSession;
 	private QueueSender qSender;
 	private QueueConnection connection;
-	private static final Logger LOGGER = Logger.getLogger(EnviarMensajeHelper.class);
-	
-	public EnviarMensajeHelper (String ip, int puerto, String queueName){
+	private static final Logger LOGGER = Logger
+			.getLogger(EnviarMensajeHelper.class);
+
+	public EnviarMensajeHelper(String ip, int puerto, String queueName) {
 		inicializar(ip, puerto, queueName);
 	}
-	
-	private void inicializar(String ip, int puerto, String queueName){
+
+	private void inicializar(String ip, int puerto, String queueName) {
 		LOGGER.info("===Inicializando conexion a la cola.===");
 		Hashtable<String, String> props = new Hashtable<String, String>();
 
@@ -52,23 +53,37 @@ public class EnviarMensajeHelper {
 
 		} catch (Exception e) {
 			LOGGER.error("Error al crear la conexion: " + e);
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
-		LOGGER.info("===La conexion ha sido establecida===");
+		if (isConnectionWorking())
+			LOGGER.info("===La conexion ha sido establecida===");
 	}
-	
-	public void enviarMensaje(String mensaje){
-		LOGGER.info("Enviando mensaje ...");
-		TextMessage tMessaje;
-		try {
-			tMessaje = qSession.createTextMessage();
-			tMessaje.setText(mensaje);
-			qSender.send(tMessaje);
-		} catch (JMSException e) {
-			LOGGER.error("Hubo un error al enviar el mensaje.");
-			e.printStackTrace();
+
+	public boolean isConnectionWorking() {
+		LOGGER.info("Verificando conexion a la cola de remitos..,");
+		boolean isWorking = true;
+		if (connection == null && qSession == null) {
+			LOGGER.warn("La conexion a la cola de REMITOS no funciona.");
+			isWorking = false;
 		}
-		LOGGER.info("El mensaje ha sido enviado.");
+		return isWorking;
+	}
+
+	public void enviarMensaje(String mensaje) {
+		if (isConnectionWorking()) {
+
+			LOGGER.info("Enviando mensaje ...");
+			TextMessage tMessaje;
+			try {
+				tMessaje = qSession.createTextMessage();
+				tMessaje.setText(mensaje);
+				qSender.send(tMessaje);
+			} catch (JMSException e) {
+				LOGGER.error("Hubo un error al enviar el mensaje.");
+				e.printStackTrace();
+			}
+			LOGGER.info("El mensaje ha sido enviado.");
+		}
 	}
 
 	public void cerrarConexion() {
@@ -82,5 +97,5 @@ public class EnviarMensajeHelper {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

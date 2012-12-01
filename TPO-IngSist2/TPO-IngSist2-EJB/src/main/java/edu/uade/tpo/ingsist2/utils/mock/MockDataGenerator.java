@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.*;
 
 public class MockDataGenerator {
@@ -455,12 +456,15 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "127.0.0.1", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "127.0.0.1", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "127.0.0.1", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "127.0.0.1", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "127.0.0.1", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.35", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv7 = nuevaOficinaDeVentaVO("ODV 7", "UADE 7", "172.16.171.27", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "172.16.171.29", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		
 		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
 		odvvo.add(odv1);
@@ -469,6 +473,9 @@ public class MockDataGenerator {
 		odvvo.add(odv4);
 		odvvo.add(odv5);
 		odvvo.add(odv6);
+		odvvo.add(odv7);
+		odvvo.add(odv8);
+		odvvo.add(odv9);
 		
 		return odvvo;
 	}
@@ -562,7 +569,7 @@ public class MockDataGenerator {
 		
 		items.add(item1);
 		items.add(item2);
-//		items.add(item3);
+		items.add(item3);
 		
 		return items;
 	}

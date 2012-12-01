@@ -51,6 +51,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 	@Override
 	public void procesarSolicitudDeCompra(SolicitudCompraRequest request) {
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COMPRA BEGIN==================");
+		LOGGER.info("Request enviado de ODV: " + request.getIdODV());
 		
 		if (ordenDeCompra.validarSolicitudCompra(request)) {
 			OrdenDeCompraEntity oce = fromRequestToOCEntity(request);
@@ -70,7 +71,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 							+ " esta en vigencia, verificando stock...");
 					
 					//HAY STOCK PARA ENVIAR EL ITEM COMPLETO
-					if (stockSolicitado >= ire.getCantidad()) {
+					if (stockSolicitado <= ire.getCantidad()) {
 						LOGGER.info("Hay stock suficiente para el rodamiento (cod: "
 								+ rodActual.getCodigoSKF() + ") | Solicitado: "+stockSolicitado+" | Actual: "+ire.getCantidad());
 						if(rem == null){
@@ -110,8 +111,8 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 				}
 			}
 			if(rem != null){
-				remito.guardarRemito(rem);
-				remito.enviarRemito(rem,ocGuardada.getOdv());
+				RemitoEntity remitoGuardado = remito.guardarRemito(rem);
+				remito.enviarRemito(remitoGuardado,ocGuardada.getOdv());
 				ordenDeCompra.verificarPendientes(ocGuardada);
 				ordenDeCompra.guardarOrdenDeCompra(ocGuardada);
 			} else {
@@ -132,8 +133,10 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		for(ItemVO itReq : request.getItems()){
 			ArrayList<ItemRodamientoEntity> itemsCotizacion = cotizacion.getItemsCotizados(itReq.getId());
 			for(ItemRodamientoEntity itemCot : itemsCotizacion ){
-				if(itemCot.getRodamiento().getMarca().equals(itReq.getMarca()))
+				if(itemCot.getRodamiento().getMarca().equals(itReq.getMarca())){
+					itemCot.setCantidad(itReq.getCantidad());
 					listItems.add(itemCot);
+				}
 			}
 		}
 		oce.setItems(listItems);

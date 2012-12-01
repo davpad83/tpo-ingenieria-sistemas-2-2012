@@ -35,13 +35,17 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			LOGGER.error("La solicitud de compra es invalida, no contiene items.");
 			esValido = false;
 		}
-		if(oficinaVenta.existe(oc.getIdODV())){
+		if(!oficinaVenta.existe(oc.getIdODV())){
 			esValido = false;
 			LOGGER.error("No existe la oficina de ventas con id: "+oc.getIdODV());
 		}
 		for(ItemVO ivo : oc.getItems()){
 			if(!cotizacion.existe(ivo.getId())){
 				LOGGER.warn("La cotizacion no existe en un item de la solicitud.");
+				oc.getItems().remove(ivo);
+			} else if(ivo.getCantidad() <0){
+				LOGGER.warn("Un item contiene cantidad 0, por lo que no sera procesado.");
+				oc.getItems().remove(ivo);
 			}
 		}
 		if(esValido)
