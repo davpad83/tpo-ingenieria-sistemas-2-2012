@@ -75,34 +75,10 @@ public class RemitoEntity {
 
 	public void setItemsList(List<ItemVO> items) {
 		for(ItemVO i : items){
-			ItemEntity ie= new ItemEntity();
-			ie.setCantidad(i.getCantidad());
-			ie.setId(i.getId());
-			ie.setRodamiento(i.getSKF(), i.getMarca(), i.getPais());
+			ItemRodamientoEntity ire = new ItemRodamientoEntity();
+			ire.setCantidad(i.getCantidad());
+			ire.setId(i.getId());
+			ire.setRodamiento(i.getSKF(), i.getMarca(), i.getPais());
 		}
-		
 	}
-	
-//	public RemitoResponse getResponse(){
-//		RemitoResponse rvo = new RemitoResponse();
-//		if(this.odv !=null)
-//			rvo.setIdOdv(this.odv.getId());
-//		rvo.setIdRemito(this.idRemito);
-//		
-//		if(this.items!=null){
-//			List <CCItemRemitoVO> ItemList = new ArrayList<CCItemRemitoVO>();
-//			for(ItemRodamientoEntity i :this.items){
-//				CCItemRemitoVO cci = new CCItemRemitoVO();
-//				cci.setCantidad(i.getCantidad());
-//				cci.setIdOrdenDeCompra(this.ordenDeCompra.getIdOrden());
-//			}
-//		}
-//			
-//		rvo.setItems(ItemRodamientoEntity.getVOList(this.items));
-//		if(this.ordenDeCompra!=null)
-//			rvo.setOrdenDeCompra(this.ordenDeCompra.getVO());
-//		
-//		return rvo;
-//	}
-	
 }
