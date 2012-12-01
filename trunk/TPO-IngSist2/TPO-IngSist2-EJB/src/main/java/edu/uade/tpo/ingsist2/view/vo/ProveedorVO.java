@@ -5,37 +5,46 @@ import java.io.Serializable;
 public class ProveedorVO implements Serializable {
 
 	private static final long serialVersionUID = 7706606121975723534L;
-	
+
 	private int id;
 	private String cuit;
 	private String nombre;
-	
+	private String tiempoDeEntrega;
+
 	public ProveedorVO() {
-		
+
 	}
 
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getCuit() {
 		return cuit;
 	}
-	
+
 	public void setCuit(String cuit) {
 		this.cuit = cuit;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getTiempoDeEntrega() {
+		return tiempoDeEntrega;
+	}
+
+	public void setTiempoDeEntrega(String tiempoDeEntrega) {
+		this.tiempoDeEntrega = tiempoDeEntrega;
 	}
 
 	@Override
@@ -69,6 +78,6 @@ public class ProveedorVO implements Serializable {
 	@Override
 	public String toString() {
 		return "ProveedorVO [id=" + id + ", cuit=" + cuit + ", nombre="
-				+ nombre + "]";
+				+ nombre + ", tiempoDeEntrega=" + tiempoDeEntrega + "]";
 	}
 }

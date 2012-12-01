@@ -25,7 +25,6 @@ public class ListaPreciosControllerBean implements ListaPreciosController {
 		ListaPreciosEntity lp = new ListaPreciosEntity();
 		lp.setVO(lpvo);
 		listaPrecios.agregarListaPrecios(lp);
-		LOGGER.info("Agregando nueva lista del proveedor: "+lpvo.getProveedor().getNombre());
 	}
 
 }

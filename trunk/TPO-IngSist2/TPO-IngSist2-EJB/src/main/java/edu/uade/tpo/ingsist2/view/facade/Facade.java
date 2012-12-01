@@ -49,6 +49,10 @@ public interface Facade {
 	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest scr);
 	
-	
+	/**
+	 * Generate Mock data for testing
+	 * 
+	 */
+	public void generateInitialData();
 	
 }

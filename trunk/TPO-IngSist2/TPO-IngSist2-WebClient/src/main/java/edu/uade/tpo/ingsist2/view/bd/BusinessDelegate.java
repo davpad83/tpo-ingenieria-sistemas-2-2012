@@ -90,6 +90,10 @@ public class BusinessDelegate {
 	// TEST WS
 	
 
+	public void generateInitialData(){
+		adminFacade.generateInitialData();
+	}
+	
 	public SolicitudCotizacionResponse recibirSolicitudCotizacion(SolicitudCotizacionRequest rq) {
 		return adminFacade.recibirSolicitudCotizacion(rq);
 	}

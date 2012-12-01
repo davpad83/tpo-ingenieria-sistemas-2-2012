@@ -20,4 +20,6 @@ public interface Proveedor {
 	public ArrayList<ProveedorEntity> getProveedores();
 
 	public ProveedorEntity getProveedorPorCuit(String cuit);
+
+	public String getTiempoDeEntrega(int idItemLista);
 }

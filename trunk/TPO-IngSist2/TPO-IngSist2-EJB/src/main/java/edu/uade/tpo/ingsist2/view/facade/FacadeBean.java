@@ -96,7 +96,6 @@ public class FacadeBean implements Facade {
 
 	/* =========== GENERAR DATA DE INICIAL DE PRUEBA ========== */
 
-	@PostConstruct
 	public void generateInitialData() {
 		ArrayList<ProveedorVO> proveedoresACargar = MockDataGenerator
 				.getControlledProveedoresList();

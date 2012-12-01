@@ -49,8 +49,8 @@ public class OrdenDeCompraEntity {
 		this.odv = odv;
 	}
 
-	public List<ItemRodamientoEntity> getItems() {
-		return items;
+	public ArrayList<ItemRodamientoEntity> getItems() {
+		return (ArrayList<ItemRodamientoEntity>) items;
 	}
 
 	public void setItems(List<ItemRodamientoEntity> items) {

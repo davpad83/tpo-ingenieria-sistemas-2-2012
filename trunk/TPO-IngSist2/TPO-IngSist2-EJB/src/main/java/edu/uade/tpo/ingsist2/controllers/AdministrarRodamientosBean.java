@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
+import edu.uade.tpo.ingsist2.model.CotizacionBean;
 import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
@@ -12,19 +15,26 @@ import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 @Stateless
 public class AdministrarRodamientosBean implements AdministrarRodamientos {
 
+	private static final Logger LOGGER = Logger.getLogger(AdministrarRodamientosBean.class);
 
 	@EJB
 	private Rodamiento rodamiento;
 	
-    public AdministrarRodamientosBean() {
-        // TODO Auto-generated constructor stub
-    }
-
 	@Override
 	public void guardarRodamiento(RodamientoVO r) {
 		RodamientoEntity rBean = new RodamientoEntity();
 		rBean.setVO(r);
-		rodamiento.guardarRodamiento(rBean);	
+		
+		RodamientoEntity rodEncontrado = getRodamiento(rBean.getCodigoSKF(), rBean.getMarca(), rBean.getPais());
+		if(rodEncontrado!=null)
+			LOGGER.info("El rodamiento ya existe, omitiendo operacion de agregar.");
+		else
+			rodamiento.guardarRodamiento(rBean);	
+	}
+
+	private RodamientoEntity getRodamiento(String codigoSKF, String marca,
+			String pais) {
+		return rodamiento.getRodamiento(codigoSKF, marca, pais);
 	}
 
 	@Override

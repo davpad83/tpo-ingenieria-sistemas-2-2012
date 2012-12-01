@@ -1,11 +1,14 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
-public class SolicitudCompraRequest {
+public class SolicitudCompraRequest implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int idOrdenDeCompra;
 	private int idODV;
 	private List<ItemVO> items;

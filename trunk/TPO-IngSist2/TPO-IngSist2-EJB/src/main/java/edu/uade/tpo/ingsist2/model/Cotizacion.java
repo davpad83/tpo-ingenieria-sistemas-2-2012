@@ -1,5 +1,6 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -45,4 +46,6 @@ public interface Cotizacion {
 	public boolean validarVigenciaLista(ListaPreciosEntity lista);
 
 	public boolean existe(int id);
+
+	public ArrayList<ItemRodamientoEntity> getItemsCotizados(int id);
 }

@@ -64,3 +64,13 @@ FROM ItemLista IL2
 AND rod.codigoSKF = 'NJ 208 EMC3'
 AND rod.pais = 'Francia'
 AND rod.marca = 'ZKL'
+
+/*Buscar Tiempo de entrega con un id de item lista de precios */
+
+SELECT distinct P.tiempoDeEntrega
+FROM ListaPrecios LP
+        inner join ItemLista IL on LP.idLista = IL.items_idLista
+        inner join Proveedor P on LP.proveedor_id = P.id
+WHERE IL.id = 19
+
+

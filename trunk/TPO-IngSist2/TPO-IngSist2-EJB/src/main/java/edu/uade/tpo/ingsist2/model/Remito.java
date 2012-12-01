@@ -13,6 +13,8 @@ public interface Remito {
 	public void enviarRemito(RemitoEntity remito, OficinaDeVentaEntity odv);
 
 	public void enviarRemito(RemitoResponse remito);
+
+	public void guardarRemito(RemitoEntity rem);
 	
 	public void  guardarRemito (RemitoResponse remito);
 	
