@@ -57,6 +57,12 @@ public class ItemRodamientoEntity {
 	public RodamientoEntity getRodamiento() {
 		return rodamiento;
 	}
+	
+	public void setRodamiento(String codigoSKF, String marca, String pais) {
+		this.rodamiento.setMarca(marca);
+		this.rodamiento.setPais(pais);
+		this.rodamiento.setCodigoSKF(codigoSKF);
+	}
 
 	public void setRodamiento(RodamientoEntity rodamiento) {
 		this.rodamiento = rodamiento;
@@ -113,4 +119,6 @@ public class ItemRodamientoEntity {
 			this.rodamiento = re;
 		}
 	}
+
+	
 }

@@ -1,6 +1,5 @@
 package edu.uade.tpo.ingsist2.model;
 
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,60 +48,6 @@ public class RemitoBean implements Remito {
 		entityManager.persist(remito);
 	}
 
-	
-	
-	
-	
-	
-	
-//	
-//	@Override
-//	public void enviarRemito(List<OrdenDeCompraEntity> remitosAEnviar) {
-//		// creo un nuevo remitoResponse con todos los elementos a enviar
-//		
-//		List <OficinaDeVentaEntity> ODVs = getODVs(remitosAEnviar);	
-//		for(OficinaDeVentaEntity i: ODVs){
-//			LOGGER.info("Generando remito para ODV: "+i.getId());
-//			
-//			RemitoEntity remito = new RemitoEntity();
-//			remito.setOdv(i);
-//			
-//			for(OrdenDeCompraEntity o : remitosAEnviar)
-//				if(i.getId()==o.getOdv().getId()){
-//					remito.setOrdenDeCompra(o);
-//					remito.setItems(o.getItems());
-//					
-//				}
-//			
-//		}
-//			
-//				
-//	}
-//
-//	private List<OficinaDeVentaEntity> getODVs(List<OrdenDeCompraEntity> remitosAEnviar) {
-//		LOGGER.info("Analizando que ODVs recibiran stock y remito...");
-//		List <OficinaDeVentaEntity> aux = new ArrayList<OficinaDeVentaEntity>();
-//		for(OrdenDeCompraEntity i: remitosAEnviar){
-//			boolean agregar=true;
-//			for(OficinaDeVentaEntity o:aux)
-//				if(i.getOdv().getId()==o.getId())
-//					agregar=false;
-//			if(agregar)
-//				 aux.add(i.getOdv());
-//		}
-//		
-//		return aux;
-//}
-//
-//	@SuppressWarnings("unused")
-//	private boolean fueProcesada(int id, List <Integer> odvProcesada){
-//		Integer idOdv = Integer.valueOf(id);
-//		for(Integer i: odvProcesada)
-//			if(i==idOdv)
-//				return true;
-//		return false;
-//	}
-//	
 }
 
 

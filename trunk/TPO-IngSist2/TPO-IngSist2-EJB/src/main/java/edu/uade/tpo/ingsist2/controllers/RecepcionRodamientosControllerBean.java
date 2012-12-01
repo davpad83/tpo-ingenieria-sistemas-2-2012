@@ -65,14 +65,11 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			enviarRemito(remito);
 			}
 		}
-		
-		
 	}
 	
 	private void enviarRemito(RemitoResponse remito) {
 		// generar un remito, persistirlo y enviarlo
 		rBean.enviarRemito(remito);
-		
 	}
 
 	private ItemVO procesarEnvio(RodamientoListaVO envio) {
@@ -99,12 +96,6 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			
 			/////******Stock******\\\\\\
 			ActualizarStock(consumo, pedido);
-			
-			
-			
-			
-			
-			
 			
 			/////******Generar Remito de compra******\\\\\\
 			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
