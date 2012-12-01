@@ -4,22 +4,14 @@ import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.Rodamiento;
-import edu.uade.tpo.ingsist2.model.entities.EntitiesTablesNames;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Stateless
 public class AdministrarRodamientosBean implements AdministrarRodamientos {
 
-	private static Logger LOGGER = Logger
-			.getLogger(AdministrarRodamientosBean.class);
 
 	@EJB
 	private Rodamiento rodamiento;

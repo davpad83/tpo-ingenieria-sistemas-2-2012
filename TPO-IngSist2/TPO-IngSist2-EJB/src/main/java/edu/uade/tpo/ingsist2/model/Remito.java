@@ -14,4 +14,6 @@ public interface Remito {
 
 	public void enviarRemito(RemitoResponse remito);
 	
+	public void  guardarRemito (RemitoResponse remito);
+	
 }

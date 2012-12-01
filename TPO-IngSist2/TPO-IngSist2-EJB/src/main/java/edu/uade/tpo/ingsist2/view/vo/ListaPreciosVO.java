@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import com.thoughtworks.xstream.XStream;
-
-import edu.uade.tpo.ingsist2.model.entities.CondicionVentaEntity;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
 
 public class ListaPreciosVO implements Serializable {
 

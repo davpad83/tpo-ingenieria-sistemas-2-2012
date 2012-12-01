@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
+import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Stateless
@@ -31,23 +32,30 @@ public class RemitoBean implements Remito {
 
 	@Override
 	public void enviarRemito(RemitoResponse remito) {
-		persistirRemito(remito);
 		
 		OficinaDeVentaEntity odv = ODV.getOficina(remito.getIdODV());
 		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(), odv.getPuerto(), odv.getNombreColaRemito());
 		
 		LOGGER.info("Enviando remito...");
+		emHelper = new EnviarMensajeHelper("127.0.0.1 IP de ODV", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		emHelper.enviarMensaje(remito.toXML());
 	}
-
-	private void  persistirRemito(RemitoResponse remito) {
+	
+	
+	public void  guardarRemito (RemitoResponse remito) {
 		RemitoEntity r = new RemitoEntity();
 		r.setIdRemito(remito.getIdRemito());
 		r.setItemsList(remito.getItems());
 		r.setOdv(ODV.getOficina(remito.getIdODV()));
-		entityManager.persist(remito);
+		LOGGER.info("Procesando guardar remito con id " + r.getIdRemito());
+		RemitoEntity rGuardado = null;
+		try {
+             rGuardado = (RemitoEntity) entityManager.merge(r);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al guardar el remito");
+			LOGGER.error(e);
+		}
+            LOGGER.info("Remito guardado con id: " + +rGuardado.getIdRemito());
 	}
 
 }
-
-

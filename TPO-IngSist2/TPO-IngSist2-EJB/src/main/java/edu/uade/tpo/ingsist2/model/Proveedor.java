@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.ejb.Local;
 
 import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
-import edu.uade.tpo.ingsist2.view.vo.ProveedorVO;
 
 @Local
 public interface Proveedor {
