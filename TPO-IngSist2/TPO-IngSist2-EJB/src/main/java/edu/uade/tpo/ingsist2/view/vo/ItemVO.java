@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import java.io.Serializable;
+
 /**
  * Este itemVO es usado por RemitoResponse y SolicitudCompraRequest porque se
  * usa para la integracion con la ODV. Como ambos "items" utilizan los mismos
@@ -11,8 +13,10 @@ package edu.uade.tpo.ingsist2.view.vo;
  * 
  */
 
-public class ItemVO {
+public class ItemVO implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String skf;
 	private String pais;

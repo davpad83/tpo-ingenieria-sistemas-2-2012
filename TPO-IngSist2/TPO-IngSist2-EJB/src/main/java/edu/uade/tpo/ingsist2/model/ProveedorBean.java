@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
@@ -20,19 +22,19 @@ public class ProveedorBean implements Proveedor {
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
-	
+
 	@Override
 	public void guardarProveedor(ProveedorEntity p) {
 		LOGGER.info("Procesando guardar proveedor con cuit " + p.getCuit());
-		
+
 		ProveedorEntity pGuardado = null;
 		try {
-             pGuardado = (ProveedorEntity) entityManager.merge(p);
+			pGuardado = (ProveedorEntity) entityManager.merge(p);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar el proveedor");
 			LOGGER.error(e);
 		}
-            LOGGER.info("Proveedor guardado con id: " + pGuardado.getId());
+		LOGGER.info("Proveedor guardado con id: " + pGuardado.getId());
 	}
 
 	@Override
@@ -132,12 +134,35 @@ public class ProveedorBean implements Proveedor {
 			LOGGER.error(e);
 		} finally {
 			if (prove == null) {
-				LOGGER.info("No se ha encontrado el Proveedor con cuit "
-						+ cuit);
+				LOGGER.info("No se ha encontrado el Proveedor con cuit " + cuit);
 				return null;
 			} else
 				LOGGER.info("Se ha encontrado el proveedor.");
 		}
 		return prove;
+	}
+
+	@Override
+	public String getTiempoDeEntrega(int idItemLista) {
+		LOGGER.info("Buscando tiempo de entrega para itemListas con id: "+idItemLista);
+		Query query = entityManager.createQuery(
+				"SELECT distinct LP.proveedor.tiempoDeEntrega "
+						+ " FROM ListaPreciosEntity LP join LP.items IL"
+						+ " WHERE IL.id = :idItem").setParameter("idItem",
+				idItemLista);
+		String tpoEntrega = "";
+		try {
+			tpoEntrega = (String) query.getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el tiempo de entrega");
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al ejecutar query.");
+			LOGGER.error(query.toString());
+			LOGGER.error(e);
+		} finally {
+			if(!tpoEntrega.isEmpty())
+				LOGGER.info("El tiempo de entrega encontrado es de \" "+tpoEntrega+"\"");
+		}
+		return tpoEntrega;
 	}
 }

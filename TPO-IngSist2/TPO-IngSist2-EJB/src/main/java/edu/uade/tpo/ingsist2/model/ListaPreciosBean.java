@@ -35,8 +35,11 @@ public class ListaPreciosBean implements ListaPrecios {
 			try {
 				ListaPreciosEntity lpGuardado = entityManager.merge(lp);
 				if (lpGuardado.getIdLista() > 0)
-					LOGGER.info("La Lista de precios fue guardada con EXITO. Su id es "
-							+ lpGuardado.getIdLista());
+					LOGGER.info("La Lista de precios del proveedor"
+							+ lpGuardado.getProveedor().getNombre() + "("
+							+ lpGuardado.getProveedor().getCuit()
+							+ ") fue guardada con EXITO. Su id es "
+							+ lpGuardado.getProveedor().getNombre());
 			} catch (Exception e) {
 				LOGGER.error("Hubo un error al guardar la lista de precios");
 				LOGGER.error(e);
@@ -47,7 +50,7 @@ public class ListaPreciosBean implements ListaPrecios {
 	private ListaPreciosEntity buscarYAsignarRodamientos(ListaPreciosEntity lp) {
 		for (ItemListaEntity item : lp.getItems()) {
 			RodamientoEntity rod = item.getRodamiento();
-			if(rod.getId() < 1){
+			if (rod.getId() < 1) {
 				RodamientoEntity rodEncontrado = rodamiento.getRodamiento(
 						rod.getCodigoSKF(), rod.getMarca(), rod.getPais());
 				if (rodEncontrado != null)
@@ -65,7 +68,8 @@ public class ListaPreciosBean implements ListaPrecios {
 
 		try {
 			idlista = (Integer) entityManager
-					.createQuery("select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
+					.createQuery(
+							"select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
 					.setParameter("iditem", idItemLista).getSingleResult();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista");

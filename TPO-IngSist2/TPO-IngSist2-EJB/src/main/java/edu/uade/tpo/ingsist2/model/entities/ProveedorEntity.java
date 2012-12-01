@@ -16,6 +16,7 @@ public class ProveedorEntity {
 	private int id;
 	private String cuit;
 	private String nombre;
+	private String tiempoDeEntrega;
 	
 	public ProveedorEntity() {
 		super();
@@ -45,11 +46,20 @@ public class ProveedorEntity {
 		this.nombre = nombre;
 	}
 	
+	public String getTiempoDeEntrega() {
+		return tiempoDeEntrega;
+	}
+
+	public void setTiempoDeEntrega(String tiempoDeEntrega) {
+		this.tiempoDeEntrega = tiempoDeEntrega;
+	}
+
 	public ProveedorVO getVO(){
 		ProveedorVO pvo = new ProveedorVO();
 		pvo.setId(this.id);
 		pvo.setCuit(this.cuit);
 		pvo.setNombre(this.nombre);
+		pvo.setTiempoDeEntrega(this.tiempoDeEntrega);
 		return pvo;
 	}
 	
@@ -57,6 +67,7 @@ public class ProveedorEntity {
 		this.id = p.getId();
 		this.cuit = p.getCuit();
 		this.nombre = p.getNombre();
+		this.tiempoDeEntrega = p.getTiempoDeEntrega();
 	}
 	
 	public static ArrayList<ProveedorVO> getVOList(List<ProveedorEntity> ps){
@@ -93,5 +104,4 @@ public class ProveedorEntity {
 			return false;
 		return true;
 	}
-	
 }

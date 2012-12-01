@@ -65,6 +65,10 @@ if (error == null) error = "";%>
 					  				<td><input name="nombreProve" value="<%=proveEdit.getNombre()%>" type="text"></input></td>
 								</tr>
 					  			<tr>
+					  				<td><label>Tiempo de entrega: </label></td>
+					  				<td><input name="tpoEntregaProve" value="<%=proveEdit.getTiempoDeEntrega()%>" type="text"></input></td>
+								</tr>
+					  			<tr>
 					  				<td></td>
 									<td align="right"><input type="submit" value="Guardar cambios"></input></td>
 					    		</tr>	
@@ -82,6 +86,10 @@ if (error == null) error = "";%>
 					  				<td><label>Nombre: </label></td>
 					  				<td><input name="nombreProve" type="text"></input></td>
 								</tr>
+								<tr>
+					  				<td><label>Tiempo de entrega: </label></td>
+					  				<td><input name="tpoEntregaProve" type="text"></input></td>
+								</tr>
 					  			<tr>
 					  				<td></td>
 									<td align="right"><input type="submit" value="Agregar"></input></td>
@@ -98,6 +106,7 @@ if (error == null) error = "";%>
 								<th>Id</th>
 								<th>CUIT</th>
 								<th>Nombre</th>
+								<th>Tiempo de Entrega</th>
 								<th>Acciones</th>
 							</tr>
 							<% if(proveedores != null && !proveedores.isEmpty()){ %>
@@ -106,6 +115,7 @@ if (error == null) error = "";%>
 					    			<td><%=p.getId() %></td>
 					    			<td><%=p.getCuit() %></td>
 					    			<td><%=p.getNombre()%></td>
+					    			<td><%=p.getTiempoDeEntrega()%></td>
 					    			<td>
 					    				<a href="AdministrarProveedores?idProve=<%=p.getId()%>&accion=1"><img class="imgInput" src="imgs/edit.png" alt="Edit"/></a>
 					    				<a href="AdministrarProveedores?idProve=<%=p.getId()%>&accion=2"><img class="imgInput" src="imgs/delete.png" alt="Delete"/></a>

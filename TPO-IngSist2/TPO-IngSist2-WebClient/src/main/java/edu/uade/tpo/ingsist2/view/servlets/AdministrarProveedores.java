@@ -73,12 +73,14 @@ public class AdministrarProveedores extends HttpServlet {
 				.getParameter("idProve");
 		String cuit = (String) request.getParameter("cuitProve");
 		String nombre = (String) request.getParameter("nombreProve");
+		String tiempoDeEntrega = (String) request.getParameter("tpoEntregaProve");
 
 		ProveedorVO pvo = new ProveedorVO();
 		if(idProveedor!=null && !idProveedor.isEmpty())
 			pvo.setId(Integer.parseInt(idProveedor));
 		pvo.setCuit(cuit);
 		pvo.setNombre(nombre);
+		pvo.setTiempoDeEntrega(tiempoDeEntrega);
 
 		RequestDispatcher dispatcher = request
 				.getRequestDispatcher("/home.jsp");

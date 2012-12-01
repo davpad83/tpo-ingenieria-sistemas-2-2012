@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
@@ -56,6 +57,20 @@ public class RemitoBean implements Remito {
 			LOGGER.error(e);
 		}
             LOGGER.info("Remito guardado con id: " + +rGuardado.getIdRemito());
+	}
+
+	@Override
+	public void guardarRemito(RemitoEntity rem) {
+		LOGGER.info("Procesando guardar remito.");
+
+		RemitoEntity rGuardado = null;
+		try {
+			rGuardado = (RemitoEntity) entityManager.merge(rem);
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al guardar el remito.");
+			LOGGER.error(e);
+		}
+		LOGGER.info("Remito guardado con id: " + rGuardado.getIdRemito());
 	}
 
 }

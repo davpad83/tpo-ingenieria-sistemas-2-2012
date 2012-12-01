@@ -230,10 +230,10 @@ public class MockDataGenerator {
 
 	public static ArrayList<ProveedorVO> getControlledProveedoresList() {
 		ArrayList<ProveedorVO> proveedores = new ArrayList<ProveedorVO>();
-		ProveedorVO pvo1 = nuevoProveedorVO("20-34343431-2", "Rodamientos S.A.");
-		ProveedorVO pvo2 = nuevoProveedorVO("20-34343432-2", "Rodaditos Expertos");
-		ProveedorVO pvo3 = nuevoProveedorVO("20-34343433-2", "Los rodados ruedan");
-		ProveedorVO pvo4 = nuevoProveedorVO("20-34343434-2", "R con R Rodado");
+		ProveedorVO pvo1 = nuevoProveedorVO("20-34343431-2", "Rodamientos S.A.", "2 semanas");
+		ProveedorVO pvo2 = nuevoProveedorVO("20-34343432-2", "Rodaditos Expertos", "3 semanas");
+		ProveedorVO pvo3 = nuevoProveedorVO("20-34343433-2", "Los rodados ruedan", "1 semana");
+		ProveedorVO pvo4 = nuevoProveedorVO("20-34343434-2", "R con R Rodado", "2 semanas");
 		
 		proveedores.add(pvo1);
 		proveedores.add(pvo2);
@@ -243,10 +243,11 @@ public class MockDataGenerator {
 		return proveedores;
 	}
 
-	private static ProveedorVO nuevoProveedorVO(String cuit, String nombre) {
+	private static ProveedorVO nuevoProveedorVO(String cuit, String nombre, String tiempoDeEntrega) {
 		ProveedorVO pvo = new ProveedorVO();
 		pvo.setCuit(cuit);
 		pvo.setNombre(nombre);
+		pvo.setTiempoDeEntrega(tiempoDeEntrega);
 		return pvo;
 	}
 
@@ -454,12 +455,12 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "", 1099, "EnviarRemito");
-		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "127.0.0.1", 1099, "EnviarRemito");
+		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "127.0.0.1", 1099, "EnviarRemito");
 		
 		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
 		odvvo.add(odv1);
@@ -481,5 +482,88 @@ public class MockDataGenerator {
 		odv.setPuerto(puerto);
 		odv.setNombreColaRemito(nombreColaRemito);
 		return odv;
+	}
+
+	public static ArrayList<SolicitudCotizacionRequest> getControlledSolicitudCotizacionRequestList() {
+		ArrayList<SolicitudCotizacionRequest> solicitudes = new ArrayList<SolicitudCotizacionRequest>();
+		
+		SolicitudCotizacionRequest solicitud1 = new SolicitudCotizacionRequest();
+		solicitud1.setIdODV(1);
+		solicitud1.setIdPedidoCotizacion(1);
+		solicitud1.setMarca("ZKL");
+		solicitud1.setPais("Japon");
+		solicitud1.setSKF("22310 CCW33");
+		
+		SolicitudCotizacionRequest solicitud2 = new SolicitudCotizacionRequest();
+		solicitud2.setIdODV(1);
+		solicitud2.setIdPedidoCotizacion(2);
+		solicitud2.setMarca("ZKL");
+		solicitud2.setPais("Alemania");
+		solicitud2.setSKF("6200");
+		
+		SolicitudCotizacionRequest solicitud3 = new SolicitudCotizacionRequest();
+		solicitud3.setIdODV(1);
+		solicitud3.setIdPedidoCotizacion(3);
+		solicitud3.setPais("Alemania");
+		solicitud3.setSKF("6200");
+
+		SolicitudCotizacionRequest solicitud4 = new SolicitudCotizacionRequest();
+		solicitud4.setIdODV(1);
+		solicitud4.setIdPedidoCotizacion(4);
+		solicitud2.setMarca("ZKL");
+		solicitud2.setPais("Reino Unido");
+		solicitud2.setSKF("6200 ZZ");
+
+		solicitudes.add(solicitud1);
+		solicitudes.add(solicitud2);
+		solicitudes.add(solicitud3);
+		solicitudes.add(solicitud4);
+		
+		return solicitudes;
+	}
+
+	public static SolicitudCompraRequest getControlledSolicitudCompraRequest() {
+		SolicitudCompraRequest solicitud = new SolicitudCompraRequest();
+		solicitud.setIdODV(1);
+		solicitud.setIdOrdenDeCompra(5);
+		solicitud.setItems(getControlledItemVOList());
+		
+		return solicitud;
+	}
+
+	private static List<ItemVO> getControlledItemVOList() {
+		List<ItemVO> items = new ArrayList<ItemVO>();
+		
+		ArrayList<SolicitudCotizacionRequest> itemsCotizados = getControlledSolicitudCotizacionRequestList();
+		SolicitudCotizacionRequest itemCotizado1 = itemsCotizados.get(0);
+		SolicitudCotizacionRequest itemCotizado2 = itemsCotizados.get(1);
+		SolicitudCotizacionRequest itemCotizado3 = itemsCotizados.get(3);
+		
+		ItemVO item1 = new ItemVO();
+		item1.setMarca(itemCotizado1.getMarca());
+		item1.setPais(itemCotizado1.getPais());
+		item1.setSKF(itemCotizado1.getSKF());
+		item1.setCantidad(getRandomCantidad());
+		item1.setId(1);
+		
+		ItemVO item2 = new ItemVO();
+		item2.setMarca(itemCotizado2.getMarca());
+		item2.setPais(itemCotizado2.getPais());
+		item2.setSKF(itemCotizado2.getSKF());
+		item2.setCantidad(getRandomCantidad());
+		item2.setId(2);
+		
+		ItemVO item3 = new ItemVO();
+		item3.setMarca(itemCotizado3.getMarca());
+		item3.setPais(itemCotizado3.getPais());
+		item3.setSKF(itemCotizado3.getSKF());
+		item3.setCantidad(getRandomCantidad());
+		item3.setId(3);
+		
+		items.add(item1);
+		items.add(item2);
+//		items.add(item3);
+		
+		return items;
 	}
 }

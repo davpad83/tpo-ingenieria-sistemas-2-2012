@@ -50,7 +50,8 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 	
 	@Override
 	public void procesarSolicitudDeCompra(SolicitudCompraRequest request) {
-
+		LOGGER.info("==================PROCESANDO SOLICITUD DE COMPRA BEGIN==================");
+		
 		if (ordenDeCompra.validarSolicitudCompra(request)) {
 			OrdenDeCompraEntity oce = fromRequestToOCEntity(request);
 			OrdenDeCompraEntity ocGuardada = ordenDeCompra.guardarOrdenDeCompra(oce);
@@ -62,15 +63,16 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 				RodamientoEntity rodActual = ire.getCotizacion()
 						.getRodamiento();
 
-				int stockRodamiento = rodActual.getStock();
+				int stockSolicitado = rodActual.getStock();
 				if (cotizacion.validarVigenciaLista(ire.getCotizacion()
 						.getLista())) {
 					LOGGER.info("El item cotizado con id " + ire.getId()
 							+ " esta en vigencia, verificando stock...");
 					
-					if (stockRodamiento >= ire.getCantidad()) {
+					//HAY STOCK PARA ENVIAR EL ITEM COMPLETO
+					if (stockSolicitado >= ire.getCantidad()) {
 						LOGGER.info("Hay stock suficiente para el rodamiento (cod: "
-								+ rodActual.getCodigoSKF() + ")");
+								+ rodActual.getCodigoSKF() + ") | Solicitado: "+stockSolicitado+" | Actual: "+ire.getCantidad());
 						if(rem == null){
 							rem = new RemitoEntity();
 							rem.setOdv(ocGuardada.getOdv());
@@ -79,15 +81,18 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 						}
 						rem.getItems().add(ire);
 						ire.setPendientes(0);
-					} else if (stockRodamiento == 0) {
+						
+					//NO HAY STOCK PARA ENVIAR NINGUNO.
+					} else if (stockSolicitado == 0) {
 						LOGGER.info("No hay stock para el rodamiento (cod: "
 								+ rodActual.getCodigoSKF() + ")");
-						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockRodamiento);
+						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockSolicitado*2);
+					//SE PUEDEN ENVIAR ALGUNOS AHORA Y HAY QUE PEDIR MAS PARA EL RESTO.
 					} else {
 						LOGGER.info("No hay stock suficiente para el rodamiento (cod: "
 								+ rodActual.getCodigoSKF()
 								+ "), pueden entregarse "
-								+ stockRodamiento
+								+ stockSolicitado
 								+ " ahora.");
 						if(rem == null){
 							rem = new RemitoEntity();
@@ -96,8 +101,8 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 							rem.setItems(new ArrayList<ItemRodamientoEntity>());
 						}
 						rem.getItems().add(ire);
-						ire.setPendientes(ire.getPendientes()-stockRodamiento);
-						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockRodamiento*2);
+						ire.setPendientes(ire.getPendientes()-stockSolicitado);
+						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockSolicitado*2);
 					}
 				} else {
 					LOGGER.info("El item cotizado con id " + ire.getId()
@@ -105,16 +110,18 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 				}
 			}
 			if(rem != null){
+				remito.guardarRemito(rem);
 				remito.enviarRemito(rem,ocGuardada.getOdv());
 				ordenDeCompra.verificarPendientes(ocGuardada);
 				ordenDeCompra.guardarOrdenDeCompra(ocGuardada);
+			} else {
+				LOGGER.warn("No se genero ningun remito en esta operacion, ya que no hay stock disponible.");
 			}
 		} else {
 			LOGGER.error("La orden de compra es invalida.");
 		}
+		LOGGER.info("==================PROCESANDO SOLICITUD DE COMPRA END==================");
 	}
-	
-	
 	
 	private OrdenDeCompraEntity fromRequestToOCEntity(SolicitudCompraRequest request) {
 		
@@ -123,18 +130,14 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		oce.setEstado("Nueva");
 		ArrayList<ItemRodamientoEntity> listItems = new ArrayList<ItemRodamientoEntity>();
 		for(ItemVO itReq : request.getItems()){
-			ItemRodamientoEntity iteOC = new ItemRodamientoEntity();
-			iteOC.setCantidad(itReq.getCantidad());
-			iteOC.setPendientes(itReq.getCantidad());
-			iteOC.setRodamiento(rodamiento.getRodamiento(itReq.getSKF(), itReq.getMarca(), itReq.getPais()));
-			//Si no existe la cotizacion del Item, lo omite.
-			if(!cotizacion.existe(itReq.getId()))
-				continue;
-			iteOC.setCotizacion(cotizacion.getCotizacion(itReq.getId()));
-			listItems.add(iteOC);
+			ArrayList<ItemRodamientoEntity> itemsCotizacion = cotizacion.getItemsCotizados(itReq.getId());
+			for(ItemRodamientoEntity itemCot : itemsCotizacion ){
+				if(itemCot.getRodamiento().getMarca().equals(itReq.getMarca()))
+					listItems.add(itemCot);
+			}
 		}
+		oce.setItems(listItems);
 		oce.setOdv(oficinaVenta.getOficina(request.getIdODV()));
 		return oce;
 	}
-
 }
