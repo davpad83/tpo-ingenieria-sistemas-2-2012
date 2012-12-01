@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.uade.tpo.ingsist2.view.vo.*;
+import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 
 public class MockDataGenerator {
 
@@ -56,7 +57,32 @@ public class MockDataGenerator {
 		return cuit;
 	}
 
+	public static RecepcionRodamientosVO getMercaderia(){
+		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();
+		List<RecepcionRodamientosVO.RodamientoListaVO> listRecep = new ArrayList<RecepcionRodamientosVO.RodamientoListaVO>();
+		
+		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO(); 
+		rlvo.setCantidad(50);
+		rlvo.setMarca("SKF");
+		rlvo.setPais("Argentina");
+		rlvo.setSKF("22310 EKW33");
+		listRecep.add(rlvo);
+		
+		rlvo.setCantidad(20);
+		rlvo.setMarca("SNR");
+		rlvo.setPais("Francia");
+		rlvo.setSKF("NJ 208 EMC3");
+		listRecep.add(rlvo);
 
+		rlvo.setCantidad(30);
+		rlvo.setMarca("ZKL");
+		rlvo.setPais("Alemania");
+		rlvo.setSKF("6200");
+		
+		listRecep.add(rlvo);		
+		return rrvo;
+	}
+	
 	public static ListaPreciosVO getRandomListaPreciosVO(int cantItems) {
 		ListaPreciosVO lista = new ListaPreciosVO();
 		lista.setNombre("Rodamientos Locos SRL");
