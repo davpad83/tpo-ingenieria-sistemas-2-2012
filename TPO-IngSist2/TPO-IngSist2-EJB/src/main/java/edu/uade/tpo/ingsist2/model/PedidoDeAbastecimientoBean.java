@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
-import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Stateless
 public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {

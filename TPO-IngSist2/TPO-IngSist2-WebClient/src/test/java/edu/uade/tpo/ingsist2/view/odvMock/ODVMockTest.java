@@ -1,18 +1,7 @@
 package edu.uade.tpo.ingsist2.view.odvMock;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 
 import org.junit.After;
 import org.junit.Before;
