@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 import com.thoughtworks.xstream.XStream;
 
-import edu.uade.tpo.ingsist2.model.Cotizacion;
-import edu.uade.tpo.ingsist2.model.entities.ProveedorEntity;
-
 public class PedidoAbastecimientoVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
