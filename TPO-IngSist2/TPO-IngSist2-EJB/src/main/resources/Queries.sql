@@ -15,7 +15,7 @@ delete from itemlista where id = 42
 
 update itemlista set precio= 7.1 where id=13
 
-select * from rodamiento 
+select * from rodamiento
 select * from ListaPrecios
 select * from proveedor
 select * from itemlista
