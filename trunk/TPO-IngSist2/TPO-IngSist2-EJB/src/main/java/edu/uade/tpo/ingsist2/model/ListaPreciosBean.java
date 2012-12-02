@@ -35,11 +35,11 @@ public class ListaPreciosBean implements ListaPrecios {
 			try {
 				ListaPreciosEntity lpGuardado = entityManager.merge(lp);
 				if (lpGuardado.getIdLista() > 0)
-					LOGGER.info("La Lista de precios del proveedor"
+					LOGGER.info("La Lista de precios del proveedor "
 							+ lpGuardado.getProveedor().getNombre() + "("
 							+ lpGuardado.getProveedor().getCuit()
 							+ ") fue guardada con EXITO. Su id es "
-							+ lpGuardado.getProveedor().getNombre());
+							+ lpGuardado.getIdLista());
 			} catch (Exception e) {
 				LOGGER.error("Hubo un error al guardar la lista de precios");
 				LOGGER.error(e);

@@ -48,7 +48,7 @@ public class RodamientoBean implements Rodamiento {
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error intentando eliminar el rodamiento con id "
 					+ id);
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		LOGGER.info("El rodamiento con id " + id
 				+ " se ha eliminado con exito.");
@@ -62,7 +62,7 @@ public class RodamientoBean implements Rodamiento {
 			r = entityManager.find(RodamientoEntity.class, id);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento.");
-			e.printStackTrace();
+			LOGGER.error(e);
 			return null;
 		} finally {
 			if (r != null)
@@ -150,7 +150,7 @@ public class RodamientoBean implements Rodamiento {
 					.getResultList();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar todos los rodamientos.");
-			e.printStackTrace();
+			LOGGER.error(e);
 			return null;
 		} finally {
 			if (listaResultado == null || listaResultado.isEmpty()) {
@@ -181,8 +181,8 @@ public class RodamientoBean implements Rodamiento {
 		} catch (NoResultException nre){
 			LOGGER.warn("No se ha encontrado el rodamiento.");
 		} catch (Exception e) {
-			LOGGER.error("Hubo un error al busca  el rodamientos.");
-			e.printStackTrace();
+			LOGGER.error("Hubo un error al buscar el rodamientos.");
+			LOGGER.error(e);
 			return null;
 		} finally {
 			if (rodResultado != null)
