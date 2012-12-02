@@ -456,15 +456,16 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "172.16.171.31", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.35", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv7 = nuevaOficinaDeVentaVO("ODV 7", "UADE 7", "172.16.171.27", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "172.16.171.29", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv10 = nuevaOficinaDeVentaVO("ODV 10", "ODV PARA TEST", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		
 		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
 		odvvo.add(odv1);
@@ -476,6 +477,7 @@ public class MockDataGenerator {
 		odvvo.add(odv7);
 		odvvo.add(odv8);
 		odvvo.add(odv9);
+		odvvo.add(odv10);
 		
 		return odvvo;
 	}
@@ -495,27 +497,27 @@ public class MockDataGenerator {
 		ArrayList<SolicitudCotizacionRequest> solicitudes = new ArrayList<SolicitudCotizacionRequest>();
 		
 		SolicitudCotizacionRequest solicitud1 = new SolicitudCotizacionRequest();
-		solicitud1.setIdODV(1);
+		solicitud1.setIdODV(10);
 		solicitud1.setIdPedidoCotizacion(1);
 		solicitud1.setMarca("ZKL");
 		solicitud1.setPais("Japon");
 		solicitud1.setSKF("22310 CCW33");
 		
 		SolicitudCotizacionRequest solicitud2 = new SolicitudCotizacionRequest();
-		solicitud2.setIdODV(1);
+		solicitud2.setIdODV(10);
 		solicitud2.setIdPedidoCotizacion(2);
 		solicitud2.setMarca("ZKL");
 		solicitud2.setPais("Alemania");
 		solicitud2.setSKF("6200");
 		
 		SolicitudCotizacionRequest solicitud3 = new SolicitudCotizacionRequest();
-		solicitud3.setIdODV(1);
+		solicitud3.setIdODV(10);
 		solicitud3.setIdPedidoCotizacion(3);
 		solicitud3.setPais("Alemania");
 		solicitud3.setSKF("6200");
 
 		SolicitudCotizacionRequest solicitud4 = new SolicitudCotizacionRequest();
-		solicitud4.setIdODV(1);
+		solicitud4.setIdODV(10);
 		solicitud4.setIdPedidoCotizacion(4);
 		solicitud2.setMarca("ZKL");
 		solicitud2.setPais("Reino Unido");
@@ -546,6 +548,7 @@ public class MockDataGenerator {
 		SolicitudCotizacionRequest itemCotizado2 = itemsCotizados.get(1);
 		SolicitudCotizacionRequest itemCotizado3 = itemsCotizados.get(3);
 		
+		
 		ItemVO item1 = new ItemVO();
 		item1.setMarca(itemCotizado1.getMarca());
 		item1.setPais(itemCotizado1.getPais());
@@ -567,9 +570,17 @@ public class MockDataGenerator {
 		item3.setCantidad(getRandomCantidad());
 		item3.setId(3);
 		
+		//Agrego un item no cotizado para ver si lo omite.
+		ItemVO item4 = new ItemVO();
+		item4.setMarca(getRandomMarca());
+		item4.setPais(getRandomPais());
+		item4.setSKF(getRandomCodigoSKF());
+		item4.setCantidad(getRandomCantidad());
+		
 		items.add(item1);
 		items.add(item2);
 		items.add(item3);
+		items.add(item4);
 		
 		return items;
 	}

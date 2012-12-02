@@ -7,4 +7,6 @@ public interface JMSQueuesNames {
 	public static final String ENVIAR_ORDEN_COMPRA_QUEUE = "SolicitudCompraRodamientos";
 	public static final String ENVIAR_REMITO_QUEUE = "EnviarRemitos";
 	
+	public static final String RECIBIR_PEDIDOS_PROVE_MOCK = "RecibirPedidosProve";
+	
 }

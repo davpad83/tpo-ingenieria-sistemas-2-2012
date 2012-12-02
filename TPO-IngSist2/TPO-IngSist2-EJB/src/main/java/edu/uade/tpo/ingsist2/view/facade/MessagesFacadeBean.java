@@ -17,7 +17,7 @@ public class MessagesFacadeBean implements MessagesFacade {
 	private ListaPreciosController listaProveedor;
 	
 	@EJB
-	private RecepcionRodamientosController envioProveedor;
+	private RecepcionRodamientosController recepcionRodamientos;
 	
 	@EJB
 	private RecepcionSolicitudDeCompraController recepcionSolicitudCompra;
@@ -29,7 +29,7 @@ public class MessagesFacadeBean implements MessagesFacade {
 
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO lpr) {
-		envioProveedor.recibirEnvioProveedor(lpr);
+		recepcionRodamientos.recibirEnvioProveedor(lpr);
 		
 	}
 

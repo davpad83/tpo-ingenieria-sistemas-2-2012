@@ -7,11 +7,12 @@ import javax.ejb.Local;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 
 @Local
 public interface PedidoDeAbastecimiento {
 
-	public void generarPedidoAbastecimiento(OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
+	public PedidoDeAbastecimientoEntity generarPedidoAbastecimiento(OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
 			int stockRodamiento);
 
 	public void guardarPedido(PedidoDeAbastecimientoEntity p);
@@ -21,4 +22,7 @@ public interface PedidoDeAbastecimiento {
 	public PedidoDeAbastecimientoEntity getPedido(int id);
 
 	public ArrayList<PedidoDeAbastecimientoEntity> getPedidos();
+
+	public void enviarPedido(
+			PedidoDeAbastecimientoEntity pedido);
 }
