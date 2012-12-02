@@ -94,8 +94,8 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			int consumido = actualizarItemsOCs(pedido, envio);	
 			
 			/////******Stock******\\\\\\
-			int sobrante=envio.getCantidad()-consumido;
-			if(sobrante>0)
+			int sobrante=envio.getCantidad();
+			if(envio.getCantidad()>0)
 				actualizarStock(sobrante, pedido);
 			
 			/////******Generar Remito de compra******\\\\\\
