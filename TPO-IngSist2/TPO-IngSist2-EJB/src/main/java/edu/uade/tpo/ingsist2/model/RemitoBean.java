@@ -1,5 +1,7 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.ArrayList;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,16 +31,19 @@ public class RemitoBean implements Remito {
 				odv.getPuerto(), odv.getNombreColaRemito());
 
 		RemitoResponse remitoAEnviar = new RemitoResponse();
-		
+
 		remitoAEnviar.setIdODV(odv.getId());
 		remitoAEnviar.setIdRemito(remito.getIdRemito());
-		remitoAEnviar.setItems(ItemVO.getVOList(remito.getItems()));
-		
-		if (emHelper.isConnectionWorking()) {
-			LOGGER.info("Enviando remito...");
-			LOGGER.info(remitoAEnviar.toXML());
-			emHelper.enviarMensaje(remitoAEnviar.toXML());
+
+		ArrayList<ItemVO> listaTemp = new ArrayList<ItemVO>();
+		for (ItemVO item : ItemVO.getVOList(remito.getItems())) {
+			item.setIdOrdenDeCompra(remito.getOrdenDeCompra().getIdRecibidoODV());
+			listaTemp.add(item);
 		}
+		remitoAEnviar.setItems(listaTemp);
+
+		emHelper.enviarMensaje(remitoAEnviar.toXML());
+		emHelper.cerrarConexion();
 	}
 
 	@Override
@@ -48,7 +53,7 @@ public class RemitoBean implements Remito {
 		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
 				odv.getPuerto(), odv.getNombreColaRemito());
 
-		LOGGER.info("Enviando remito...");
+		LOGGER.info("Enviando remito ...");
 		emHelper = new EnviarMensajeHelper("127.0.0.1 IP de ODV", 1099,
 				JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		try {

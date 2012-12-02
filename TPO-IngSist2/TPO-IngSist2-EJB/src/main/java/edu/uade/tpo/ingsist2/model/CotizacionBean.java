@@ -63,7 +63,7 @@ public class CotizacionBean implements Cotizacion {
 			LOGGER.error("Hubo un error al buscar el item lista.");
 			LOGGER.error(e);
 		} finally {
-			LOGGER.debug("Executed query: " + query.toString());
+			LOGGER.info("Executed query: " + query.toString());
 			if (itEncontrado == null) {
 				LOGGER.info("No existe el item lista");
 				return null;
@@ -92,7 +92,7 @@ public class CotizacionBean implements Cotizacion {
 					ItemListaEntity.class);
 			q.setParameter("codigo", rod.getCodigoSKF());
 			q.setParameter("pais", rod.getPais());
-			LOGGER.debug("Executing query: " + q.toString());
+			LOGGER.info("Executing query: " + q.toString());
 			listaResultado = (List<ItemListaEntity>) q.getResultList();
 
 		} catch (Exception e) {
@@ -149,7 +149,7 @@ public class CotizacionBean implements Cotizacion {
 	@Override
 	public void guardarCotizacion(CotizacionEntity c) {
 		LOGGER.info("Procesando guardar cotizacion con id Pedido de Cotizacion: "
-				+ c.getIdPedidoCotizacion());
+				+ c.getIdRecibidoODV());
 
 		CotizacionEntity cGuardado = null;
 		try {

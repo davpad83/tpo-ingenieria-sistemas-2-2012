@@ -67,7 +67,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	}
 
 	@Override
-	public OrdenDeCompraEntity guardarOrdenDeCompra(OrdenDeCompraEntity oce) {
+	public int guardarOrdenDeCompra(OrdenDeCompraEntity oce) {
 		LOGGER.info("Procesando guardar orden de compra.");
 
 		OrdenDeCompraEntity ocGuardada = null;
@@ -79,27 +79,28 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 		}
 		LOGGER.info("Orden de Compra guardada con id: "
 				+ ocGuardada.getIdOrden());
-		return ocGuardada;
+		return ocGuardada.getIdOrden();
 	}
 
 	@Override
-	public void verificarPendientes(OrdenDeCompraEntity oce) {
+	public OrdenDeCompraEntity verificarPendientes(OrdenDeCompraEntity oce) {
 		LOGGER.info("Verificando los items pendiendes de la OC "
 				+ oce.getIdOrden() + " ...");
 		boolean completa = true;
 		for (ItemRodamientoEntity ire : oce.getItems()) {
 			if (ire.getPendientes() > 0) {
 				completa = false;
-				LOGGER.debug("El item con id " + ire.getId() + " tiene "
+				LOGGER.info("El item con id " + ire.getId() + " tiene "
 						+ ire.getPendientes() + " entregas pendientes.");
 			} else
-				LOGGER.debug("El item con id " + ire.getId()
+				LOGGER.info("El item con id " + ire.getId()
 						+ " no tiene entregas pendientes.");
 		}
 		if(completa)
 			oce.setEstado("Completa");
 		else 
 			oce.setEstado("Pendiente");
+		return oce;
 	}
 	
 	@Override

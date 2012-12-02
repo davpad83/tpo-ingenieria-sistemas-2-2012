@@ -11,7 +11,8 @@ import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 @Local
 public interface PedidoDeAbastecimiento {
 
-	public PedidoDeAbastecimientoEntity generarPedidoAbastecimiento(OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
+	public PedidoDeAbastecimientoEntity generarPedidoAbastecimiento(
+			OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
 			int stockRodamiento);
 
 	public void guardarPedido(PedidoDeAbastecimientoEntity p);

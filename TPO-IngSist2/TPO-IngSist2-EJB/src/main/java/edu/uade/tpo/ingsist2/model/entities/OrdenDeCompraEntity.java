@@ -14,7 +14,7 @@ public class OrdenDeCompraEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idOrden;
 
-	private int idRecibido;
+	private int idRecibidoODV;
 
 	private String estado;
 
@@ -60,7 +60,7 @@ public class OrdenDeCompraEntity {
 	public OrdenDeCompraVO getVO() {
 		OrdenDeCompraVO pvo = new OrdenDeCompraVO();
 		pvo.setIdOrden(this.idOrden);
-		pvo.setIdRecibido(this.idRecibido);
+		pvo.setIdRecibido(this.idRecibidoODV);
 		pvo.setEstado(this.estado);
 		pvo.setOdv(this.odv.getVO());
 		pvo.setItems(ItemRodamientoEntity.getVOList(this.items));
@@ -69,7 +69,7 @@ public class OrdenDeCompraEntity {
 
 	public void setVO(OrdenDeCompraVO p) {
 		this.idOrden = p.getIdOrden();
-		this.idRecibido = p.getIdRecibido();
+		this.idRecibidoODV = p.getIdRecibido();
 		this.estado = p.getEstado();
 		this.items = ItemRodamientoEntity.getEntityList(p.getItems());
 		OficinaDeVentaEntity odve = new OficinaDeVentaEntity();
@@ -85,12 +85,12 @@ public class OrdenDeCompraEntity {
 		return pVoList;
 	}
 
-	public int getIdRecibido() {
-		return idRecibido;
+	public int getIdRecibidoODV() {
+		return idRecibidoODV;
 	}
 
-	public void setIdRecibido(int idRecibido) {
-		this.idRecibido = idRecibido;
+	public void setIdRecibidoODV(int idRecibidoODV) {
+		this.idRecibidoODV = idRecibidoODV;
 	}
 
 }

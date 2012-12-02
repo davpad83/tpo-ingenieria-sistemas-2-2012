@@ -7,6 +7,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import org.apache.log4j.Logger;
+
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
@@ -22,6 +24,8 @@ import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 public class RecibirPedidosProveedorMockMDB implements MessageListener {
 
+	private static final Logger LOGGER = Logger.getLogger(RecibirPedidosProveedorMockMDB.class);
+	
     public void onMessage(Message message) {
     	EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE);
     	

@@ -3,13 +3,7 @@ package edu.uade.tpo.ingsist2.model.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 
@@ -27,7 +21,7 @@ public class ItemRodamientoEntity {
 	@ManyToOne
 	private RodamientoEntity rodamiento;
 
-	@ManyToOne (cascade = CascadeType.ALL)
+	@OneToOne (cascade = CascadeType.ALL)
 	private CotizacionEntity cotizacion;
 
 	public int getId() {

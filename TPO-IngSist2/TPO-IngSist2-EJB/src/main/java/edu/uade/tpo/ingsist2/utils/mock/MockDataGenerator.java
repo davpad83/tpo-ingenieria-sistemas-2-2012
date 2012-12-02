@@ -538,10 +538,10 @@ public class MockDataGenerator {
 		SolicitudCotizacionRequest solicitud4 = new SolicitudCotizacionRequest();
 		solicitud4.setIdODV(10);
 		solicitud4.setIdPedidoCotizacion(4);
-		solicitud2.setMarca("ZKL");
-		solicitud2.setPais("Suecia");
-		solicitud2.setSKF("6200 ZZ");
-		solicitud2.setCantidad(93);
+		solicitud4.setMarca("ZKL");
+		solicitud4.setPais("Suecia");
+		solicitud4.setSKF("6200 ZZ");
+		solicitud4.setCantidad(93);
 
 		solicitudes.add(solicitud1);
 		solicitudes.add(solicitud2);
@@ -553,7 +553,7 @@ public class MockDataGenerator {
 
 	public static SolicitudCompraRequest getControlledSolicitudCompraRequest() {
 		SolicitudCompraRequest solicitud = new SolicitudCompraRequest();
-		solicitud.setIdODV(1);
+		solicitud.setIdODV(10);
 		solicitud.setIdOrdenDeCompra(5);
 		solicitud.setItems(getControlledItemVOList());
 		
@@ -620,7 +620,7 @@ public class MockDataGenerator {
 		item5.setId(2);
 
 		items.add(item1);
-//		items.add(item2);
+		items.add(item2);
 //		items.add(item3);
 //		items.add(item4);
 //		items.add(item5);
