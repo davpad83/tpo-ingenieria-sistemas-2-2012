@@ -28,6 +28,15 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	@EJB
 	private Cotizacion cotizacion;
 	
+	/**
+	 * Valida la solicitud de comprar enviada por la ODV.
+	 * Omite la Solicitud completa si:
+	 * 		1) La lista de items no existe o esta vacia.
+	 * 		2) La oficina de venta no existe (validada con el id recibido)
+	 * Omite un item si:
+	 * 		1) No existe la cotizacion asociada (validada con el id recibido)
+	 * 		2) La cantidad del item es menor a 1.
+	 */
 	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
 		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
@@ -41,15 +50,19 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 		}
 		for(ItemVO ivo : oc.getItems()){
 			if(!cotizacion.existe(ivo.getId())){
-				LOGGER.warn("La cotizacion no existe en un item de la solicitud.");
+				LOGGER.warn("La cotizacion no existe en un item de " +
+						"la solicitud. Omitiendo item ("+ivo.getSKF()+")");
 				oc.getItems().remove(ivo);
 			} else if(ivo.getCantidad() <0){
-				LOGGER.warn("Un item contiene cantidad 0, por lo que no sera procesado.");
+				LOGGER.warn("Un item contiene cantidad 0, por lo que " +
+						"no sera procesado. Omitiendo item ("+ivo.getSKF()+")");
 				oc.getItems().remove(ivo);
 			}
 		}
 		if(esValido)
 			LOGGER.info("Validacion exitosa!");
+		else
+			LOGGER.warn("La solicitud de compra es invalida.");
 		return esValido;
 	}
 

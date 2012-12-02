@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.Cotizacion;
+import edu.uade.tpo.ingsist2.model.ItemRodamiento;
 import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
@@ -15,6 +16,7 @@ import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
@@ -43,6 +45,9 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 	private Cotizacion cotizacion;
 
 	@EJB
+	private ItemRodamiento itemRodamiento;
+	
+	@EJB
 	private PedidoDeAbastecimiento pedidoAbastecimiento;
 	
 	@EJB
@@ -60,40 +65,42 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 			RemitoEntity rem = null;
 			for (ItemRodamientoEntity ire : ocGuardada.getItems()) {
 
-				// cotizacion.verificarStock(ire);
 				RodamientoEntity rodActual = ire.getCotizacion()
 						.getRodamiento();
 
-				int stockSolicitado = rodActual.getStock();
+				int stockActual = rodActual.getStock();
+				int stockSolicitado = ire.getCantidad();
 				if (cotizacion.validarVigenciaLista(ire.getCotizacion()
 						.getLista())) {
 					LOGGER.info("El item cotizado con id " + ire.getId()
 							+ " esta en vigencia, verificando stock...");
 					
 					//HAY STOCK PARA ENVIAR EL ITEM COMPLETO
-					if (stockSolicitado <= ire.getCantidad()) {
+					if (stockActual >= stockSolicitado) {
 						LOGGER.info("Hay stock suficiente para el rodamiento (cod: "
-								+ rodActual.getCodigoSKF() + ") | Solicitado: "+stockSolicitado+" | Actual: "+ire.getCantidad());
+								+ rodActual.getCodigoSKF() + ") | Solicitado: "+stockSolicitado+" | Actual: "+stockActual);
 						if(rem == null){
 							rem = new RemitoEntity();
 							rem.setOdv(ocGuardada.getOdv());
 							rem.setOrdenDeCompra(ocGuardada);
 							rem.setItems(new ArrayList<ItemRodamientoEntity>());
 						}
+						ire.setId(ocGuardada.getIdRecibido());
 						rem.getItems().add(ire);
 						ire.setPendientes(0);
 						
 					//NO HAY STOCK PARA ENVIAR NINGUNO.
-					} else if (stockSolicitado == 0) {
+					} else if (stockActual == 0) {
 						LOGGER.info("No hay stock para el rodamiento (cod: "
 								+ rodActual.getCodigoSKF() + ")");
-						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockSolicitado*2);
+						PedidoDeAbastecimientoEntity nuevoPedidoDeAbastecimiento = pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockActual*2);
+						pedidoAbastecimiento.enviarPedido(nuevoPedidoDeAbastecimiento);
 					//SE PUEDEN ENVIAR ALGUNOS AHORA Y HAY QUE PEDIR MAS PARA EL RESTO.
 					} else {
 						LOGGER.info("No hay stock suficiente para el rodamiento (cod: "
 								+ rodActual.getCodigoSKF()
 								+ "), pueden entregarse "
-								+ stockSolicitado
+								+ stockActual
 								+ " ahora.");
 						if(rem == null){
 							rem = new RemitoEntity();
@@ -101,9 +108,18 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 							rem.setOrdenDeCompra(ocGuardada);
 							rem.setItems(new ArrayList<ItemRodamientoEntity>());
 						}
-						rem.getItems().add(ire);
-						ire.setPendientes(ire.getPendientes()-stockSolicitado);
-						pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockSolicitado*2);
+						ire.setId(ocGuardada.getIdRecibido());
+						/* Genero un nuevo item rodamiento para el remito */
+						ItemRodamientoEntity itemRemito = new ItemRodamientoEntity();
+						itemRemito.setCantidad(stockActual);
+						itemRemito.setCotizacion(ire.getCotizacion());
+						itemRemito.setRodamiento(ire.getRodamiento());
+						rem.getItems().add(itemRemito);
+						
+						ire.setPendientes(ire.getPendientes()-stockActual);
+						itemRodamiento.guardarItemRodamientoCotizacion(ire);
+						PedidoDeAbastecimientoEntity nuevoPedidoDeAbastecimiento = pedidoAbastecimiento.generarPedidoAbastecimiento(ocGuardada, ire, stockActual*2);
+						pedidoAbastecimiento.enviarPedido(nuevoPedidoDeAbastecimiento);
 					}
 				} else {
 					LOGGER.info("El item cotizado con id " + ire.getId()
@@ -119,7 +135,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 				LOGGER.warn("No se genero ningun remito en esta operacion, ya que no hay stock disponible.");
 			}
 		} else {
-			LOGGER.error("La orden de compra es invalida.");
+			LOGGER.error("Omitiendo la solicitud completa.");
 		}
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COMPRA END==================");
 	}

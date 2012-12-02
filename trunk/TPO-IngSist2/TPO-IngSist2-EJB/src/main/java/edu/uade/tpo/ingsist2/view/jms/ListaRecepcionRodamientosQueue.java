@@ -34,7 +34,6 @@ public class ListaRecepcionRodamientosQueue implements MessageListener {
 			
 			messagesFacade.recibirEnvioProveedor(lpr);
 		} catch (JMSException e){
-			e.printStackTrace();
 		}
 	}
 	
