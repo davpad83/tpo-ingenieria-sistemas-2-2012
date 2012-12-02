@@ -8,7 +8,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import com.thoughtworks.xstream.XStream;
+import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.view.facade.MessagesFacade;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
@@ -22,24 +22,31 @@ public class ListaRecepcionRodamientosQueue implements MessageListener {
 	@EJB
 	MessagesFacade messagesFacade;
 	
+	private static final Logger LOGGER = Logger.getLogger(ListaRecepcionRodamientosQueue.class);
+	
 	/**
-	 * Se recibe un mensaje de texto en formato XML con los datos necesarios
-	 * para agregar un actualizar stock y completar pedidos.
+	 * Se recibe un mensaje de texto en formato XML con los datos necesarios de rodamientos 
+	 *  para actualizar stock y completar pedidos pendientes
 	 * 
 	 */
 	public void onMessage(Message message) {
-		try{
-			TextMessage ts = (TextMessage) message;
-			RecepcionRodamientosVO lpr = deXMLARecepcionRodamientoRequest(ts.getText());
+		TextMessage ts = (TextMessage) message;
+		String textReceived = "";
+		RecepcionRodamientosVO lpr = new RecepcionRodamientosVO();
+		try{			
+			textReceived = ts.getText();
 			
-			messagesFacade.recibirEnvioProveedor(lpr);
 		} catch (JMSException e){
+			e.printStackTrace();
+		}
+		if (textReceived.startsWith("TEST")) {
+			LOGGER.debug("This is a test message, the message received is: "+ textReceived);
+			LOGGER.info("This is a test message, the message received is: "+ textReceived);
+		}
+		else {
+			lpr=lpr.fromXML(textReceived);
+			messagesFacade.recibirEnvioProveedor(lpr);
 		}
 	}
-	
 
-	private RecepcionRodamientosVO deXMLARecepcionRodamientoRequest(String message){
-		XStream xs = new XStream();
-		return (RecepcionRodamientosVO) xs.fromXML(message);
-	}
 }

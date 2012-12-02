@@ -88,4 +88,19 @@ public class RecepcionRodamientosVO {
 		return xml;
 	}
 	
+	
+	
+	public RecepcionRodamientosVO fromXML(String xml) {
+		RecepcionRodamientosVO rvo= new RecepcionRodamientosVO();
+		try {
+			XStream xs = new XStream();
+			
+			rvo = (RecepcionRodamientosVO) xs.fromXML(xml);			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rvo;
+	}
+	
 }
