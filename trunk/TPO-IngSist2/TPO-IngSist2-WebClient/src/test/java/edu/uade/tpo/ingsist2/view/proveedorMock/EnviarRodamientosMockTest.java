@@ -35,6 +35,11 @@ public class EnviarRodamientosMockTest {
 		emHelper.enviarMensaje("TEST - Testeando la cola de mensajes");
 	}
 	
+	
+	/**
+	 * Se envia una nueva lista de precios a Casa Central * 
+	 */
+	
 	@Test
 	public void enviarRodamiento(){
 		
