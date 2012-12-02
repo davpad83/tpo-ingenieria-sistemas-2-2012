@@ -39,7 +39,7 @@ public class BusinessDelegateTest {
 		assertTrue(bd.getProveedores()==null || bd.getProveedores().isEmpty());
 	}
 	
-	// TEST WS
+	// TEST WS Pedidos de Cotitacion a Casa Central
 	
 	@Test
 	public void testGetCotizacion(){

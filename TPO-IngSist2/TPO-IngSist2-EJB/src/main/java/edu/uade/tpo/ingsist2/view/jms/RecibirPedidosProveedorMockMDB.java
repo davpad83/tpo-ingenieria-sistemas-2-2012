@@ -19,6 +19,7 @@ import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination" , propertyValue = "queue/"+JMSQueuesNames.RECIBIR_PEDIDOS_PROVE_MOCK)
 })
+
 public class RecibirPedidosProveedorMockMDB implements MessageListener {
 
     public void onMessage(Message message) {

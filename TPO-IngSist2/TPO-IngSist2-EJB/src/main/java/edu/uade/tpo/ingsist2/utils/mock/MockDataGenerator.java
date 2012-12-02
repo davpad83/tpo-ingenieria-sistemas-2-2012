@@ -92,6 +92,18 @@ public class MockDataGenerator {
 		lista.setItems(getRandomListaItemListaVO(cantItems));
 		return lista;
 	}
+	
+	public static RecepcionRodamientosVO getRandomListaRodamientoVO(int cantItems) {
+		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
+		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
+		rlvo.setSKF("22310 EKW33");
+		rlvo.setMarca("SKF");
+		rlvo.setPais("Argentina");
+		rlvo.setCantidad(cantItems);	
+		rlvo.setIdPedidoAbastecimiento(1);
+		rrvo.getListaRodVO().add(rlvo);
+		return rrvo;
+	}
 
 	public static Date getRandomFechaVencimiento() {
 		Calendar cal = Calendar.getInstance();
