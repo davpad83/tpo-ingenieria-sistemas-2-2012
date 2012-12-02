@@ -91,15 +91,17 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			actualizarPedido(pedido, envio);
 
 			/////******Ordenes de compra******\\\\\\
-			int sobrante = actualizarItemsOCs(pedido, envio);	
+			int consumido = actualizarItemsOCs(pedido, envio);	
 			
 			/////******Stock******\\\\\\
+			int sobrante=envio.getCantidad()-consumido;
 			if(sobrante>0)
 				actualizarStock(sobrante, pedido);
 			
 			/////******Generar Remito de compra******\\\\\\
+			
 			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
-			item.setCantidad(sobrante);
+			item.setCantidad(consumido);
 			item.setRodamiento(envio.getRodamiento());
 		}
 		return item ;
@@ -118,20 +120,24 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	private int actualizarItemsOCs(PedidoAbastecimientoVO pedido,RodamientoListaVO envio) {
 		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();	
 		int sobrante= envio.getCantidad();//total enviado por el proveedor
-				
+		int consumido=0;
+		
 		for(ItemRodamientoVO ir : oc.getItems()){
 			if(ir.getRodamiento() == pedido.getRodamiento()){
 				
-				int pendientes = ir.getPendientes() - envio.getCantidad();//Lo que se debe - lo que llega
-				
+				int pendientes = ir.getPendientes() - sobrante;//Lo que se debe - lo que llega
+			
 				if(!(pendientes<0)){//si me llega MENOS o satisfago justo la OC
 					sobrante=0;
 					ir.setPendientes(pendientes);
 				}
+				
 				if(pendientes < 0){//sobra del envio, puedo guardar stock
-				sobrante=sobrante*(-1);
+				sobrante=pendientes*(-1);
 				ir.setPendientes(0);
 				}
+				
+				consumido = envio.getCantidad()-sobrante;
 				envio.setCantidad(sobrante);
 			}
 		}
@@ -141,7 +147,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		oco.setVO(ovo);
 		ordenDeCompra.verificarPendientes(oco);
 		ordenDeCompra.guardarOrdenDeCompra(oco);
-		return sobrante;
+		return consumido;
 	}
 	
 	
