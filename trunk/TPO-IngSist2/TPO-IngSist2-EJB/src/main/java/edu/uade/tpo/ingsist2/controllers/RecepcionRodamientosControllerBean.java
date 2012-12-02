@@ -91,14 +91,15 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			actualizarPedido(pedido, envio);
 
 			/////******Ordenes de compra******\\\\\\
-			int consumo = actualizarItemsOCs(pedido, envio);	
+			int sobrante = actualizarItemsOCs(pedido, envio);	
 			
 			/////******Stock******\\\\\\
-			actualizarStock(consumo, pedido);
+			if(sobrante>0)
+				actualizarStock(sobrante, pedido);
 			
 			/////******Generar Remito de compra******\\\\\\
 			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
-			item.setCantidad(consumo);
+			item.setCantidad(sobrante);
 			item.setRodamiento(envio.getRodamiento());
 		}
 		return item ;
@@ -116,19 +117,22 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	
 	private int actualizarItemsOCs(PedidoAbastecimientoVO pedido,RodamientoListaVO envio) {
 		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();	
-		int total= envio.getCantidad();
+		int sobrante= envio.getCantidad();//total enviado por el proveedor
 				
 		for(ItemRodamientoVO ir : oc.getItems()){
 			if(ir.getRodamiento() == pedido.getRodamiento()){
 				
-				int cant = ir.getPendientes() - envio.getCantidad();
-				if(!(cant>0)){
-					total=ir.getPendientes()-cant;
-					envio.setCantidad(envio.getCantidad()-ir.getPendientes());
-					cant=0;
+				int pendientes = ir.getPendientes() - envio.getCantidad();//Lo que se debe - lo que llega
+				
+				if(!(pendientes<0)){//si me llega MENOS o satisfago justo la OC
+					sobrante=0;
+					ir.setPendientes(pendientes);
 				}
-				ir.setPendientes(cant);
-				envio.setCantidad(0);
+				if(pendientes < 0){//sobra del envio, puedo guardar stock
+				sobrante=sobrante*(-1);
+				ir.setPendientes(0);
+				}
+				envio.setCantidad(sobrante);
 			}
 		}
 		
@@ -137,7 +141,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		oco.setVO(ovo);
 		ordenDeCompra.verificarPendientes(oco);
 		ordenDeCompra.guardarOrdenDeCompra(oco);
-		return total;
+		return sobrante;
 	}
 	
 	
@@ -148,7 +152,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		pedido.setCantidadPendiente(resto);
 		if(resto == 0)
 			pedido.setRecibido(true);
-		LOGGER.info("Actualizando pedido:"+pedido.getIdPedido());
+		if(resto < 0)
+			LOGGER.error("Inconsistencias entre la cantidad recibida y la pedida");
+		
 		PedidoDeAbastecimientoEntity pae = new PedidoDeAbastecimientoEntity();
 		pae.setVO(pedido);
 		pedidos.guardarPedido(pae);
