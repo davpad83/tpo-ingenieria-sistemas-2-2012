@@ -49,9 +49,6 @@ public class CompleteIntegrationTest {
 	@Test
 	public void enviarCotizacionTest() {
 
-		List<SolicitudCotizacionRequest> solicitudes = MockDataGenerator
-				.getControlledSolicitudCotizacionRequestList();
-
 		SolicitudCotizacionRequest mockSolic1 = solicitudes.get(0);
 		SolicitudCotizacionRequest mockSolic2 = solicitudes.get(1);
 		SolicitudCotizacionRequest mockSolic3 = solicitudes.get(2);
