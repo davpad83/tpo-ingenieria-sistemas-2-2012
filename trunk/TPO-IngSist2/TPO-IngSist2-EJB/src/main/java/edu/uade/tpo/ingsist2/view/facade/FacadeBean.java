@@ -2,7 +2,6 @@ package edu.uade.tpo.ingsist2.view.facade;
 
 import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;

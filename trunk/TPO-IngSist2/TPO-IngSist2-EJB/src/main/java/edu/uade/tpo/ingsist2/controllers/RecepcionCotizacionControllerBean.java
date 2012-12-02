@@ -108,8 +108,7 @@ public class RecepcionCotizacionControllerBean implements
 
 			if (solicitudCotRequest.getCantidad() > rodamCotizado.getEnStock()) {
 				rodamCotizado.setTiempoEstimadoEntrega(tiempoDeEntrega);
-				pendientes = solicitudCotRequest.getCantidad()
-						- rodamCotizado.getEnStock();
+				pendientes = solicitudCotRequest.getCantidad() 	- rodamCotizado.getEnStock();
 			}
 			rodamCotizado.setFechaInicio(new Date());
 			rodamCotizado.setFechaFin(MockDataGenerator
@@ -149,8 +148,7 @@ public class RecepcionCotizacionControllerBean implements
 		itemRodamiento.guardarItemRodamientoCotizacion(ir);
 	}
 
-	public void procesarSinMarca(RodamientoEntity rod,
-			SolicitudCotizacionRequest screq) {
+	public void procesarSinMarca(RodamientoEntity rod, SolicitudCotizacionRequest screq) {
 		LOGGER.info("Procesando Cotizacion sin Marca ");
 
 		RodamientoCotizadoVO rcVO;
@@ -158,8 +156,7 @@ public class RecepcionCotizacionControllerBean implements
 		List<Integer> pendientes = new ArrayList<Integer>();
 
 		try {
-			listaResultado = cotizacion
-					.getItemsListaConMenorPrecioSinMarca(rod);
+			listaResultado = cotizacion.getItemsListaConMenorPrecioSinMarca(rod);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion sin marca");
 			e.printStackTrace();
@@ -178,8 +175,7 @@ public class RecepcionCotizacionControllerBean implements
 			LOGGER.info("Se cotizo el rodamiento con CodigoSKF: "+ rcVO.getSKF() + " Marca: " + rcVO.getMarca()+ " y Pais: " + rcVO.getPais() + " en $"+ rcVO.getPrecioCotizado());
 
 			if (screq.getCantidad() > rcVO.getEnStock()) {
-				rcVO.setTiempoEstimadoEntrega(proveedor
-						.getTiempoDeEntrega(listaResultado.get(i).getId()));
+				rcVO.setTiempoEstimadoEntrega(proveedor.getTiempoDeEntrega(listaResultado.get(i).getId()));
 				pendientes.add(screq.getCantidad() - rcVO.getEnStock());
 			} else {
 				pendientes.add(0);

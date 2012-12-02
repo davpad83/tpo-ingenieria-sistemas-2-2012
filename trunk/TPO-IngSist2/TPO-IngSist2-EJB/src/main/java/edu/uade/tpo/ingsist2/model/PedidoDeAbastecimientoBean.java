@@ -11,8 +11,6 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
-import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
-import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 
 @Stateless
 public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
@@ -24,9 +22,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 	private EntityManager entityManager;
 
 	@Override
-	public PedidoDeAbastecimientoEntity generarPedidoAbastecimiento(
-			OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
-			int stockRodamiento) {
+	public PedidoDeAbastecimientoEntity generarPedidoAbastecimiento(OrdenDeCompraEntity oc, ItemRodamientoEntity ire,int stockRodamiento) {
 
 		PedidoDeAbastecimientoEntity pedido = new PedidoDeAbastecimientoEntity();
 		pedido.setCantidadPedida(stockRodamiento);

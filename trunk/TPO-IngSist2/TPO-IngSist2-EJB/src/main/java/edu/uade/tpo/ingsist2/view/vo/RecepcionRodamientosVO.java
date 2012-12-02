@@ -3,6 +3,8 @@ package edu.uade.tpo.ingsist2.view.vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thoughtworks.xstream.XStream;
+
 public class RecepcionRodamientosVO {
 
 	private List<RodamientoListaVO> listaRodVO;
@@ -63,6 +65,27 @@ public class RecepcionRodamientosVO {
 			return r;			
 		}
 		
+	}
+	
+	public String toXML() {
+		String xml = "";
+		try {
+			XStream xs = new XStream();
+			
+			xs.alias("listaRodamientos", RecepcionRodamientosVO.class);
+			xs.alias("rodamientoLista", RodamientoListaVO.class);
+			
+			xs.aliasField("idPedidoAbastecimiento", RecepcionRodamientosVO.RodamientoListaVO.class, "idPedidoAbastecimiento");
+			xs.aliasField("SKF", RecepcionRodamientosVO.RodamientoListaVO.class, "SKF");
+			xs.aliasField("marca", RecepcionRodamientosVO.RodamientoListaVO.class, "marca");
+			xs.aliasField("pais", RecepcionRodamientosVO.RodamientoListaVO.class, "pais");
+			xs.aliasField("cantidad", RecepcionRodamientosVO.RodamientoListaVO.class, "cantidad");
+
+			xml = xs.toXML(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return xml;
 	}
 	
 }

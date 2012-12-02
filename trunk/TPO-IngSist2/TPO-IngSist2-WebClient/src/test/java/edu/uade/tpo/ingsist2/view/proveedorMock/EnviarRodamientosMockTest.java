@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,15 +18,16 @@ import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
+import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
-public class ProveedorMockTest {
-	
+public class EnviarRodamientosMockTest {
+
 	EnviarMensajeHelper emHelper;
-	private static final String PATH_TO_WEB_PROJECT = "/Users/matiasfavale/Documents/WorkspaceJuno/TPO-IngSist2/TPO-IngSist2-WebClient";
+	//private static final String PATH_TO_WEB_PROJECT = "/Users/matiasfavale/Documents/WorkspaceJuno/TPO-IngSist2/TPO-IngSist2-WebClient";
 
 	@Before
 	public void prepararTest() {
-		 emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.LISTA_PRECIOS_QUEUE);
+		 emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE);
 	}
 
 	@Test
@@ -32,23 +35,16 @@ public class ProveedorMockTest {
 		emHelper.enviarMensaje("TEST - Testeando la cola de mensajes");
 	}
 	
-	/**
-	 * Se envia una nueva lista de precios a Casa Central * 
-	 */
-
-
 	@Test
-	public void enviarNuevaListaPrecios() {
-		ListaPreciosVO listaPrecios = MockDataGenerator.getRandomListaPreciosVO(30);
-		emHelper.enviarMensaje(listaPrecios.toXML(true));
+	public void enviarRodamiento(){
+		
+		RecepcionRodamientosVO recep = MockDataGenerator.getRandomListaRodamientoVO(30);
+		emHelper.enviarMensaje(recep.toXML());
 	}
-
-	/**
-	 * Se envia nuevas listas de precios a Casa Central en formato de archivo XML* 
-	 */
 	
+	/*
 	@Test
-	public void enviarListasCreadas() {
+	public void enviarRodamientosCreados() {
 		int numero = 0;
 		File file = null;
 		do {
@@ -95,7 +91,8 @@ public class ProveedorMockTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}  */
+	
 
 
 	@After
