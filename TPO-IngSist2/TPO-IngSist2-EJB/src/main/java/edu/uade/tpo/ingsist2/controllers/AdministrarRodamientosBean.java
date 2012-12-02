@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.CotizacionBean;
 import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
