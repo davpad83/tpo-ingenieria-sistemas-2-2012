@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
+import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 
 @Stateless
 public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
@@ -37,7 +39,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 
 	@Override
 	public void guardarPedido(PedidoDeAbastecimientoEntity p) {
-		LOGGER.info("Guardando Pedido " + p.getIdPedido());
+		LOGGER.info("Guardando Pedido de abastecimiento ...");
 		PedidoDeAbastecimientoEntity pGuardado = null;
 		try {
 			pGuardado = (PedidoDeAbastecimientoEntity) entityManager.merge(p);
@@ -113,16 +115,16 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 	@Override
 	public void enviarPedido(PedidoDeAbastecimientoEntity pedido) {
 
-//		EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1",
-//				1099, JMSQueuesNames.RECIBIR_PEDIDOS_PROVE_MOCK);
-//
-//		LOGGER.info("Enviando pedido de abastecimiento a proveedor...");
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-		// emHelper.enviarMensaje(pedido.getVO().toXML(true));
-		// emHelper.cerrarConexion();
+		EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1",
+				1099, JMSQueuesNames.RECIBIR_PEDIDOS_PROVE_MOCK);
+
+		LOGGER.info("Enviando pedido de abastecimiento a proveedor...");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		 emHelper.enviarMensaje(pedido.getVO().toXML(true));
+		 emHelper.cerrarConexion();
 	}
 }

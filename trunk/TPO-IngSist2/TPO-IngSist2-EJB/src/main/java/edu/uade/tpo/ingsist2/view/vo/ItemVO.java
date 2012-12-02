@@ -107,7 +107,6 @@ public class ItemVO implements Serializable{
 		itemVO.setMarca(it.getRodamiento().getMarca());
 		itemVO.setSKF(it.getRodamiento().getCodigoSKF());
 		itemVO.setPais(it.getRodamiento().getPais());
-		
 		return itemVO;
 	}
 }

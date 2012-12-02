@@ -25,7 +25,8 @@ public class ListaPreciosProveedorMDB implements MessageListener {
 	@EJB
 	private MessagesFacade messagesFacade;
 
-	private static final Logger LOGGER = Logger.getLogger(ListaPreciosProveedorMDB.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(ListaPreciosProveedorMDB.class);
 
 	/**
 	 * Se recibe un mensaje de texto en formato XML con los datos necesarios
@@ -41,8 +42,8 @@ public class ListaPreciosProveedorMDB implements MessageListener {
 			e1.printStackTrace();
 		}
 		if (textReceived.startsWith("TEST")) {
-			LOGGER.debug("This is a test message, the message received is: "+ textReceived);
-			LOGGER.info("This is a test message, the message received is: "+ textReceived);
+			LOGGER.info("This is a test message, the message received is: "
+					+ textReceived);
 		} else {
 //			LOGGER.info(textReceived);
 			ListaPreciosVO lpr = new ListaPreciosVO();

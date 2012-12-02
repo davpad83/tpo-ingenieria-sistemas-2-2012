@@ -29,11 +29,11 @@ public class RemitoResponse {
 		XStream xs = new XStream();
 		xs.alias("remito", RemitoResponse.class);
 		xs.alias("itemremito", ItemVO.class);
-		xs.aliasField("idordendecompra", ItemVO.class, "id");
+		xs.aliasField("idordendecompra", ItemVO.class, "idOrdenDeCompra");
 		xs.aliasField("idremito", RemitoResponse.class, "idRemito");
 		xs.aliasField("idodv", RemitoResponse.class, "idODV");
 		
-		xs.omitField(ItemVO.class, "idOrdenDeCompra");
+		xs.omitField(ItemVO.class, "id");
 		xs.omitField(ItemVO.class, "precio");
 		return xs.toXML(this);
 	}

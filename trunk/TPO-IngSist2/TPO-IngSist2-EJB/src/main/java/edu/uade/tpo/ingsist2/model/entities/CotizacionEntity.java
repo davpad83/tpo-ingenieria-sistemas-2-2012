@@ -19,7 +19,7 @@ public class CotizacionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private int idPedidoCotizacion;
+	private int idRecibidoODV;
 
 	@ManyToOne
 	private OficinaDeVentaEntity odv;
@@ -42,12 +42,12 @@ public class CotizacionEntity {
 		this.id = id;
 	}
 
-	public int getIdPedidoCotizacion() {
-		return idPedidoCotizacion;
+	public int getIdRecibidoODV() {
+		return idRecibidoODV;
 	}
 
-	public void setIdPedidoCotizacion(int idPedidoCotizacion) {
-		this.idPedidoCotizacion = idPedidoCotizacion;
+	public void setIdRecibidoODV(int idRecibidoODV) {
+		this.idRecibidoODV = idRecibidoODV;
 	}
 
 	public OficinaDeVentaEntity getOdv() {
@@ -101,7 +101,7 @@ public class CotizacionEntity {
 	public CotizacionVO getVO() {
 		CotizacionVO pvo = new CotizacionVO();
 		pvo.setId(this.id);
-		pvo.setIdPedidoCotizacion(this.idPedidoCotizacion);
+		pvo.setIdPedidoCotizacion(this.idRecibidoODV);
 		pvo.setRodamiento(this.rodamiento.getVO());
 		pvo.setOdv(this.odv.getVO());
 		pvo.setLista(this.lista.getVO());
@@ -113,7 +113,7 @@ public class CotizacionEntity {
 
 	public void setVO(CotizacionVO p) {
 		this.fecha = p.getFecha();
-		this.idPedidoCotizacion = p.getIdPedidoCotizacion();
+		this.idRecibidoODV = p.getIdPedidoCotizacion();
 		OficinaDeVentaEntity odve = new OficinaDeVentaEntity();
 		odve.setVO(p.getOdv());
 		this.odv = odve;

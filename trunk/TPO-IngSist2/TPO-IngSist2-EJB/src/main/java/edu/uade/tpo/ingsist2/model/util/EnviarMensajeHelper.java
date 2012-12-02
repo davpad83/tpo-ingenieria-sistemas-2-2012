@@ -25,7 +25,8 @@ public class EnviarMensajeHelper {
 	}
 
 	private void inicializar(String ip, int puerto, String queueName) {
-		LOGGER.info("===Inicializando conexion a la cola.===");
+		LOGGER.info("=====CONEXION A LA COLA "+queueName+" BEGIN=====");
+		LOGGER.info("=Inicializando contexto de conexion ...=");
 		Hashtable<String, String> props = new Hashtable<String, String>();
 
 		props.put(InitialContext.INITIAL_CONTEXT_FACTORY,
@@ -55,24 +56,24 @@ public class EnviarMensajeHelper {
 			LOGGER.error("Error al crear la conexion: " + e);
 			LOGGER.error(e);
 		}
-		if (isConnectionWorking())
-			LOGGER.info("===La conexion ha sido establecida===");
+		LOGGER.info("=Contexto inicializado=");
 	}
 
-	public boolean isConnectionWorking() {
-		LOGGER.info("Verificando conexion a la cola de remitos..,");
+	private boolean isConnectionWorking() {
+		LOGGER.info("=Verificando conexion a la cola... =");
 		boolean isWorking = true;
 		if (connection == null && qSession == null) {
-			LOGGER.warn("La conexion a la cola de REMITOS no funciona.");
+			LOGGER.warn("La conexion a la cola no funciona.");
 			isWorking = false;
+		} else { 
+			LOGGER.info("=La conexion ha sido establecida exitosamente=");
 		}
 		return isWorking;
 	}
 
 	public void enviarMensaje(String mensaje) {
 		if (isConnectionWorking()) {
-
-			LOGGER.info("Enviando mensaje ...");
+			LOGGER.info("=Enviando mensaje ...=");
 			TextMessage tMessaje;
 			try {
 				tMessaje = qSession.createTextMessage();
@@ -80,21 +81,21 @@ public class EnviarMensajeHelper {
 				qSender.send(tMessaje);
 			} catch (JMSException e) {
 				LOGGER.error("Hubo un error al enviar el mensaje.");
-				e.printStackTrace();
+				LOGGER.error(e);
 			}
-			LOGGER.info("El mensaje ha sido enviado.");
+			LOGGER.info("=El mensaje ha sido enviado.=");
 		}
 	}
 
 	public void cerrarConexion() {
-		LOGGER.info("Cerrando conexion a la cola.");
+		LOGGER.info("=====CONEXION A LA COLA END=====");
 		try {
 			qSession.close();
 			connection.close();
 			qSender.close();
 		} catch (JMSException e) {
 			LOGGER.error("Se produjo un error el cerrar la conexion.");
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 	}
 

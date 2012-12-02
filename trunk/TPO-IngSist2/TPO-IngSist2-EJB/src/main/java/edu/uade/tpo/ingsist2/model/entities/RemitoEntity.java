@@ -21,8 +21,8 @@ public class RemitoEntity {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private OficinaDeVentaEntity odv;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name=EntitiesTablesNames.REMITO_ITEMRODAMIENTO)
 	private List<ItemRodamientoEntity> items;
 
 	public RemitoEntity() {

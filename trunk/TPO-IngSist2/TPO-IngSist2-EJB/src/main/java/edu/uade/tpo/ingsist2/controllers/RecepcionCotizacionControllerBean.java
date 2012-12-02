@@ -122,8 +122,7 @@ public class RecepcionCotizacionControllerBean implements
 		scresp.getRodamientosCotizados().add(rodamCotizado);
 
 		CotizacionEntity cotizacion = new CotizacionEntity();
-		cotizacion.setIdPedidoCotizacion(solicitudCotRequest
-				.getIdPedidoCotizacion());
+		cotizacion.setIdRecibidoODV(solicitudCotRequest.getIdPedidoCotizacion());
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
 		ofe.setId(solicitudCotRequest.getIdODV());
 		cotizacion.setOdv(ofe);
@@ -188,7 +187,7 @@ public class RecepcionCotizacionControllerBean implements
 
 		CotizacionEntity ct = new CotizacionEntity();
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
-		ct.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
+		ct.setIdRecibidoODV(screq.getIdPedidoCotizacion());
 		ofe.setId(screq.getIdODV());
 		ct.setOdv(ofe);
 		ItemRodamientoEntity ir = new ItemRodamientoEntity();

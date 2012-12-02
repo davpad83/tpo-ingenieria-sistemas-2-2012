@@ -39,7 +39,7 @@ public class OrdenDeCompraMDB implements MessageListener {
 		} catch (JMSException e1) {
 			e1.printStackTrace();
 		}
-		LOGGER.info(textReceived);
+		LOGGER.info("Orden de compra recibida: \n" + textReceived);
 		SolicitudCompraRequest request = new SolicitudCompraRequest();
 		request.fromXML(textReceived);
 		messagesFacade.recibirSolicitudCompraRodamientos(request);
