@@ -45,12 +45,11 @@ public class RecepcionCotizacionControllerBean implements
 
 	@EJB
 	private ListaPrecios listaprecio;
-	
+
 	@EJB
 	private Proveedor proveedor;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(RecepcionCotizacionControllerBean.class);
+	private static final Logger LOGGER = Logger.getLogger(RecepcionCotizacionControllerBean.class);
 
 	private SolicitudCotizacionResponse scresp;
 
@@ -105,13 +104,16 @@ public class RecepcionCotizacionControllerBean implements
 			it = cotizacion.getItemListaConMenorPrecioConMarca(r);
 			String tiempoDeEntrega = proveedor.getTiempoDeEntrega(it.getId());
 			rodamCotizado.setPrecioCotizado(it.getPrecio());
-			
+			LOGGER.info("Se cotizo el rodamiento en $"+ rodamCotizado.getPrecioCotizado());
+
 			if (solicitudCotRequest.getCantidad() > rodamCotizado.getEnStock()) {
 				rodamCotizado.setTiempoEstimadoEntrega(tiempoDeEntrega);
-				pendientes = solicitudCotRequest.getCantidad() - rodamCotizado.getEnStock();
+				pendientes = solicitudCotRequest.getCantidad()
+						- rodamCotizado.getEnStock();
 			}
 			rodamCotizado.setFechaInicio(new Date());
-			rodamCotizado.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
+			rodamCotizado.setFechaFin(MockDataGenerator
+					.getRandomFechaVencimiento());
 
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion con marca");
@@ -121,7 +123,8 @@ public class RecepcionCotizacionControllerBean implements
 		scresp.getRodamientosCotizados().add(rodamCotizado);
 
 		CotizacionEntity cotizacion = new CotizacionEntity();
-		cotizacion.setIdPedidoCotizacion(solicitudCotRequest.getIdPedidoCotizacion());
+		cotizacion.setIdPedidoCotizacion(solicitudCotRequest
+				.getIdPedidoCotizacion());
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
 		ofe.setId(solicitudCotRequest.getIdODV());
 		cotizacion.setOdv(ofe);
@@ -169,11 +172,14 @@ public class RecepcionCotizacionControllerBean implements
 			rcVO.setSKF(listaResultado.get(i).getRodamiento().getCodigoSKF());
 			rcVO.setPais(listaResultado.get(i).getRodamiento().getPais());
 			rcVO.setEnStock(listaResultado.get(i).getRodamiento().getStock());
-			rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
 			rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());
+			rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
+
+			LOGGER.info("Se cotizo el rodamiento con CodigoSKF: "+ rcVO.getSKF() + " Marca: " + rcVO.getMarca()+ " y Pais: " + rcVO.getPais() + " en $"+ rcVO.getPrecioCotizado());
 
 			if (screq.getCantidad() > rcVO.getEnStock()) {
-				rcVO.setTiempoEstimadoEntrega(proveedor.getTiempoDeEntrega(listaResultado.get(i).getId()));
+				rcVO.setTiempoEstimadoEntrega(proveedor
+						.getTiempoDeEntrega(listaResultado.get(i).getId()));
 				pendientes.add(screq.getCantidad() - rcVO.getEnStock());
 			} else {
 				pendientes.add(0);
