@@ -108,14 +108,11 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	}
 	
 	
-	
 	private void actualizarStock(int consumo, PedidoAbastecimientoVO pedido) {
 		RodamientoVO rod = rodamientos.getRodamiento(pedido.getRodamiento().getId());
 		rod.setStock(consumo+ rod.getStock());
 		rodamientos.guardarRodamiento(rod);
 	}
-	
-	
 	
 	private int actualizarItemsOCs(PedidoAbastecimientoVO pedido,RodamientoListaVO envio) {
 		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(pedido.getOcAsociada().getIdOrden()).getVO();	
