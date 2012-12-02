@@ -47,7 +47,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 			pGuardado = (PedidoDeAbastecimientoEntity) entityManager.merge(p);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al guardar el Pedido");
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		LOGGER.info("Pedido guardado con id: " + pGuardado.getIdPedido());
 	}
@@ -62,7 +62,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error intentando eliminar el Pedido de Abastecimiento con id "
 					+ id);
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		LOGGER.info("El Pedido de Abastecimiento con id " + id
 				+ " se ha eliminado con exito.");
@@ -76,7 +76,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 			p = entityManager.find(PedidoDeAbastecimientoEntity.class, id);
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el pedido.");
-			e.printStackTrace();
+			LOGGER.error(e);
 			return null;
 		} finally {
 			if (p != null)
@@ -102,8 +102,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 											.getSimpleName()).getResultList();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar todos los pedidos.");
-			e.printStackTrace();
-			return null;
+			LOGGER.error(e);
 		} finally {
 			if (listaResultado == null || listaResultado.isEmpty()) {
 				LOGGER.info("No se han encontrado pedidos");

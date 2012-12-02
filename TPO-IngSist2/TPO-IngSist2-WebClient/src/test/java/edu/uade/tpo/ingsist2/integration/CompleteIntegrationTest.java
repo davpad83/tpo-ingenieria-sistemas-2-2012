@@ -26,6 +26,7 @@ public class CompleteIntegrationTest {
 	private SolicitudCotizacionResponse response1;
 	private SolicitudCotizacionResponse response2;
 	private SolicitudCotizacionResponse response3;
+	private SolicitudCotizacionResponse response4;
 
 	@Before
 	public void prepararTest() {
@@ -40,28 +41,32 @@ public class CompleteIntegrationTest {
 	}
 
 	@Test
-	public void generateInitialData(){
+	public void generateInitialData() {
 		BusinessDelegate bd = BusinessDelegate.getInstancia();
 		bd.generateInitialData();
 	}
-	
+
 	@Test
 	public void enviarCotizacionTest() {
 
-		List<SolicitudCotizacionRequest> solicitudes = MockDataGenerator.getControlledSolicitudCotizacionRequestList();
-		
+		List<SolicitudCotizacionRequest> solicitudes = MockDataGenerator
+				.getControlledSolicitudCotizacionRequestList();
+
 		SolicitudCotizacionRequest mockSolic1 = solicitudes.get(0);
 		SolicitudCotizacionRequest mockSolic2 = solicitudes.get(1);
 		SolicitudCotizacionRequest mockSolic3 = solicitudes.get(2);
+		SolicitudCotizacionRequest mockSolic4 = solicitudes.get(3);
 
 		BusinessDelegate bd = BusinessDelegate.getInstancia();
 		response1 = bd.recibirSolicitudCotizacion(mockSolic1);
 		response2 = bd.recibirSolicitudCotizacion(mockSolic2);
 		response3 = bd.recibirSolicitudCotizacion(mockSolic3);
+		response4 = bd.recibirSolicitudCotizacion(mockSolic4);
 
 		assertEquals(mockSolic1.getIdODV(), response1.getIdODV());
 		assertEquals(mockSolic2.getIdODV(), response2.getIdODV());
 		assertEquals(mockSolic3.getIdODV(), response3.getIdODV());
+		assertEquals(mockSolic4.getIdODV(), response4.getIdODV());
 
 		assertEquals(mockSolic1.getIdPedidoCotizacion(),
 				response1.getIdPedidoCotizacion());
@@ -69,17 +74,35 @@ public class CompleteIntegrationTest {
 				response2.getIdPedidoCotizacion());
 		assertEquals(mockSolic3.getIdPedidoCotizacion(),
 				response3.getIdPedidoCotizacion());
+		assertEquals(mockSolic4.getIdPedidoCotizacion(),
+				response4.getIdPedidoCotizacion());
 
 		assertNotNull(response1.getRodamientosCotizados());
 		assertNotNull(response2.getRodamientosCotizados());
 		assertNotNull(response3.getRodamientosCotizados());
-		
+		assertNotNull(response4.getRodamientosCotizados());
+
 		assertTrue(response1.getRodamientosCotizados().size() == 1);
 		assertTrue(response2.getRodamientosCotizados().size() == 1);
 		assertTrue(response3.getRodamientosCotizados().size() >= 1);
+		assertTrue(response4.getRodamientosCotizados().size() >= 1);
 
-		for (RodamientoCotizadoVO rcvo : response3
-				.getRodamientosCotizados()) {
+		for (RodamientoCotizadoVO rcvo : response1.getRodamientosCotizados()) {
+			assertNotNull(rcvo.getMarca());
+			assertFalse(rcvo.getMarca().isEmpty());
+			assertTrue(rcvo.getPrecioCotizado() > 0);
+		}
+		for (RodamientoCotizadoVO rcvo : response2.getRodamientosCotizados()) {
+			assertNotNull(rcvo.getMarca());
+			assertFalse(rcvo.getMarca().isEmpty());
+			assertTrue(rcvo.getPrecioCotizado() > 0);
+		}
+		for (RodamientoCotizadoVO rcvo : response3.getRodamientosCotizados()) {
+			assertNotNull(rcvo.getMarca());
+			assertFalse(rcvo.getMarca().isEmpty());
+			assertTrue(rcvo.getPrecioCotizado() > 0);
+		}
+		for (RodamientoCotizadoVO rcvo : response4.getRodamientosCotizados()) {
 			assertNotNull(rcvo.getMarca());
 			assertFalse(rcvo.getMarca().isEmpty());
 			assertTrue(rcvo.getPrecioCotizado() > 0);
@@ -88,13 +111,14 @@ public class CompleteIntegrationTest {
 
 	@Test
 	public void enviarOCCompletaTest() {
-		SolicitudCompraRequest ocvo = MockDataGenerator.getControlledSolicitudCompraRequest();
-		
+		SolicitudCompraRequest ocvo = MockDataGenerator
+				.getControlledSolicitudCompraRequest();
+
 		solicitudCompraQueue.enviarMensaje(ocvo.toXML());
 	}
 
-//	@Test
+	// @Test
 	public void enviarMercaderiaDelProveedorTest() {
-		
+
 	}
 }
