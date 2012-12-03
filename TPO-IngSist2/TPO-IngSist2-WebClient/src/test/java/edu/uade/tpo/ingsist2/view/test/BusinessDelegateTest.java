@@ -49,9 +49,9 @@ public class BusinessDelegateTest {
 		
 		sr.setIdPedidoCotizacion(88);
 		sr.setIdODV(3);
-		sr.setSKF("22310 CCW33");
-		sr.setMarca("ZKL");
-		sr.setPais("Japon");
+		sr.setSKF("NJ 208 EMC3");
+		sr.setMarca("");
+		sr.setPais("Francia");
 		sr.setCantidad(20);
 		
 		scresp  =  bd.recibirSolicitudCotizacion(sr);
