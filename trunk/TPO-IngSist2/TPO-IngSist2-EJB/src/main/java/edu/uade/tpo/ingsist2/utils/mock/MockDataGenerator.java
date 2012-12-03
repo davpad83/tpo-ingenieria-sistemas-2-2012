@@ -619,11 +619,11 @@ public class MockDataGenerator {
 		item5.setCantidad(getRandomCantidad());
 		item5.setId(3);
 
-     // items.add(item1);
-		//items.add(item2);
-	  //items.add(item3);
-	 items.add(item4);
-     //items.add(item5);
+		items.add(item1);
+		items.add(item2);
+		items.add(item3);
+		items.add(item4);
+		items.add(item5);
 		
 		return items;
 	}
