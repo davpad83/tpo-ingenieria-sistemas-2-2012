@@ -186,14 +186,17 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		List <OficinaDeVentaEntity> aux = new ArrayList<OficinaDeVentaEntity>();
 		
 		for(RodamientoListaVO envio: listaEnvio.getListaRodVO()){
-			OficinaDeVentaEntity odvo = getOdvo(envio);
+		OficinaDeVentaEntity odvo = getOdvo(envio);
 			
 			boolean agregar=true;
-			for(OficinaDeVentaEntity o:aux)
-				if(odvo.getId()==o.getId())
+			for(OficinaDeVentaEntity o:aux){
+				if(odvo.getId()==o.getId()){
 					agregar=false;
-			if(agregar)
-				 aux.add(odvo);
+				}
+				if(agregar){
+					aux.add(odvo);			
+				}				 
+			}
 		}
 		
 		return aux;
