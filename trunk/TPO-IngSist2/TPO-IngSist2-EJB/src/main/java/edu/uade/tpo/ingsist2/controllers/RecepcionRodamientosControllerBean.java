@@ -14,6 +14,7 @@ import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
@@ -53,26 +54,26 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			
 			RemitoResponse remito = new RemitoResponse();
 			remito.setIdODV(odv.getIdODV());
-			List<ItemVO> items = new ArrayList<ItemVO>();
+			List<ItemRemitoVO> items = new ArrayList<ItemRemitoVO>();
 			
 			for(RodamientoListaVO envio: rodamientos.getListaRodVO()){
 				if(getOdvo(envio).getIdODV() == odv.getIdODV()){
 					LOGGER.info("Procesando envio...");
-					ItemVO ivo = procesarEnvio(envio);
+					ItemRemitoVO ivo = procesarEnvio(envio);
 					items.add(ivo);
 				}
 			LOGGER.info("Generando remito para ODV: "+odv.getIdODV());
 			remito.setItems(items);
 			rBean.enviarRemito(remito);
-			rBean.guardarRemito(remito);
+//			rBean.guardarRemito(remito);
 			}
 		}
 	}
 	
 	
 	
-	private ItemVO procesarEnvio(RodamientoListaVO envio) {
-		ItemVO item = new ItemVO();
+	private ItemRemitoVO procesarEnvio(RodamientoListaVO envio) {
+		ItemRemitoVO item = new ItemRemitoVO();
 		int id= envio.getIdPedidoAbastecimiento();
 		PedidoAbastecimientoVO pedido = pedidos.getPedido(id).getVO();
 		if(pedido == null)

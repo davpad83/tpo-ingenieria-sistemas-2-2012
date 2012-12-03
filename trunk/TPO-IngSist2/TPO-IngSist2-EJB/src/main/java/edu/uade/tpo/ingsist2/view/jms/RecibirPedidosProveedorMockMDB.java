@@ -40,15 +40,12 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		PedidoAbastecimientoVO pedido = new PedidoAbastecimientoVO();
 		pedido.fromXML(textReceived);
 		
+		LOGGER.info("PROVEEDOR MOCK - Pedido recibido: \n"+textReceived);
+		
 		RecepcionRodamientosVO recepcion = new RecepcionRodamientosVO();
 		
 //		recepcion.setListaRodVO(listaRodVO);
 		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 //		emHelper.enviarMensaje(pedido.toXML(true));
 //		emHelper.cerrarConexion();
     }

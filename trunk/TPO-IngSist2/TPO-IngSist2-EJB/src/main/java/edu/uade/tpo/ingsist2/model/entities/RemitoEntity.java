@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
-import edu.uade.tpo.ingsist2.view.vo.RemitoVO;
+import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Entity
 @Table(name = EntitiesTablesNames.REMITO)
@@ -21,9 +20,9 @@ public class RemitoEntity {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private OficinaDeVentaEntity odv;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name=EntitiesTablesNames.REMITO_ITEMRODAMIENTO)
-	private List<ItemRodamientoEntity> items;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn
+	private List<ItemRemitoEntity> items;
 
 	public RemitoEntity() {
 		super();
@@ -53,32 +52,29 @@ public class RemitoEntity {
 		this.odv = odv;
 	}
 
-	public List<ItemRodamientoEntity> getItems() {
+	public List<ItemRemitoEntity> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemRodamientoEntity> items) {
+	public void setItems(List<ItemRemitoEntity> items) {
 		this.items = items;
 	}
 	
-	public RemitoVO getVO(){
-		RemitoVO rvo = new RemitoVO();
-		rvo.setIdRemito(this.idRemito);
+	public RemitoResponse getVO(){
+		RemitoResponse remitoResp = new RemitoResponse();
+		remitoResp.setIdRemito(this.idRemito);
 		if(this.items!=null)
-			rvo.setItems(ItemRodamientoEntity.getVOList(this.items));
-		if(this.ordenDeCompra!=null)
-			rvo.setOrdenDeCompra(this.ordenDeCompra.getVO());
-		if(this.odv !=null)
-			rvo.setOdv(this.odv.getVO());
-		return rvo;
+			remitoResp.setItems(ItemRemitoEntity.getVOList(this.items));
+		remitoResp.setIdODV(this.odv.getId());
+		return remitoResp;
 	}
 
-	public void setItemsList(List<ItemVO> items) {
-		for(ItemVO i : items){
-			ItemRodamientoEntity ire = new ItemRodamientoEntity();
-			ire.setCantidad(i.getCantidad());
-			ire.setId(i.getId());
-			ire.setRodamiento(i.getSKF(), i.getMarca(), i.getPais());
-		}
-	}
+//	public void setItemsList(List<ItemRemitoVO> items) {
+//		for(ItemRemitoVO i : items){
+//			ItemRodamientoEntity ire = new ItemRodamientoEntity();
+//			ire.setCantidad(i.getCantidad());
+//			ire.setId(i.getId());
+//			ire.setRodamiento(i.getSKF(), i.getMarca(), i.getPais());
+//		}
+//	}
 }

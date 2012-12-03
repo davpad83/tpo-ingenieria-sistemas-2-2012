@@ -598,8 +598,8 @@ public class MockDataGenerator {
 		item3.setMarca(itemCotizado3.getMarca());
 		item3.setPais(itemCotizado3.getPais());
 		item3.setSKF(itemCotizado3.getSKF());
-		item3.setCantidad(getRandomCantidad());
-		item3.setId(3);
+		item3.setCantidad(99);
+		item3.setId(5);
 		
 		//Rodamiento no cotizado
 		
@@ -617,13 +617,13 @@ public class MockDataGenerator {
 		item5.setPais(itemCotizado4.getPais());
 		item5.setSKF(itemCotizado4.getSKF());
 		item5.setCantidad(getRandomCantidad());
-		item5.setId(2);
+		item5.setId(3);
 
 		items.add(item1);
 		items.add(item2);
-//		items.add(item3);
-//		items.add(item4);
-//		items.add(item5);
+		items.add(item3);
+		items.add(item4);
+		items.add(item5);
 		
 		return items;
 	}
