@@ -110,8 +110,7 @@ public class CompleteIntegrationTest {
 
 	@Test
 	public void enviarOCCompletaTest() {
-		SolicitudCompraRequest ocvo = MockDataGenerator
-				.getControlledSolicitudCompraRequest();
+		SolicitudCompraRequest ocvo = MockDataGenerator.getControlledSolicitudCompraRequest();
 
 		solicitudCompraQueue.enviarMensaje(ocvo.toXML());
 	}
