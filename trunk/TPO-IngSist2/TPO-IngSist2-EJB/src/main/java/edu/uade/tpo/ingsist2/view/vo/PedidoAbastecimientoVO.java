@@ -63,7 +63,6 @@ public class PedidoAbastecimientoVO implements Serializable{
 			xs.omitField(ProveedorVO.class, "id");
 			xs.omitField(RodamientoVO.class, "id");
 		}
-		xs.omitField(PedidoAbastecimientoVO.class, "idPedido");
 		xs.omitField(PedidoAbastecimientoVO.class, "cantidadPendiente");
 		xs.omitField(PedidoAbastecimientoVO.class, "ocAsociada");
 		return xs.toXML(this);
@@ -79,7 +78,6 @@ public class PedidoAbastecimientoVO implements Serializable{
 			xs.omitField(ProveedorVO.class, "id");
 			xs.omitField(RodamientoVO.class, "id");
 		}
-		xs.omitField(PedidoAbastecimientoVO.class, "idPedido");
 		xs.omitField(PedidoAbastecimientoVO.class, "cantidadPendiente");
 		xs.omitField(PedidoAbastecimientoVO.class, "ocAsociada");
 		
