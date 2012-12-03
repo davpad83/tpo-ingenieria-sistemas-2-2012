@@ -163,7 +163,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		PedidoDeAbastecimientoEntity nuevoPedidoDeAbastecimiento = pedidoAbastecimiento
 				.generarPedidoAbastecimiento(ocGuardada, ire,
 						stockSolicitado * 2);
-		pedidoAbastecimiento.guardarPedido(nuevoPedidoDeAbastecimiento);
+		nuevoPedidoDeAbastecimiento = pedidoAbastecimiento.guardarPedido(nuevoPedidoDeAbastecimiento);
 		pedidoAbastecimiento.enviarPedido(nuevoPedidoDeAbastecimiento);
 	}
 

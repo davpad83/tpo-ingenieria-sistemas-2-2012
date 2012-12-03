@@ -52,6 +52,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	
 	@Override	
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
+		LOGGER.info("==================PROCESANDO RECEPCION DE RODAMIENTO BEGIN==================");
 		LOGGER.info("Obteniendo ODVs Asociadas");
 		List <OficinaDeVentaEntity> ODVs = getODVs(rodamientos);	
 		
@@ -81,6 +82,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			rBean.guardarRemito(remito);
 			}
 		}
+		LOGGER.info("==================PROCESANDO RECEPCION DE RODAMIENTO END==================");
 	}
 	
 	private ItemRemitoEntity procesarEnvio(RodamientoListaVO envio) {
