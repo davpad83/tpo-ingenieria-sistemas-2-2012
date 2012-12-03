@@ -68,38 +68,16 @@ public class RecepcionRodamientosVO {
 	}
 	
 	public String toXML() {
-		String xml = "";
-		try {
-			XStream xs = new XStream();
-			
-			xs.alias("listaRodamientos", RecepcionRodamientosVO.class);
-			xs.alias("rodamientoLista", RodamientoListaVO.class);
-			
-			xs.aliasField("idPedidoAbastecimiento", RecepcionRodamientosVO.RodamientoListaVO.class, "idPedidoAbastecimiento");
-			xs.aliasField("SKF", RecepcionRodamientosVO.RodamientoListaVO.class, "SKF");
-			xs.aliasField("marca", RecepcionRodamientosVO.RodamientoListaVO.class, "marca");
-			xs.aliasField("pais", RecepcionRodamientosVO.RodamientoListaVO.class, "pais");
-			xs.aliasField("cantidad", RecepcionRodamientosVO.RodamientoListaVO.class, "cantidad");
-
-			xml = xs.toXML(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return xml;
+		XStream xs = new XStream();
+		xs.alias("listaRodamientos", RecepcionRodamientosVO.class);
+		xs.alias("rodamientoLista", RodamientoListaVO.class);
+		return xs.toXML(this);
 	}
-	
-	
 	
 	public RecepcionRodamientosVO fromXML(String xml) {
 		RecepcionRodamientosVO rvo= new RecepcionRodamientosVO();
-		try {
-			XStream xs = new XStream();
-			
-			rvo = (RecepcionRodamientosVO) xs.fromXML(xml);	
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		XStream xs = new XStream();
+		rvo = (RecepcionRodamientosVO) xs.fromXML(xml);	
 		return rvo;
 	}
 	
