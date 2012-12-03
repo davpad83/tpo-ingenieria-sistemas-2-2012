@@ -62,8 +62,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 
 		if (ordenDeCompra.validarSolicitudCompra(request)) {
 			OrdenDeCompraEntity oce = fromRequestToOCEntity(request);
-			OrdenDeCompraEntity ocGuardada = ordenDeCompra
-					.guardarOrdenDeCompra(oce);
+			OrdenDeCompraEntity ocGuardada = ordenDeCompra.guardarOrdenDeCompra(oce);
 
 			RemitoEntity rem = null;
 			for (ItemRodamientoEntity ire : ocGuardada.getItems()) {

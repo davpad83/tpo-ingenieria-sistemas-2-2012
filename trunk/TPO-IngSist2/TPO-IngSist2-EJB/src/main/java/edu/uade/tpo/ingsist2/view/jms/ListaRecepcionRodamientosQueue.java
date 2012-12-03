@@ -43,7 +43,7 @@ public class ListaRecepcionRodamientosQueue implements MessageListener {
 			LOGGER.info("This is a test message, the message received is: "+ textReceived);
 		}
 		else {
-			lpr.fromXML(textReceived);
+			lpr=lpr.fromXML(textReceived);
 			messagesFacade.recibirEnvioProveedor(lpr);
 		}
 	}
