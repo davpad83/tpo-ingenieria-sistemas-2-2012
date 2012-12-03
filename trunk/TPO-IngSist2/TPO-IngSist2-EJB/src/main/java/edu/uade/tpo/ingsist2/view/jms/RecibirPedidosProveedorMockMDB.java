@@ -55,7 +55,7 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		
 		LOGGER.info("Enviando Rodamientos a Casa central....");		
 		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+rrvo.toXML());
-		emHelper.enviarMensaje(rrvo.toXML());
-		emHelper.cerrarConexion();
+//		emHelper.enviarMensaje(rrvo.toXML());
+//		emHelper.cerrarConexion();
     }
 }

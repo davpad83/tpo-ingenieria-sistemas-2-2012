@@ -9,12 +9,16 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 
+import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
+import edu.uade.tpo.ingsist2.model.entities.ItemRemitoEntity;
+import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
@@ -39,6 +43,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	@EJB
 	private OrdenDeCompra ordenDeCompra;
 	@EJB
+	private OficinaDeVenta oficinaVenta;
+	
+	@EJB
 	private Remito rBean;
 	
 	
@@ -46,34 +53,38 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	@Override	
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
 		LOGGER.info("Obteniendo ODVs Asociadas");
-		List <OficinaDeVentaVO> ODVs = getODVs(rodamientos);	
+		List <OficinaDeVentaEntity> ODVs = getODVs(rodamientos);	
 		
 		LOGGER.info("Procesando recepcion de rodamientos");
-		for(OficinaDeVentaVO odv: ODVs){
-			LOGGER.info("Preparando para procesar remito de ODV: "+odv.getIdODV());
+		for(OficinaDeVentaEntity odv: ODVs){
+			LOGGER.info("Preparando para procesar remito de ODV: "+odv.getId());
 			
-			RemitoResponse remito = new RemitoResponse();
-			remito.setIdODV(odv.getIdODV());
-			List<ItemRemitoVO> items = new ArrayList<ItemRemitoVO>();
+			RemitoEntity remito = new RemitoEntity();
+//			RemitoResponse remito = new RemitoResponse();
+//			remito.setIdODV(odv.getId());
+			remito.setOdv(odv);
+			
+//			List<ItemRemitoVO> items = new ArrayList<ItemRemitoVO>();
+			List<ItemRemitoEntity> items = new ArrayList<ItemRemitoEntity>();
 			
 			for(RodamientoListaVO envio: rodamientos.getListaRodVO()){
-				if(getOdvo(envio).getIdODV() == odv.getIdODV()){
+				if(getOdvo(envio).getId() == odv.getId()){
 					LOGGER.info("Procesando envio...");
-					ItemRemitoVO ivo = procesarEnvio(envio);
+					ItemRemitoEntity ivo = procesarEnvio(envio);
 					items.add(ivo);
 				}
-			LOGGER.info("Generando remito para ODV: "+odv.getIdODV());
+			LOGGER.info("Generando remito para ODV: "+odv.getId());
 			remito.setItems(items);
-			rBean.enviarRemito(remito);
-			RemitoEntity r = new RemitoEntity();
+			rBean.enviarRemito(remito, odv);
+//			RemitoEntity r = new RemitoEntity();
 //			r.setVO(remito);
-			rBean.guardarRemito(r);
+			rBean.guardarRemito(remito);
 			}
 		}
 	}
 	
-	private ItemRemitoVO procesarEnvio(RodamientoListaVO envio) {
-		ItemRemitoVO item = new ItemRemitoVO();
+	private ItemRemitoEntity procesarEnvio(RodamientoListaVO envio) {
+		ItemRemitoEntity item = new ItemRemitoEntity();
 		int id= envio.getIdPedidoAbastecimiento();
 		PedidoAbastecimientoVO pedido = pedidos.getPedido(id).getVO();
 		if(pedido == null)
@@ -101,9 +112,13 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			
 			/////******Generar Remito de compra******\\\\\\
 			
-			item.setIdOrdenDeCompra(pedido.getOcAsociada().getIdOrden());
-			item.setCantidad(consumido);
-			item.setRodamiento(envio.getRodamiento());
+			OrdenDeCompraEntity oc = new OrdenDeCompraEntity();
+			oc.setVO(pedido.getOcAsociada());
+			item.setOcAsociada(oc);
+			item.setCantidaEnviada(consumido);
+			RodamientoEntity rodam = new RodamientoEntity();
+			rodam.setVO(envio.getRodamiento());
+			item.setRodamiento(rodam);
 		}
 		return item ;
 	}
@@ -167,15 +182,15 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	
 	
 	//Obtengo ODVs Asociadas
-	private List<OficinaDeVentaVO> getODVs(RecepcionRodamientosVO listaEnvio) {
-		List <OficinaDeVentaVO> aux = new ArrayList<OficinaDeVentaVO>();
+	private List<OficinaDeVentaEntity> getODVs(RecepcionRodamientosVO listaEnvio) {
+		List <OficinaDeVentaEntity> aux = new ArrayList<OficinaDeVentaEntity>();
 		
 		for(RodamientoListaVO envio: listaEnvio.getListaRodVO()){
-			OficinaDeVentaVO odvo = getOdvo(envio);
+			OficinaDeVentaEntity odvo = getOdvo(envio);
 			
 			boolean agregar=true;
-			for(OficinaDeVentaVO o:aux)
-				if(odvo.getIdODV()==o.getIdODV())
+			for(OficinaDeVentaEntity o:aux)
+				if(odvo.getId()==o.getId())
 					agregar=false;
 			if(agregar)
 				 aux.add(odvo);
@@ -184,11 +199,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		return aux;
 	}
 	
-	
-	
-	private OficinaDeVentaVO getOdvo(RodamientoListaVO envio){
-		PedidoAbastecimientoVO p= pedidos.getPedido(envio.getIdPedidoAbastecimiento()).getVO();
-		OficinaDeVentaVO odvo= p.getOcAsociada().getOdv();
+	private OficinaDeVentaEntity getOdvo(RodamientoListaVO envio){
+		PedidoDeAbastecimientoEntity p = pedidos.getPedido(envio.getIdPedidoAbastecimiento());
+		OficinaDeVentaEntity odvo = p.getOcAsociada().getOdv();
 		return odvo;
 	}
 }

@@ -24,11 +24,6 @@ public class RemitoEntity {
 	@JoinColumn
 	private List<ItemRemitoEntity> items;
 
-	private OficinaDeVentaEntity ODV;
-	
-	public RemitoEntity() {
-		super();
-	}
 
 	public int getIdRemito() {
 		return idRemito;
