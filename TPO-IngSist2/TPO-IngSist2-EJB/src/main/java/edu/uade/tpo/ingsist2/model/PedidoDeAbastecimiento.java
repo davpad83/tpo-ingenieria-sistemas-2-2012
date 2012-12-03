@@ -15,7 +15,7 @@ public interface PedidoDeAbastecimiento {
 			OrdenDeCompraEntity oc, ItemRodamientoEntity ire,
 			int stockRodamiento);
 
-	public void guardarPedido(PedidoDeAbastecimientoEntity p);
+	public PedidoDeAbastecimientoEntity guardarPedido(PedidoDeAbastecimientoEntity p);
 
 	public void eliminarPedido(int id);
 

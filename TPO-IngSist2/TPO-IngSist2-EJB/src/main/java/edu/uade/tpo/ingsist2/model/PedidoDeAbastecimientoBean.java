@@ -36,7 +36,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 	}
 
 	@Override
-	public void guardarPedido(PedidoDeAbastecimientoEntity p) {
+	public PedidoDeAbastecimientoEntity guardarPedido(PedidoDeAbastecimientoEntity p) {
 		LOGGER.info("Guardando Pedido de abastecimiento ...");
 		PedidoDeAbastecimientoEntity pGuardado = null;
 		try {
@@ -46,6 +46,7 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 			LOGGER.error(e);
 		}
 		LOGGER.info("Pedido guardado con id: " + pGuardado.getIdPedido());
+		return pGuardado;
 	}
 
 	@Override
