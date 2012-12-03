@@ -7,7 +7,7 @@ import org.junit.Test;
 
 
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
@@ -20,8 +20,8 @@ public class XMLGenerationTest {
 		SolicitudCompraRequest scr = new SolicitudCompraRequest();
 		scr.setIdODV(10);
 		scr.setIdOrdenDeCompra(4);
-		ArrayList<ItemVO> livo = new ArrayList<ItemVO>();
-		ItemVO ivo = new ItemVO();
+		ArrayList<ItemSolicitudCompraRequest> livo = new ArrayList<ItemSolicitudCompraRequest>();
+		ItemSolicitudCompraRequest ivo = new ItemSolicitudCompraRequest();
 		ivo.setPrecio(135.35f);
 		ivo.setId(4);
 		ivo.setMarca("Renault");
