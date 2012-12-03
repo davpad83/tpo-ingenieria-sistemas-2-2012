@@ -17,7 +17,6 @@ import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
