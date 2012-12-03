@@ -14,9 +14,10 @@ import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
+import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
 import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
@@ -65,7 +66,9 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			LOGGER.info("Generando remito para ODV: "+odv.getIdODV());
 			remito.setItems(items);
 			rBean.enviarRemito(remito);
-//			rBean.guardarRemito(remito);
+			RemitoEntity r = new RemitoEntity();
+			r.setVO(remito);
+			rBean.guardarRemito(r);
 			}
 		}
 	}

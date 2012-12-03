@@ -8,7 +8,7 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
+import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 
 @Entity
 @Table(name = EntitiesTablesNames.ITEM_REMITO)
@@ -57,7 +57,11 @@ public class ItemRemitoEntity {
 	public void setRodamiento(RodamientoEntity rodamiento) {
 		this.rodamiento = rodamiento;
 	}
-	
+	public void setRodamiento(String pais, String marca, String SKF) {
+		this.rodamiento.setPais(pais);
+		this.rodamiento.setMarca(marca);
+		this.rodamiento.setCodigoSKF(SKF);
+	}
 	public static List<ItemRemitoVO> getVOList(List<ItemRemitoEntity> itemsEntityList) {
 		List<ItemRemitoVO> items = new ArrayList<ItemRemitoVO>();
 		for(ItemRemitoEntity it : itemsEntityList){
