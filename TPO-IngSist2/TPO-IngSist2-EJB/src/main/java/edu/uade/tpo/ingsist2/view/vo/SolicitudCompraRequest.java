@@ -11,7 +11,7 @@ public class SolicitudCompraRequest implements Serializable {
 	
 	private int idOrdenDeCompra;
 	private int idODV;
-	private List<ItemVO> items;
+	private List<ItemSolicitudCompraRequest> items;
 
 	public int getIdOrdenDeCompra() {
 		return idOrdenDeCompra;
@@ -29,20 +29,20 @@ public class SolicitudCompraRequest implements Serializable {
 		this.idODV = idODV;
 	}
 
-	public List<ItemVO> getItems() {
+	public List<ItemSolicitudCompraRequest> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemVO> items) {
+	public void setItems(List<ItemSolicitudCompraRequest> items) {
 		this.items = items;
 	}
 	
 	public void fromXML(String xml){
 		XStream xs = new XStream();
 		xs.alias("ordendecompra", SolicitudCompraRequest.class);
-		xs.alias("itemordendecompra", ItemVO.class);
+		xs.alias("itemordendecompra", ItemSolicitudCompraRequest.class);
 		xs.aliasField("idordendecompra", SolicitudCompraRequest.class, "idOrdenDeCompra");
-		xs.aliasField("idpedidocotizacion", ItemVO.class, "id");
+		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "id");
 		xs.aliasField("idodv", SolicitudCompraRequest.class, "idODV");
 		SolicitudCompraRequest scr = (SolicitudCompraRequest) xs.fromXML(xml);
 		this.idODV = scr.getIdODV();
@@ -53,11 +53,10 @@ public class SolicitudCompraRequest implements Serializable {
 	public String toXML() {
 		XStream xs = new XStream();
 		xs.alias("ordendecompra", SolicitudCompraRequest.class);
-		xs.aliasField("idordendecompra", ItemVO.class, "idOrdenDeCompra");
-		xs.alias("itemordendecompra", ItemVO.class);
-		xs.aliasField("idpedidocotizacion", ItemVO.class, "id");
+		xs.alias("itemordendecompra", ItemSolicitudCompraRequest.class);
+		xs.aliasField("idordendecompra", SolicitudCompraRequest.class, "idOrdenDeCompra");
+		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "id");
 		xs.aliasField("idodv", SolicitudCompraRequest.class, "idODV");
-		xs.omitField(ItemVO.class, "idOrdenDeCompra");
 		return xs.toXML(this);
 	}
 }

@@ -16,8 +16,6 @@ public class PedidoDeAbastecimientoEntity {
 	@ManyToOne
 	private RodamientoEntity rodamiento;
 	
-	private boolean recibido;
-	
 	@ManyToOne
 	private OrdenDeCompraEntity ocAsociada;
 	
@@ -52,57 +50,37 @@ public class PedidoDeAbastecimientoEntity {
 		this.rodamiento = rodamiento;
 	}
 
-
-	public boolean isRecibido() {
-		return recibido;
-	}
-
-
-	public void setRecibido(boolean recibido) {
-		this.recibido = recibido;
-	}
-
-
 	public OrdenDeCompraEntity getOcAsociada() {
 		return ocAsociada;
 	}
-
 
 	public void setOcAsociada(OrdenDeCompraEntity ocAsociada) {
 		this.ocAsociada = ocAsociada;
 	}
 
-
 	public ProveedorEntity getProveedor() {
 		return proveedor;
 	}
-
 
 	public void setProveedor(ProveedorEntity proveedor) {
 		this.proveedor = proveedor;
 	}
 
-
 	public int getCantidadPedida() {
 		return cantidadPedida;
 	}
-
 
 	public void setCantidadPedida(int cantidadPedida) {
 		this.cantidadPedida = cantidadPedida;
 	}
 
-
 	public int getCantidadPendiente() {
 		return cantidadPendiente;
 	}
 
-
 	public void setCantidadPendiente(int cantidadPendiente) {
 		this.cantidadPendiente = cantidadPendiente;
 	}
-
-
 
 	public PedidoAbastecimientoVO getVO(){
 		PedidoAbastecimientoVO pvo = new PedidoAbastecimientoVO();
@@ -111,7 +89,6 @@ public class PedidoDeAbastecimientoEntity {
 		pvo.setCantidadPendiente(this.cantidadPendiente);
 		pvo.setOcAsociada(this.ocAsociada.getVO());
 		pvo.setProveedor(this.proveedor.getVO());
-		pvo.setRecibido(this.recibido);
 		pvo.setRodamiento(this.rodamiento.getVO());
 		return pvo;
 	}
@@ -126,8 +103,6 @@ public class PedidoDeAbastecimientoEntity {
 		RodamientoEntity re = new RodamientoEntity();
 		re.setVO(p.getRodamiento());
 		this.rodamiento = re;
-		
-		this.recibido = p.isRecibido();
 	}
 	
 	public static ArrayList<PedidoAbastecimientoVO> getVOList(

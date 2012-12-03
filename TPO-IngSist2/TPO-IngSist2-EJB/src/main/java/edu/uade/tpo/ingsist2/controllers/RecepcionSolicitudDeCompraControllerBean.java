@@ -21,7 +21,7 @@ import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
@@ -73,6 +73,8 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 
 				int stockActual = rodActual.getStock();
 				int stockSolicitado = ire.getCantidad();
+				RodamientoEntity rodamiento = ire.getCotizacion().getRodamiento();
+				
 				if (cotizacion.validarVigenciaLista(ire.getCotizacion()
 						.getLista())) {
 					LOGGER.info("El item cotizado con id " + ire.getId()
@@ -95,13 +97,13 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 							rem = inicializarRemito(ocGuardada);
 						}
 						// Actualizo el stock
-						ire.getRodamiento().disminuirStock(stockSolicitado);
+						rodamiento.disminuirStock(stockSolicitado);
 
 						ire.setPendientes(0);
 						ItemRemitoEntity itemRemito = new ItemRemitoEntity();
 						itemRemito.setCantidaEnviada(stockSolicitado);
 						itemRemito.setOcAsociada(ocGuardada);
-						itemRemito.setRodamiento(ire.getRodamiento());
+						itemRemito.setRodamiento(rodamiento);
 						
 						rem.getItems().add(itemRemito);
 
@@ -116,14 +118,14 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 							rem = inicializarRemito(ocGuardada);
 						}
 						// Actualizo el stock
-						ire.getRodamiento().disminuirStock(stockActual);
+						rodamiento.disminuirStock(stockActual);
 
 						ire.setPendientes(stockSolicitado - stockActual);
 						
 						ItemRemitoEntity itemRemito = new ItemRemitoEntity();
 						itemRemito.setCantidaEnviada(stockActual);
 						itemRemito.setOcAsociada(ocGuardada);
-						itemRemito.setRodamiento(ire.getRodamiento());
+						itemRemito.setRodamiento(rodamiento);
 						rem.getItems().add(itemRemito);
 
 						nuevoPedidoDeAbastecimiento(ocGuardada, ire,
@@ -152,9 +154,9 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 			OrdenDeCompraEntity ocGuardada, ItemRodamientoEntity ire,
 			int stockSolicitado) {
 		LOGGER.info("Creando nuevo pedido de abastecimiento. SKF: "
-				+ ire.getRodamiento().getCodigoSKF() + "|Pais: "
-				+ ire.getRodamiento().getPais() + "|Marca: "
-				+ ire.getRodamiento().getMarca() + "|Cant:" + stockSolicitado
+				+ ire.getCotizacion().getRodamiento().getCodigoSKF() + "|Pais: "
+				+ ire.getCotizacion().getRodamiento().getPais() + "|Marca: "
+				+ ire.getCotizacion().getRodamiento().getMarca() + "|Cant:" + stockSolicitado
 				+ "|Prove: "
 				+ ire.getCotizacion().getLista().getProveedor().getNombre()
 				+ "(Id:"
@@ -182,7 +184,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		oce.setIdRecibidoODV(request.getIdOrdenDeCompra());
 		oce.setEstado("Nueva");
 		ArrayList<ItemRodamientoEntity> listItems = new ArrayList<ItemRodamientoEntity>();
-		for (ItemVO itReq : request.getItems()) {
+		for (ItemSolicitudCompraRequest itReq : request.getItems()) {
 			CotizacionEntity cot = cotizacion.getCotizacion(itReq.getId());
 			if (cot.getRodamiento().getMarca().equals(itReq.getMarca())
 					&& cot.getRodamiento().getPais().equals(itReq.getPais())
@@ -192,7 +194,6 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 				item.setCantidad(itReq.getCantidad());
 				item.setCotizacion(cot);
 				item.setPendientes(itReq.getCantidad());
-				item.setRodamiento(cot.getRodamiento());
 				listItems.add(item);
 			} else {
 				LOGGER.warn("Los datos del rodamiento no coinciden con el de la cotizacion, omitiendo item (SKF: "

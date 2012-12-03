@@ -565,8 +565,8 @@ public class MockDataGenerator {
 	 * 
 	 * @return
 	 */
-	private static List<ItemVO> getControlledItemVOList() {
-		List<ItemVO> items = new ArrayList<ItemVO>();
+	private static List<ItemSolicitudCompraRequest> getControlledItemVOList() {
+		List<ItemSolicitudCompraRequest> items = new ArrayList<ItemSolicitudCompraRequest>();
 		
 		ArrayList<SolicitudCotizacionRequest> itemsCotizados = getControlledSolicitudCotizacionRequestList();
 		SolicitudCotizacionRequest itemCotizado1 = itemsCotizados.get(0);
@@ -576,7 +576,7 @@ public class MockDataGenerator {
 		
 		//Rodamiento cotizado con stock suficiente
 		
-		ItemVO item1 = new ItemVO();
+		ItemSolicitudCompraRequest item1 = new ItemSolicitudCompraRequest();
 		item1.setMarca(itemCotizado1.getMarca());
 		item1.setPais(itemCotizado1.getPais());
 		item1.setSKF(itemCotizado1.getSKF());
@@ -585,7 +585,7 @@ public class MockDataGenerator {
 
 		//Rodamiento cotizado con stock totalmente insuficiente
 		
-		ItemVO item2 = new ItemVO();
+		ItemSolicitudCompraRequest item2 = new ItemSolicitudCompraRequest();
 		item2.setMarca(itemCotizado2.getMarca());
 		item2.setPais(itemCotizado2.getPais());
 		item2.setSKF(itemCotizado2.getSKF());
@@ -594,7 +594,7 @@ public class MockDataGenerator {
 
 		//Rodamiento cotizado con stock parcialmente insuficiente
 		
-		ItemVO item3 = new ItemVO();
+		ItemSolicitudCompraRequest item3 = new ItemSolicitudCompraRequest();
 		item3.setMarca(itemCotizado3.getMarca());
 		item3.setPais(itemCotizado3.getPais());
 		item3.setSKF(itemCotizado3.getSKF());
@@ -603,7 +603,7 @@ public class MockDataGenerator {
 		
 		//Rodamiento no cotizado
 		
-		ItemVO item4 = new ItemVO();
+		ItemSolicitudCompraRequest item4 = new ItemSolicitudCompraRequest();
 		item4.setMarca(getRandomMarca());
 		item4.setPais(getRandomPais());
 		item4.setSKF(getRandomCodigoSKF());
@@ -612,7 +612,7 @@ public class MockDataGenerator {
 		
 		//Rodamiento con cotizacion sin marca
 		
-		ItemVO item5 = new ItemVO();
+		ItemSolicitudCompraRequest item5 = new ItemSolicitudCompraRequest();
 		item5.setMarca(itemCotizado4.getMarca());
 		item5.setPais(itemCotizado4.getPais());
 		item5.setSKF(itemCotizado4.getSKF());

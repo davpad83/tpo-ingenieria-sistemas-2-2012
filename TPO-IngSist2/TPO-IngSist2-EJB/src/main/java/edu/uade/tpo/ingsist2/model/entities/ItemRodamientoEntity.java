@@ -18,9 +18,6 @@ public class ItemRodamientoEntity {
 	private int cantidad;
 	private int pendientes;
 
-	@ManyToOne
-	private RodamientoEntity rodamiento;
-
 	@OneToOne
 	private CotizacionEntity cotizacion;
 
@@ -46,20 +43,6 @@ public class ItemRodamientoEntity {
 
 	public void setPendientes(int pendientes) {
 		this.pendientes = pendientes;
-	}
-
-	public RodamientoEntity getRodamiento() {
-		return rodamiento;
-	}
-	
-	public void setRodamiento(String codigoSKF, String marca, String pais) {
-		this.rodamiento.setMarca(marca);
-		this.rodamiento.setPais(pais);
-		this.rodamiento.setCodigoSKF(codigoSKF);
-	}
-
-	public void setRodamiento(RodamientoEntity rodamiento) {
-		this.rodamiento = rodamiento;
 	}
 
 	public CotizacionEntity getCotizacion() {
@@ -110,7 +93,6 @@ public class ItemRodamientoEntity {
 		if (itvo.getRodamiento() != null) {
 			RodamientoEntity re = new RodamientoEntity();
 			re.setVO(itvo.getRodamiento());
-			this.rodamiento = re;
 		}
 	}
 
