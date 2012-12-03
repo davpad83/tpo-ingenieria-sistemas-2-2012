@@ -100,7 +100,7 @@ public class MockDataGenerator {
 		rlvo.setMarca("SKF");
 		rlvo.setPais("Argentina");
 		rlvo.setCantidad(cantItems);	
-		rlvo.setIdPedidoAbastecimiento(1);
+		rlvo.setIdPedidoAbastecimiento(7);
 		rrvo.getListaRodVO().add(rlvo);
 		return rrvo;
 	}

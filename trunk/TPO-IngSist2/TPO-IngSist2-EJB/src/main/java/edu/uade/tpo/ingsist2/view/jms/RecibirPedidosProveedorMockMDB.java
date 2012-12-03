@@ -10,8 +10,10 @@ import javax.jms.TextMessage;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
+import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
+import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 
 /**
  * Message-Driven Bean implementation class for: RecibirPedidosProveedorMockMDB
@@ -26,7 +28,7 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 
 	private static final Logger LOGGER = Logger.getLogger(RecibirPedidosProveedorMockMDB.class);
 	
-    public void onMessage(Message message) {
+	public void onMessage(Message message) {
     	EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE);
     	
     	TextMessage ts = (TextMessage) message;
@@ -42,12 +44,20 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		
 		LOGGER.info("PROVEEDOR MOCK - Pedido recibido: \n"+textReceived);
 		
-		RecepcionRodamientosVO recepcion = new RecepcionRodamientosVO();
+		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
+		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
+		rlvo.setSKF(pedido.getRodamiento().getCodigoSKF());
+		rlvo.setMarca(pedido.getRodamiento().getMarca());
+		rlvo.setPais(pedido.getRodamiento().getPais());
+		rlvo.setCantidad(pedido.getCantidadPedida()+50);	
+		rlvo.setIdPedidoAbastecimiento(pedido.getIdPedido());
+		rrvo.getListaRodVO().add(rlvo);
 		
-//		recepcion.setListaRodVO(listaRodVO);
 		
-//		emHelper.enviarMensaje(pedido.toXML(true));
-//		emHelper.cerrarConexion();
+		//recepcion = MockDataGenerator.getRandomListaRodamientoVO(30);
+		
+		LOGGER.info("Enviando Rodamientos a Casa central....");		
+		emHelper.enviarMensaje(rrvo.toXML());
+		emHelper.cerrarConexion();
     }
-
 }
