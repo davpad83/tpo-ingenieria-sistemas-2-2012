@@ -45,7 +45,6 @@ public class ListaPreciosProveedorMDB implements MessageListener {
 			LOGGER.info("This is a test message, the message received is: "
 					+ textReceived);
 		} else {
-//			LOGGER.info(textReceived);
 			ListaPreciosVO lpr = new ListaPreciosVO();
 			lpr.fromXML(textReceived);
 			messagesFacade.agregarListaProveedor(lpr);

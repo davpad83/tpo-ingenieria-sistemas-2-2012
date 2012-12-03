@@ -21,7 +21,7 @@ public class ItemRodamientoEntity {
 	@ManyToOne
 	private RodamientoEntity rodamiento;
 
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne
 	private CotizacionEntity cotizacion;
 
 	public int getId() {

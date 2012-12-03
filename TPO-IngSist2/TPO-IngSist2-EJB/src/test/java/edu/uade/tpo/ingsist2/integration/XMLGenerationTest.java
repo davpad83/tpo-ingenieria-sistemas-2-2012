@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 
+import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
@@ -37,9 +38,9 @@ public class XMLGenerationTest {
 		RemitoResponse rr = new RemitoResponse();
 		rr.setIdRemito(10);
 		rr.setIdODV(6);
-		ArrayList<ItemVO> lrem = new ArrayList<ItemVO>();
-		ItemVO ivo = new ItemVO();
-		ivo.setId(4);
+		ArrayList<ItemRemitoVO> lrem = new ArrayList<ItemRemitoVO>();
+		ItemRemitoVO ivo = new ItemRemitoVO();
+		ivo.setIdOrdenDeCompra(4);
 		ivo.setMarca("Renault");
 		ivo.setPais("Jordania");
 		ivo.setSKF("12312DSA");

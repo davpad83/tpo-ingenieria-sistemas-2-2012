@@ -40,7 +40,6 @@ public class ListaRecepcionRodamientosQueue implements MessageListener {
 			e.printStackTrace();
 		}
 		if (textReceived.startsWith("TEST")) {
-			LOGGER.debug("This is a test message, the message received is: "+ textReceived);
 			LOGGER.info("This is a test message, the message received is: "+ textReceived);
 		}
 		else {

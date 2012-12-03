@@ -21,7 +21,7 @@ public class OrdenDeCompraEntity {
 	@ManyToOne
 	private OficinaDeVentaEntity odv;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn
 	private List<ItemRodamientoEntity> items;
 

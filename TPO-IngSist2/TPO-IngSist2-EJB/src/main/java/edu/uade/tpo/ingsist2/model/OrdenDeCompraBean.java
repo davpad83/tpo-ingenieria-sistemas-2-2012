@@ -37,7 +37,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	 * 		1) No existe la cotizacion asociada (validada con el id recibido)
 	 * 		2) La cantidad del item es menor a 1.
 	 */
-	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
+	public synchronized boolean  validarSolicitudCompra(SolicitudCompraRequest oc) {
 		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
 		if(oc.getItems()==null || oc.getItems().isEmpty()){
@@ -67,7 +67,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	}
 
 	@Override
-	public int guardarOrdenDeCompra(OrdenDeCompraEntity oce) {
+	public OrdenDeCompraEntity guardarOrdenDeCompra(OrdenDeCompraEntity oce) {
 		LOGGER.info("Procesando guardar orden de compra.");
 
 		OrdenDeCompraEntity ocGuardada = null;
@@ -79,7 +79,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 		}
 		LOGGER.info("Orden de Compra guardada con id: "
 				+ ocGuardada.getIdOrden());
-		return ocGuardada.getIdOrden();
+		return ocGuardada;
 	}
 
 	@Override

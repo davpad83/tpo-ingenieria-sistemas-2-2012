@@ -10,7 +10,7 @@ public interface OrdenDeCompra {
 
 	public boolean validarSolicitudCompra(SolicitudCompraRequest oc);
 
-	public int guardarOrdenDeCompra(OrdenDeCompraEntity oce);
+	public OrdenDeCompraEntity guardarOrdenDeCompra(OrdenDeCompraEntity oce);
 
 	public OrdenDeCompraEntity verificarPendientes(OrdenDeCompraEntity oce);
 	
