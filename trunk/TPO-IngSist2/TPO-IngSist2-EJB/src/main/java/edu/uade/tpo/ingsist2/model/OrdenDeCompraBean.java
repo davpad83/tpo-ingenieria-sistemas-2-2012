@@ -36,6 +36,8 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	 * Omite un item si:
 	 * 		1) No existe la cotizacion asociada (validada con el id recibido)
 	 * 		2) La cantidad del item es menor a 1.
+	 * 		3) El codigo skf esta vacio o es nulo.
+	 * 		4) El pais esta vacio o es nulo.
 	 */
 	public synchronized boolean  validarSolicitudCompra(SolicitudCompraRequest oc) {
 		LOGGER.info("Validando Solicitud de Compra ...");
@@ -56,6 +58,12 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			} else if(ivo.getCantidad() <0){
 				LOGGER.warn("Un item contiene cantidad 0, por lo que " +
 						"no sera procesado. Omitiendo item ("+ivo.getSKF()+")");
+				oc.getItems().remove(ivo);
+			} else if(ivo.getSKF()==null || !ivo.getSKF().isEmpty()){
+				LOGGER.warn("El item no tiene codigo skf o es nulo, sera omitido.");
+				oc.getItems().remove(ivo);
+			} else if(ivo.getPais()==null || !ivo.getPais().isEmpty()){
+				LOGGER.warn("El item no tiene pais o es nulo, sera omitido.");
 				oc.getItems().remove(ivo);
 			}
 		}

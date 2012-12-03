@@ -66,13 +66,11 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 			remito.setItems(items);
 			rBean.enviarRemito(remito);
 			RemitoEntity r = new RemitoEntity();
-			r.setVO(remito);
+//			r.setVO(remito);
 			rBean.guardarRemito(r);
 			}
 		}
 	}
-	
-	
 	
 	private ItemRemitoVO procesarEnvio(RodamientoListaVO envio) {
 		ItemRemitoVO item = new ItemRemitoVO();
