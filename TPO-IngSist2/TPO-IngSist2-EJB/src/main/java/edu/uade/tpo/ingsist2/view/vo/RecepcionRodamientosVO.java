@@ -1,11 +1,14 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
-public class RecepcionRodamientosVO {
+public class RecepcionRodamientosVO implements Serializable {
+	
+	private static final long serialVersionUID = 3748744848690820794L;
 
 	private List<RodamientoListaVO> listaRodVO;
 	
@@ -19,7 +22,10 @@ public class RecepcionRodamientosVO {
 		this.listaRodVO = listaRodVO;
 	}
 
-	public class RodamientoListaVO {
+	public class RodamientoListaVO implements Serializable {
+		
+		private static final long serialVersionUID = 3748744848690820794L;
+		
 		private int cantidad;
 		private int idPedidoAbastecimiento;
 		private String SKF;
@@ -77,6 +83,8 @@ public class RecepcionRodamientosVO {
 	public RecepcionRodamientosVO fromXML(String xml) {
 		RecepcionRodamientosVO rvo= new RecepcionRodamientosVO();
 		XStream xs = new XStream();
+		xs.alias("listaRodamientos", RecepcionRodamientosVO.class);
+		xs.alias("rodamientoLista", RodamientoListaVO.class);
 		rvo = (RecepcionRodamientosVO) xs.fromXML(xml);	
 		return rvo;
 

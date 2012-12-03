@@ -201,7 +201,10 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 	
 	private OficinaDeVentaEntity getOdvo(RodamientoListaVO envio){
 		PedidoDeAbastecimientoEntity p = pedidos.getPedido(envio.getIdPedidoAbastecimiento());
-		OficinaDeVentaEntity odvo = p.getOcAsociada().getOdv();
-		return odvo;
+		if(p!=null){
+			OficinaDeVentaEntity odvo = p.getOcAsociada().getOdv();
+			return odvo;			
+		}
+		return null;		
 	}
 }
