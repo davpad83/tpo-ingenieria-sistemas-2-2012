@@ -32,8 +32,6 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 		pedido.setOcAsociada(oc);
 		pedido.setProveedor(ire.getCotizacion().getLista().getProveedor());
 		pedido.setRodamiento(ire.getCotizacion().getRodamiento());
-		pedido.setRecibido(false);
-
 		return pedido;
 	}
 

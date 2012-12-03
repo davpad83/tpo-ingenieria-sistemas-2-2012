@@ -130,7 +130,7 @@ public class CotizacionBean implements Cotizacion {
 
 	@Override
 	public int verificarStock(ItemRodamientoEntity ire) {
-		RodamientoEntity rod = ire.getRodamiento();
+		RodamientoEntity rod = ire.getCotizacion().getRodamiento();
 		if (rod.hayStockSuficiente(ire.getCantidad()))
 			return rod.getStock();
 		else

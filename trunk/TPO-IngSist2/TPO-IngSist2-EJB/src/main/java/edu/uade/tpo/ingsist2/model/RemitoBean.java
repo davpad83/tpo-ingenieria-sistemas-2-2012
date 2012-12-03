@@ -14,7 +14,7 @@ import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Stateless

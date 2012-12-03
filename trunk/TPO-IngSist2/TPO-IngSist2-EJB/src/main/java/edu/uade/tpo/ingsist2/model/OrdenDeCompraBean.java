@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
+import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
 /**
@@ -48,7 +48,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			esValido = false;
 			LOGGER.error("No existe la oficina de ventas con id: "+oc.getIdODV());
 		}
-		for(ItemVO ivo : oc.getItems()){
+		for(ItemSolicitudCompraRequest ivo : oc.getItems()){
 			if(!cotizacion.existe(ivo.getId())){
 				LOGGER.warn("La cotizacion no existe en un item de " +
 						"la solicitud. Omitiendo item ("+ivo.getSKF()+")");

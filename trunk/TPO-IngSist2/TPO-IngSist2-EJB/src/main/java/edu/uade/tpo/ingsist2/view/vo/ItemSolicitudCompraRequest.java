@@ -17,7 +17,7 @@ import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
  * 
  */
 
-public class ItemVO implements Serializable{
+public class ItemSolicitudCompraRequest implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +26,6 @@ public class ItemVO implements Serializable{
 	private String pais;
 	private String marca;
 	private int cantidad;
-	private int idOrdenDeCompra;
 	private float precio;
 
 	public int getId() {
@@ -83,30 +82,22 @@ public class ItemVO implements Serializable{
 		this.skf=rodamiento.getCodigoSKF();
 	}
 
-	public void setIdOrdenDeCompra(int idOrdenDeCompra) {
-		this.idOrdenDeCompra = idOrdenDeCompra;
-	}
-
-	public int getIdOrdenDeCompra() {
-		return idOrdenDeCompra;
-	}
-
-	public static List<ItemVO> getVOList(List<ItemRodamientoEntity> itemsEntityList) {
-		List<ItemVO> items = new ArrayList<ItemVO>();
+	public static List<ItemSolicitudCompraRequest> getVOList(List<ItemRodamientoEntity> itemsEntityList) {
+		List<ItemSolicitudCompraRequest> items = new ArrayList<ItemSolicitudCompraRequest>();
 		for(ItemRodamientoEntity it : itemsEntityList){
 			items.add(getItemVO(it));
 		}
 		return items;
 	}
 
-	private static ItemVO getItemVO(ItemRodamientoEntity it) {
-		ItemVO itemVO = new ItemVO();
+	private static ItemSolicitudCompraRequest getItemVO(ItemRodamientoEntity it) {
+		ItemSolicitudCompraRequest itemVO = new ItemSolicitudCompraRequest();
 		
 		itemVO.setCantidad(it.getCantidad());
 		itemVO.setId(it.getId());
-		itemVO.setMarca(it.getRodamiento().getMarca());
-		itemVO.setSKF(it.getRodamiento().getCodigoSKF());
-		itemVO.setPais(it.getRodamiento().getPais());
+		itemVO.setMarca(it.getCotizacion().getRodamiento().getMarca());
+		itemVO.setSKF(it.getCotizacion().getRodamiento().getCodigoSKF());
+		itemVO.setPais(it.getCotizacion().getRodamiento().getPais());
 		return itemVO;
 	}
 }
