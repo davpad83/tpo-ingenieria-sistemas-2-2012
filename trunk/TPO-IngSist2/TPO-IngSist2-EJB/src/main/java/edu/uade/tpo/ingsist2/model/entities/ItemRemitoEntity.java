@@ -8,7 +8,6 @@ import javax.persistence.*;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemVO;
 
 @Entity
 @Table(name = EntitiesTablesNames.ITEM_REMITO)

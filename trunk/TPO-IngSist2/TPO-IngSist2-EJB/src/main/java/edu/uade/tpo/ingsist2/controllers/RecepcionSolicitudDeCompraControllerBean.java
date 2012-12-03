@@ -172,7 +172,6 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		RemitoEntity rem;
 		rem = new RemitoEntity();
 		rem.setOdv(ocGuardada.getOdv());
-		rem.setOrdenDeCompra(ocGuardada);
 		rem.setItems(new ArrayList<ItemRemitoEntity>());
 		return rem;
 	}
