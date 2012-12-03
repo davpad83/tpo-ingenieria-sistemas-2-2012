@@ -95,7 +95,7 @@ public class RecepcionRodamientosVO {
 		try {
 			XStream xs = new XStream();
 			
-			rvo = (RecepcionRodamientosVO) xs.fromXML(xml);			
+			rvo = (RecepcionRodamientosVO) xs.fromXML(xml);	
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -84,7 +84,7 @@ public class PedidoAbastecimientoVO implements Serializable{
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Proveedor", ProveedorVO.class);
-		PedidoAbastecimientoVO ocvo = (		PedidoAbastecimientoVO) xs.fromXML(textReceived);
+		PedidoAbastecimientoVO ocvo = (PedidoAbastecimientoVO) xs.fromXML(textReceived);
 		this.idPedido = ocvo.getIdPedido();
 		this.proveedor = ocvo.getProveedor();
 		this.ocAsociada = ocvo.getOcAsociada();
