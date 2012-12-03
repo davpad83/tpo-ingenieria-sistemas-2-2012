@@ -79,6 +79,7 @@ public class RecepcionRodamientosVO {
 		XStream xs = new XStream();
 		rvo = (RecepcionRodamientosVO) xs.fromXML(xml);	
 		return rvo;
+
 	}
 	
 }

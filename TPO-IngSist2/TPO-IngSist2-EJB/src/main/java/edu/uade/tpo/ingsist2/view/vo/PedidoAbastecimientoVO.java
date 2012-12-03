@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import com.thoughtworks.xstream.XStream;
 
-import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
-
 public class PedidoAbastecimientoVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private int idPedido;
 	private RodamientoVO rodamiento;
-	private boolean recibido;
 	private OrdenDeCompraVO ocAsociada;
 	private ProveedorVO proveedor;
 	private int cantidadPedida;
@@ -30,12 +27,6 @@ public class PedidoAbastecimientoVO implements Serializable{
 	}
 	public void setRodamiento(RodamientoVO rodamiento) {
 		this.rodamiento = rodamiento;
-	}
-	public boolean isRecibido() {
-		return recibido;
-	}
-	public void setRecibido(boolean recibido) {
-		this.recibido = recibido;
 	}
 	public OrdenDeCompraVO getOcAsociada() {
 		return ocAsociada;
@@ -73,20 +64,31 @@ public class PedidoAbastecimientoVO implements Serializable{
 			xs.omitField(RodamientoVO.class, "id");
 		}
 		xs.omitField(PedidoAbastecimientoVO.class, "idPedido");
-		xs.omitField(PedidoAbastecimientoVO.class, "recibido");
 		xs.omitField(PedidoAbastecimientoVO.class, "cantidadPendiente");
 		xs.omitField(PedidoAbastecimientoVO.class, "ocAsociada");
 		return xs.toXML(this);
 	}
 	
-	public void fromXML(String textReceived) {
+	public void fromXML(String textReceived, boolean omitId) {
 		XStream xs = new XStream();
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Proveedor", ProveedorVO.class);
-		PedidoAbastecimientoVO ocvo = (PedidoAbastecimientoVO) xs.fromXML(textReceived);
-		this.idPedido = ocvo.getIdPedido();
-		this.proveedor = ocvo.getProveedor();
-		this.ocAsociada = ocvo.getOcAsociada();
+		if(omitId){
+			xs.omitField(OrdenDeCompraVO.class, "idODV");
+			xs.omitField(ProveedorVO.class, "id");
+			xs.omitField(RodamientoVO.class, "id");
+		}
+		xs.omitField(PedidoAbastecimientoVO.class, "idPedido");
+		xs.omitField(PedidoAbastecimientoVO.class, "cantidadPendiente");
+		xs.omitField(PedidoAbastecimientoVO.class, "ocAsociada");
+		
+		PedidoAbastecimientoVO pavo = (PedidoAbastecimientoVO) xs.fromXML(textReceived);
+		this.setIdPedido(pavo.getIdPedido());
+		this.setRodamiento(pavo.getRodamiento());
+		this.setOcAsociada(pavo.getOcAsociada());
+		this.setProveedor(pavo.getProveedor());
+		this.setCantidadPedida(pavo.getCantidadPedida());
+		this.setCantidadPendiente(pavo.getCantidadPendiente());
 	}
 }

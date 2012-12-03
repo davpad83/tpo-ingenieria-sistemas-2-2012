@@ -155,7 +155,7 @@ public class RecepcionRodamientosControllerBean implements RecepcionRodamientosC
 		int resto = pedido.getCantidadPendiente() - envio.getCantidad();
 		pedido.setCantidadPendiente(resto);
 		if(resto == 0)
-			pedido.setRecibido(true);
+			
 		if(resto < 0)
 			LOGGER.error("Inconsistencias entre la cantidad recibida y la pedida");
 		

@@ -10,10 +10,8 @@ import javax.jms.TextMessage;
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
-import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
-import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
 
 /**
  * Message-Driven Bean implementation class for: RecibirPedidosProveedorMockMDB
@@ -40,7 +38,7 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		}
 		
 		PedidoAbastecimientoVO pedido = new PedidoAbastecimientoVO();
-		pedido.fromXML(textReceived);
+		pedido.fromXML(textReceived,true);
 		
 		LOGGER.info("PROVEEDOR MOCK - Pedido recibido: \n"+textReceived);
 		
@@ -53,10 +51,10 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		rlvo.setIdPedidoAbastecimiento(pedido.getIdPedido());
 		rrvo.getListaRodVO().add(rlvo);
 		
-		
 //		recepcion = MockDataGenerator.getRandomListaRodamientoVO(30);
 		
 		LOGGER.info("Enviando Rodamientos a Casa central....");		
+		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+rrvo.toXML());
 		emHelper.enviarMensaje(rrvo.toXML());
 		emHelper.cerrarConexion();
     }
