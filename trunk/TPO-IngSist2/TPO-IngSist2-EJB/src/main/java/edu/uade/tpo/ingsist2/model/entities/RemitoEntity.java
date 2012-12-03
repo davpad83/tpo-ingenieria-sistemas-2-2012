@@ -17,9 +17,6 @@ public class RemitoEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idRemito;
 
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	private OrdenDeCompraEntity ordenDeCompra;
-
 	@ManyToOne(cascade = CascadeType.ALL)
 	private OficinaDeVentaEntity odv;
 
@@ -27,8 +24,7 @@ public class RemitoEntity {
 	@JoinColumn
 	private List<ItemRemitoEntity> items;
 
-	private OficinaDeVenta ODV;
-	private OrdenDeCompra oc;
+	private OficinaDeVentaEntity ODV;
 	
 	public RemitoEntity() {
 		super();
@@ -41,14 +37,6 @@ public class RemitoEntity {
 	public void setIdRemito(int idRemito) {
 		this.idRemito = idRemito;
 	}
-
-//	public OrdenDeCompraEntity getOrdenDeCompra() {
-//		return ordenDeCompra;
-//	}
-//
-//	public void setOrdenDeCompra(OrdenDeCompraEntity ordenDeCompra) {
-//		this.ordenDeCompra = ordenDeCompra;
-//	}
 
 	public OficinaDeVentaEntity getOdv() {
 		return odv;
@@ -75,26 +63,4 @@ public class RemitoEntity {
 		return remitoResp;
 	}
 	
-	public void setVO(RemitoResponse remito) {
-		this.idRemito = remito.getIdRemito();
-		this.odv = ODV.getOficina(remito.getIdODV());
-		for(ItemRemitoVO ir: remito.getItems()){
-			ItemRemitoEntity ie = new ItemRemitoEntity();
-			ie.setCantidaEnviada(ir.getCantidad());
-			ie.setRodamiento(ir.getPais(),ir.getMarca(),ir.getSKF());
-			ie.setOcAsociada(oc.getOrdenDeCompra(ir.getIdOrdenDeCompra()));
-			this.items.add(ie);
-		}
-		
-		
-	}
-
-//	public void setItemsList(List<ItemRemitoVO> items) {
-//		for(ItemRemitoVO i : items){
-//			ItemRodamientoEntity ire = new ItemRodamientoEntity();
-//			ire.setCantidad(i.getCantidad());
-//			ire.setId(i.getId());
-//			ire.setRodamiento(i.getSKF(), i.getMarca(), i.getPais());
-//		}
-//	}
 }
