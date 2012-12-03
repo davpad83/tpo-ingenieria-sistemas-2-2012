@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +18,13 @@ import org.junit.Test;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.utils.mock.MockDataGenerator;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
+import edu.uade.tpo.ingsist2.view.jms.RecibirPedidosProveedorMockMDB;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 
 public class EnviarRodamientosMockTest {
+	
+	private static final Logger LOGGER = Logger.getLogger(EnviarRodamientosMockTest.class);
 
 	EnviarMensajeHelper emHelper;
 	//private static final String PATH_TO_WEB_PROJECT = "/Users/matiasfavale/Documents/WorkspaceJuno/TPO-IngSist2/TPO-IngSist2-WebClient";
@@ -44,6 +48,8 @@ public class EnviarRodamientosMockTest {
 	public void enviarRodamiento(){
 		
 		RecepcionRodamientosVO recep = MockDataGenerator.getRandomListaRodamientoVO(30);
+		LOGGER.info("Enviando Rodamientos a Casa central....");		
+		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+recep.toXML());
 		emHelper.enviarMensaje(recep.toXML());
 	}
 	

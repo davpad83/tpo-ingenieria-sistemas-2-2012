@@ -51,11 +51,9 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 		rlvo.setIdPedidoAbastecimiento(pedido.getIdPedido());
 		rrvo.getListaRodVO().add(rlvo);
 		
-//		recepcion = MockDataGenerator.getRandomListaRodamientoVO(30);
-		
 		LOGGER.info("Enviando Rodamientos a Casa central....");		
 		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+rrvo.toXML());
-//		emHelper.enviarMensaje(rrvo.toXML());
-//		emHelper.cerrarConexion();
+		emHelper.enviarMensaje(rrvo.toXML());
+		emHelper.cerrarConexion();
     }
 }
