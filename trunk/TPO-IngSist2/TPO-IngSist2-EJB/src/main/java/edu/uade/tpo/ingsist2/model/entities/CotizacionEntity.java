@@ -29,7 +29,9 @@ public class CotizacionEntity {
 
 	@ManyToOne
 	private ListaPreciosEntity lista;
-
+	
+	private int cantidad;
+	
 	private Date vencimiento;
 	private Date fecha;
 	private String tiempoEntrega;
@@ -96,6 +98,16 @@ public class CotizacionEntity {
 
 	public void setLista(ListaPreciosEntity lista) {
 		this.lista = lista;
+	}
+	
+	
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public CotizacionVO getVO() {

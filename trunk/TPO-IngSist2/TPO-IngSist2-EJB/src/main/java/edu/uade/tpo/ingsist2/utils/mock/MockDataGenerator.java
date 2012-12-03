@@ -522,8 +522,8 @@ public class MockDataGenerator {
 		solicitud2.setIdODV(10);
 		solicitud2.setIdPedidoCotizacion(2);
 		solicitud2.setMarca("ZKL");
-		solicitud2.setPais("Alemania");
-		solicitud2.setSKF("6200");
+	    solicitud2.setPais("Alemania");
+	    solicitud2.setSKF("6200");
 		solicitud2.setCantidad(2);
 		
 		//Rodamiento sin marca
@@ -532,7 +532,7 @@ public class MockDataGenerator {
 		solicitud3.setIdPedidoCotizacion(3);
 		solicitud3.setPais("Alemania");
 		solicitud3.setSKF("6200");
-		solicitud2.setCantidad(10);
+		solicitud3.setCantidad(10);
 		
 		//Rodamiento con marca y stock parcialmente insuficiente
 		SolicitudCotizacionRequest solicitud4 = new SolicitudCotizacionRequest();
