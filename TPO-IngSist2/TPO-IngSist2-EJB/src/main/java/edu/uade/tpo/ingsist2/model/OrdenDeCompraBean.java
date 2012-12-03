@@ -1,5 +1,8 @@
 package edu.uade.tpo.ingsist2.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,7 +42,7 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	 * 		3) El codigo skf esta vacio o es nulo.
 	 * 		4) El pais esta vacio o es nulo.
 	 */
-	public synchronized boolean  validarSolicitudCompra(SolicitudCompraRequest oc) {
+	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
 		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
 		if(oc.getItems()==null || oc.getItems().isEmpty()){
@@ -50,23 +53,24 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			esValido = false;
 			LOGGER.error("No existe la oficina de ventas con id: "+oc.getIdODV());
 		}
+		
+		List<ItemSolicitudCompraRequest> tempList = new ArrayList<ItemSolicitudCompraRequest>();
 		for(ItemSolicitudCompraRequest ivo : oc.getItems()){
 			if(!cotizacion.existe(ivo.getId())){
 				LOGGER.warn("La cotizacion no existe en un item de " +
 						"la solicitud. Omitiendo item ("+ivo.getSKF()+")");
-				oc.getItems().remove(ivo);
 			} else if(ivo.getCantidad() <0){
 				LOGGER.warn("Un item contiene cantidad 0, por lo que " +
 						"no sera procesado. Omitiendo item ("+ivo.getSKF()+")");
-				oc.getItems().remove(ivo);
-			} else if(ivo.getSKF()==null || !ivo.getSKF().isEmpty()){
+			} else if(ivo.getSKF()==null || ivo.getSKF().isEmpty()){
 				LOGGER.warn("El item no tiene codigo skf o es nulo, sera omitido.");
-				oc.getItems().remove(ivo);
-			} else if(ivo.getPais()==null || !ivo.getPais().isEmpty()){
+			} else if(ivo.getPais()==null || ivo.getPais().isEmpty()){
 				LOGGER.warn("El item no tiene pais o es nulo, sera omitido.");
-				oc.getItems().remove(ivo);
+			} else {
+				tempList.add(ivo);
 			}
 		}
+		oc.setItems(tempList);
 		if(esValido)
 			LOGGER.info("Validacion exitosa!");
 		else
