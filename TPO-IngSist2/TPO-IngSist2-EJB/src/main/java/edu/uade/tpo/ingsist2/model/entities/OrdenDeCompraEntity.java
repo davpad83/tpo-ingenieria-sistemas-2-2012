@@ -49,8 +49,8 @@ public class OrdenDeCompraEntity {
 		this.odv = odv;
 	}
 
-	public ArrayList<ItemRodamientoEntity> getItems() {
-		return (ArrayList<ItemRodamientoEntity>) items;
+	public List<ItemRodamientoEntity> getItems() {
+		return items;
 	}
 
 	public void setItems(List<ItemRodamientoEntity> items) {
@@ -91,6 +91,10 @@ public class OrdenDeCompraEntity {
 
 	public void setIdRecibidoODV(int idRecibidoODV) {
 		this.idRecibidoODV = idRecibidoODV;
+	}
+
+	public boolean isPendiente() {
+		return "pendiente".equals(estado.toLowerCase());
 	}
 
 }
