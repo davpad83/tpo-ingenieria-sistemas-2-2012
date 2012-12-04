@@ -23,7 +23,7 @@ public class XMLGenerationTest {
 		ArrayList<ItemSolicitudCompraRequest> livo = new ArrayList<ItemSolicitudCompraRequest>();
 		ItemSolicitudCompraRequest ivo = new ItemSolicitudCompraRequest();
 		ivo.setPrecio(135.35f);
-		ivo.setId(4);
+		ivo.setIdPedidoCotODV(4);
 		ivo.setMarca("Renault");
 		ivo.setPais("Jordania");
 		ivo.setSKF("12312DSA");

@@ -6,7 +6,7 @@ import java.util.Date;
 public class RodamientoCotizadoVO implements Serializable {
 
 	private static final long serialVersionUID = 8082908768080946797L;
-	
+
 	private String SKF;
 	private String marca;
 	private String pais;
@@ -80,4 +80,13 @@ public class RodamientoCotizadoVO implements Serializable {
 		this.fechaFin = fechaFin;
 	}
 
+	@Override
+	public String toString() {
+		return "RodamientoCotizadoVO [SKF=" + SKF + ", marca=" + marca
+				+ ", pais=" + pais + ", enStock=" + enStock
+				+ ", precioCotizado=" + precioCotizado
+				+ ", tiempoEstimadoEntrega=" + tiempoEstimadoEntrega
+				+ ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
+				+ "]";
+	}
 }

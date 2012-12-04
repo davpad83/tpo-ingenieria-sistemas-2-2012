@@ -511,7 +511,7 @@ public class MockDataGenerator {
 		//Rodamiento con marca y stock suficiente
 		SolicitudCotizacionRequest solicitud1 = new SolicitudCotizacionRequest();
 		solicitud1.setIdODV(10);
-		solicitud1.setIdPedidoCotizacion(1);
+		solicitud1.setIdPedidoCotizacion(32);
 		solicitud1.setMarca("ZKL");
 		solicitud1.setPais("Japon");
 		solicitud1.setSKF("22310 CCW33");
@@ -520,28 +520,29 @@ public class MockDataGenerator {
 		//Rodamiento con marca y stock totalmente insuficiente
 		SolicitudCotizacionRequest solicitud2 = new SolicitudCotizacionRequest();
 		solicitud2.setIdODV(10);
-		solicitud2.setIdPedidoCotizacion(2);
+		solicitud2.setIdPedidoCotizacion(41);
 		solicitud2.setMarca("ZKL");
 	    solicitud2.setPais("Alemania");
 	    solicitud2.setSKF("6200");
 		solicitud2.setCantidad(2);
 		
-		//Rodamiento sin marca
+		//Rodamiento con marca y stock parcialmente insuficiente
 		SolicitudCotizacionRequest solicitud3 = new SolicitudCotizacionRequest();
 		solicitud3.setIdODV(10);
-		solicitud3.setIdPedidoCotizacion(3);
-		solicitud3.setPais("Alemania");
-		solicitud3.setSKF("6200");
-		solicitud3.setCantidad(10);
-		
-		//Rodamiento con marca y stock parcialmente insuficiente
+		solicitud3.setIdPedidoCotizacion(8);
+		solicitud3.setMarca("ZKL");
+		solicitud3.setPais("Suecia");
+		solicitud3.setSKF("6200 ZZ");
+		solicitud3.setCantidad(93);
+
+		//Rodamiento sin marca
 		SolicitudCotizacionRequest solicitud4 = new SolicitudCotizacionRequest();
 		solicitud4.setIdODV(10);
-		solicitud4.setIdPedidoCotizacion(4);
-		solicitud4.setMarca("ZKL");
-		solicitud4.setPais("Suecia");
-		solicitud4.setSKF("6200 ZZ");
-		solicitud4.setCantidad(93);
+		solicitud4.setIdPedidoCotizacion(235);
+		solicitud4.setPais("Alemania");
+		solicitud4.setSKF("6200");
+		solicitud4.setCantidad(10);
+		
 
 		solicitudes.add(solicitud1);
 		solicitudes.add(solicitud2);
@@ -571,8 +572,8 @@ public class MockDataGenerator {
 		ArrayList<SolicitudCotizacionRequest> itemsCotizados = getControlledSolicitudCotizacionRequestList();
 		SolicitudCotizacionRequest itemCotizado1 = itemsCotizados.get(0);
 		SolicitudCotizacionRequest itemCotizado2 = itemsCotizados.get(1);
-		SolicitudCotizacionRequest itemCotizado3 = itemsCotizados.get(3);
-		SolicitudCotizacionRequest itemCotizado4 = itemsCotizados.get(2);
+		SolicitudCotizacionRequest itemCotizado3 = itemsCotizados.get(2);
+		SolicitudCotizacionRequest itemCotizado4 = itemsCotizados.get(3);
 		
 		//Rodamiento cotizado con stock suficiente
 		
@@ -581,7 +582,7 @@ public class MockDataGenerator {
 		item1.setPais(itemCotizado1.getPais());
 		item1.setSKF(itemCotizado1.getSKF());
 		item1.setCantidad(6);
-		item1.setId(1);
+		item1.setIdPedidoCotODV(32);
 
 		//Rodamiento cotizado con stock totalmente insuficiente
 		
@@ -590,7 +591,7 @@ public class MockDataGenerator {
 		item2.setPais(itemCotizado2.getPais());
 		item2.setSKF(itemCotizado2.getSKF());
 		item2.setCantidad(2);
-		item2.setId(2);
+		item2.setIdPedidoCotODV(41);
 
 		//Rodamiento cotizado con stock parcialmente insuficiente
 		
@@ -599,7 +600,7 @@ public class MockDataGenerator {
 		item3.setPais(itemCotizado3.getPais());
 		item3.setSKF(itemCotizado3.getSKF());
 		item3.setCantidad(99);
-		item3.setId(5);
+		item3.setIdPedidoCotODV(8);
 		
 		//Rodamiento no cotizado
 		
@@ -608,16 +609,16 @@ public class MockDataGenerator {
 		item4.setPais(getRandomPais());
 		item4.setSKF(getRandomCodigoSKF());
 		item4.setCantidad(getRandomCantidad());
-		item4.setId(10);
+		item4.setIdPedidoCotODV(21);
 		
 		//Rodamiento con cotizacion sin marca
 		
 		ItemSolicitudCompraRequest item5 = new ItemSolicitudCompraRequest();
-		item5.setMarca(itemCotizado4.getMarca());
+		item5.setMarca("FAG");
 		item5.setPais(itemCotizado4.getPais());
 		item5.setSKF(itemCotizado4.getSKF());
-		item5.setCantidad(getRandomCantidad());
-		item5.setId(3);
+		item5.setCantidad(57);
+		item5.setIdPedidoCotODV(235);
 
 		items.add(item1);
 		items.add(item2);

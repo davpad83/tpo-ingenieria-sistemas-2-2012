@@ -54,6 +54,7 @@ public class RecepcionCotizacionControllerBean implements
 
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
 			SolicitudCotizacionRequest screq) {
+		LOGGER.info("Solicitud de cotizacion recibida: \n" + screq.toString());
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION BEGIN==================");
 		LOGGER.info("Request enviado de ODV: " + screq.getIdODV());
 
@@ -80,7 +81,7 @@ public class RecepcionCotizacionControllerBean implements
 				scresp.setIdPedidoCotizacion(-1);
 			}
 		}
-
+		LOGGER.info("Enviando respuesta: \n" + scresp.toString());
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION END==================");
 		return scresp;
 
@@ -136,8 +137,7 @@ public class RecepcionCotizacionControllerBean implements
 		cot.setTiempoEntrega(rodamCotizado.getTiempoEstimadoEntrega());
 		cot.setVencimiento(rodamCotizado.getFechaFin());
 		
-		int id = cotizacion.guardarCotizacion(cot);
-		scresp.setIdPedidoCotizacion(id);
+		cotizacion.guardarCotizacion(cot);
 	}
 	
 	
