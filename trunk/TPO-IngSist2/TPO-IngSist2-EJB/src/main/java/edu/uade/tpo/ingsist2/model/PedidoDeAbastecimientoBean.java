@@ -11,8 +11,10 @@ import org.apache.log4j.Logger;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
+import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Stateless
 public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
@@ -125,5 +127,13 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 		}
 		 emHelper.enviarMensaje(pedido.getVO().toXML(true));
 		 emHelper.cerrarConexion();
+	}
+
+	@Override
+	public boolean validarRodamientoPedido(RodamientoEntity rodamiento,
+			int idPedidoAbastecimiento) {
+		RodamientoEntity rodPedido = getPedido(idPedidoAbastecimiento).getRodamiento();
+		
+		return rodamiento.equals(rodPedido);
 	}
 }

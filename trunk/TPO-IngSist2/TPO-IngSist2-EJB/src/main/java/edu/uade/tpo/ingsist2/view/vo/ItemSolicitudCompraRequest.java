@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 /**
  * Este itemVO es usado por RemitoResponse y SolicitudCompraRequest porque se
@@ -21,19 +22,19 @@ public class ItemSolicitudCompraRequest implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private int idPedidoCotODV;
 	private String skf;
 	private String pais;
 	private String marca;
 	private int cantidad;
 	private float precio;
 
-	public int getId() {
-		return id;
+	public int getIdPedidoCotODV() {
+		return idPedidoCotODV;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdPedidoCotODV(int id) {
+		this.idPedidoCotODV = id;
 	}
 
 	public String getSKF() {
@@ -94,10 +95,18 @@ public class ItemSolicitudCompraRequest implements Serializable{
 		ItemSolicitudCompraRequest itemVO = new ItemSolicitudCompraRequest();
 		
 		itemVO.setCantidad(it.getCantidad());
-		itemVO.setId(it.getId());
+		itemVO.setIdPedidoCotODV(it.getId());
 		itemVO.setMarca(it.getCotizacion().getRodamiento().getMarca());
 		itemVO.setSKF(it.getCotizacion().getRodamiento().getCodigoSKF());
 		itemVO.setPais(it.getCotizacion().getRodamiento().getPais());
 		return itemVO;
+	}
+
+	public RodamientoEntity getRodamiento() {
+		RodamientoEntity re = new RodamientoEntity();
+		re.setMarca(this.marca);
+		re.setCodigoSKF(this.skf);
+		re.setPais(this.pais);
+		return re;
 	}
 }

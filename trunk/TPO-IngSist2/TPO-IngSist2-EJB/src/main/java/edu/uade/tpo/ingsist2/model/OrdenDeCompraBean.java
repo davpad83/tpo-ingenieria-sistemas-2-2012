@@ -6,12 +6,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 
@@ -21,7 +23,8 @@ import edu.uade.tpo.ingsist2.view.vo.SolicitudCompraRequest;
 @Stateless
 public class OrdenDeCompraBean implements OrdenDeCompra {
 
-	private static final Logger LOGGER = Logger.getLogger(OrdenDeCompraBean.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(OrdenDeCompraBean.class);
 
 	@PersistenceContext(name = "CPR")
 	private EntityManager entityManager;
@@ -30,48 +33,50 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	private OficinaDeVenta oficinaVenta;
 	@EJB
 	private Cotizacion cotizacion;
-	
+
 	/**
-	 * Valida la solicitud de comprar enviada por la ODV.
-	 * Omite la Solicitud completa si:
-	 * 		1) La lista de items no existe o esta vacia.
-	 * 		2) La oficina de venta no existe (validada con el id recibido)
-	 * Omite un item si:
-	 * 		1) No existe la cotizacion asociada (validada con el id recibido)
-	 * 		2) La cantidad del item es menor a 1.
-	 * 		3) El codigo skf esta vacio o es nulo.
-	 * 		4) El pais esta vacio o es nulo.
+	 * Valida la solicitud de comprar enviada por la ODV. Omite la Solicitud
+	 * completa si: 1) La lista de items no existe o esta vacia. 2) La oficina
+	 * de venta no existe (validada con el id recibido) Omite un item si: 1) No
+	 * existe la cotizacion asociada (validada con el idPedido de la ODV y la
+	 * ODV) 2) La cantidad del item es menor a 1. 3) El codigo skf esta vacio o
+	 * es nulo. 4) El pais esta vacio o es nulo.
 	 */
 	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
 		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
-		if(oc.getItems()==null || oc.getItems().isEmpty()){
+		if (oc.getItems() == null || oc.getItems().isEmpty()) {
 			LOGGER.error("La solicitud de compra es invalida, no contiene items.");
 			esValido = false;
 		}
-		if(!oficinaVenta.existe(oc.getIdODV())){
+		if (!oficinaVenta.existe(oc.getIdODV())) {
 			esValido = false;
-			LOGGER.error("No existe la oficina de ventas con id: "+oc.getIdODV());
+			LOGGER.error("No existe la oficina de ventas con id: "
+					+ oc.getIdODV());
 		}
-		
+
 		List<ItemSolicitudCompraRequest> tempList = new ArrayList<ItemSolicitudCompraRequest>();
-		for(ItemSolicitudCompraRequest ivo : oc.getItems()){
-			if(!cotizacion.existe(ivo.getId())){
-				LOGGER.warn("La cotizacion no existe en un item de " +
-						"la solicitud. Omitiendo item ("+ivo.getSKF()+")");
-			} else if(ivo.getCantidad() <0){
-				LOGGER.warn("Un item contiene cantidad 0, por lo que " +
-						"no sera procesado. Omitiendo item ("+ivo.getSKF()+")");
-			} else if(ivo.getSKF()==null || ivo.getSKF().isEmpty()){
+		for (ItemSolicitudCompraRequest ivo : oc.getItems()) {
+			if (!cotizacion.existe(ivo.getIdPedidoCotODV(), oc.getIdODV(), ivo.getRodamiento())) {
+				LOGGER.warn("La cotizacion no existe en un item de "
+						+ "la solicitud para idPedido de ODV"
+						+ ivo.getIdPedidoCotODV() + " y ODV id "
+						+ oc.getIdODV() + ". Omitiendo item (" + ivo.getSKF()
+						+ ")");
+			} else if (ivo.getCantidad() < 0) {
+				LOGGER.warn("Un item contiene cantidad 0, por lo que "
+						+ "no sera procesado. Omitiendo item (" + ivo.getSKF()
+						+ ")");
+			} else if (ivo.getSKF() == null || ivo.getSKF().isEmpty()) {
 				LOGGER.warn("El item no tiene codigo skf o es nulo, sera omitido.");
-			} else if(ivo.getPais()==null || ivo.getPais().isEmpty()){
+			} else if (ivo.getPais() == null || ivo.getPais().isEmpty()) {
 				LOGGER.warn("El item no tiene pais o es nulo, sera omitido.");
 			} else {
 				tempList.add(ivo);
 			}
 		}
 		oc.setItems(tempList);
-		if(esValido)
+		if (esValido)
 			LOGGER.info("Validacion exitosa!");
 		else
 			LOGGER.warn("La solicitud de compra es invalida.");
@@ -108,13 +113,13 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 				LOGGER.info("El item con id " + ire.getId()
 						+ " no tiene entregas pendientes.");
 		}
-		if(completa)
+		if (completa)
 			oce.setEstado("Completa");
-		else 
+		else
 			oce.setEstado("Pendiente");
 		return oce;
 	}
-	
+
 	@Override
 	public OrdenDeCompraEntity getOrdenDeCompra(int id) {
 		LOGGER.info("Buscando pedido con id " + id);
@@ -130,10 +135,51 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 				LOGGER.info("la orden de compra con id " + id
 						+ " se ha encontrado");
 			else {
-				LOGGER.info("No se ha encontrado la orden de compra con id " + id);
+				LOGGER.info("No se ha encontrado la orden de compra con id "
+						+ id);
 				return null;
 			}
 		}
 		return oc;
+	}
+
+	@Override
+	public ItemRodamientoEntity getItemRodamiento(int idOC,
+			RodamientoEntity rodPedido) {
+		LOGGER.info("Buscando item Rodamiento para OC " + idOC + "(SKF:"
+				+ rodPedido.getCodigoSKF() + "|Marca:" + rodPedido.getMarca()
+				+ "|Pais:" + rodPedido.getPais() + ")");
+		ItemRodamientoEntity ire = null;
+		try {
+			ire = (ItemRodamientoEntity) entityManager
+					.createQuery(
+						"FROM ItemRodamientoEntity "+
+						"WHERE id ="+
+							"(SELECT IR.id "+
+							"FROM OrdenDeCompraEntity OC "
+									+ "		JOIN OC.items IR"
+									+ " WHERE OC.idOrden = :idOC "
+									+ "		AND IR.cotizacion.rodamiento.codigoSKF = :codigo"
+									+ "		AND IR.cotizacion.rodamiento.pais = :pais"
+									+ "		AND IR.cotizacion.rodamiento.marca = :marca)")
+					.setParameter("idOC", idOC)
+					.setParameter("marca", rodPedido.getMarca())
+					.setParameter("codigo", rodPedido.getCodigoSKF())
+					.setParameter("pais", rodPedido.getPais())
+					.getSingleResult();
+		} catch (NoResultException nre) {
+			LOGGER.info("No se ha encontrado la orden de compra con id "
+					+ ire.getId());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar el item.");
+			e.printStackTrace();
+			return null;
+		}
+		if (ire != null) {
+			LOGGER.info("El itemRodamiento con id " + ire.getId()
+					+ " se ha encontrado");
+		}
+		return ire;
 	}
 }

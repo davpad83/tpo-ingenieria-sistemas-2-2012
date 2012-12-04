@@ -163,8 +163,43 @@ public class CotizacionBean implements Cotizacion {
 	}
 
 	@Override
-	public boolean existe(int id) {
-		return getCotizacion(id) != null;
+	public boolean existe(int idPedidoCotODV, int idODV, RodamientoEntity rod) {
+		CotizacionEntity cot = getCotizacion(idPedidoCotODV, idODV, rod);
+		return cot != null;
+	}
+
+	public CotizacionEntity getCotizacion(int idPedidoCotODV, int idODV,
+			RodamientoEntity rod) {
+		LOGGER.info("Buscando cotizacion por idPedidoCotizacionODV "
+				+ idPedidoCotODV + ", idODV " + idODV + "y Rodamiento: ["
+				+ rod.getCodigoSKF() + "|" + rod.getMarca() + "|"
+				+ rod.getPais() + "]");
+		CotizacionEntity cot = null;
+		try {
+			cot = (CotizacionEntity) entityManager
+					.createQuery(
+							"FROM CotizacionEntity COT " +
+							"WHERE COT.idRecibidoODV = :idPedidoCot " +
+							"	AND COT.odv.id = :idODV" +
+							"	AND COT.rodamiento.codigoSKF = :codigo"+
+							"	AND COT.rodamiento.pais = :pais"+
+							"	AND COT.rodamiento.marca = :marca")
+					.setParameter("idPedidoCot", idPedidoCotODV)
+					.setParameter("idODV", idODV)
+					.setParameter("marca", rod.getMarca())
+					.setParameter("codigo", rod.getCodigoSKF())
+					.setParameter("pais", rod.getPais())
+					.getSingleResult();
+		} catch (NoResultException nre) {
+			LOGGER.warn("La cotizacion no existe.");
+		} catch (Exception e) {
+			LOGGER.error("Hubo un error al buscar la cotizacion");
+			LOGGER.error(e);
+		}
+		if (cot != null)
+			LOGGER.info("La cotizacion fue encontrada y su id interno es "
+					+ cot.getId());
+		return cot;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -174,15 +209,14 @@ public class CotizacionBean implements Cotizacion {
 				+ idCotizacion);
 
 		ArrayList<ItemRodamientoEntity> itemsCotizados = null;
-		Query query = entityManager
-				.createQuery(
-						"SELECT IR "
-								+ " FROM ItemRodamientoEntity IR"
-								+ " WHERE IR.cotizacion.id = :idCot").setParameter(
-						"idCot", idCotizacion);
+		Query query = entityManager.createQuery(
+				"SELECT IR " + " FROM ItemRodamientoEntity IR"
+						+ " WHERE IR.cotizacion.id = :idCot").setParameter(
+				"idCot", idCotizacion);
 		try {
-			itemsCotizados = (ArrayList<ItemRodamientoEntity>) query.getResultList();
-		} catch (NoResultException nre){
+			itemsCotizados = (ArrayList<ItemRodamientoEntity>) query
+					.getResultList();
+		} catch (NoResultException nre) {
 			LOGGER.warn("No se encontro ningun item rodamiento.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al obtener los items cotizados");

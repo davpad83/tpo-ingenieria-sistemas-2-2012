@@ -62,7 +62,8 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 
 		if (ordenDeCompra.validarSolicitudCompra(request)) {
 			OrdenDeCompraEntity oce = fromRequestToOCEntity(request);
-			OrdenDeCompraEntity ocGuardada = ordenDeCompra.guardarOrdenDeCompra(oce);
+			OrdenDeCompraEntity ocGuardada = ordenDeCompra
+					.guardarOrdenDeCompra(oce);
 
 			RemitoEntity rem = null;
 			for (ItemRodamientoEntity ire : ocGuardada.getItems()) {
@@ -72,8 +73,9 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 
 				int stockActual = rodActual.getStock();
 				int stockSolicitado = ire.getCantidad();
-				RodamientoEntity rodamiento = ire.getCotizacion().getRodamiento();
-				
+				RodamientoEntity rodamiento = ire.getCotizacion()
+						.getRodamiento();
+
 				if (cotizacion.validarVigenciaLista(ire.getCotizacion()
 						.getLista())) {
 					LOGGER.info("El item cotizado con id " + ire.getId()
@@ -103,7 +105,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 						itemRemito.setCantidaEnviada(stockSolicitado);
 						itemRemito.setOcAsociada(ocGuardada);
 						itemRemito.setRodamiento(rodamiento);
-						
+
 						rem.getItems().add(itemRemito);
 
 						// HAY STOCK PARA ENVIAR PARCIALMENTE
@@ -120,7 +122,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 						rodamiento.disminuirStock(stockActual);
 
 						ire.setPendientes(stockSolicitado - stockActual);
-						
+
 						ItemRemitoEntity itemRemito = new ItemRemitoEntity();
 						itemRemito.setCantidaEnviada(stockActual);
 						itemRemito.setOcAsociada(ocGuardada);
@@ -128,7 +130,7 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 						rem.getItems().add(itemRemito);
 
 						nuevoPedidoDeAbastecimiento(ocGuardada, ire,
-								stockSolicitado);
+								stockSolicitado - stockActual);
 					}
 				} else {
 					LOGGER.info("El item cotizado con id " + ire.getId()
@@ -153,17 +155,18 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 			OrdenDeCompraEntity ocGuardada, ItemRodamientoEntity ire,
 			int stockSolicitado) {
 		LOGGER.info("Creando nuevo pedido de abastecimiento. SKF: "
-				+ ire.getCotizacion().getRodamiento().getCodigoSKF() + "|Pais: "
-				+ ire.getCotizacion().getRodamiento().getPais() + "|Marca: "
-				+ ire.getCotizacion().getRodamiento().getMarca() + "|Cant:" + stockSolicitado
-				+ "|Prove: "
+				+ ire.getCotizacion().getRodamiento().getCodigoSKF()
+				+ "|Pais: " + ire.getCotizacion().getRodamiento().getPais()
+				+ "|Marca: " + ire.getCotizacion().getRodamiento().getMarca()
+				+ "|Cant:" + stockSolicitado + "|Prove: "
 				+ ire.getCotizacion().getLista().getProveedor().getNombre()
 				+ "(Id:"
 				+ ire.getCotizacion().getLista().getProveedor().getId() + ")");
 		PedidoDeAbastecimientoEntity nuevoPedidoDeAbastecimiento = pedidoAbastecimiento
 				.generarPedidoAbastecimiento(ocGuardada, ire,
 						stockSolicitado * 2);
-		nuevoPedidoDeAbastecimiento = pedidoAbastecimiento.guardarPedido(nuevoPedidoDeAbastecimiento);
+		nuevoPedidoDeAbastecimiento = pedidoAbastecimiento
+				.guardarPedido(nuevoPedidoDeAbastecimiento);
 		pedidoAbastecimiento.enviarPedido(nuevoPedidoDeAbastecimiento);
 	}
 
@@ -183,7 +186,14 @@ public class RecepcionSolicitudDeCompraControllerBean implements
 		oce.setEstado("Nueva");
 		ArrayList<ItemRodamientoEntity> listItems = new ArrayList<ItemRodamientoEntity>();
 		for (ItemSolicitudCompraRequest itReq : request.getItems()) {
-			CotizacionEntity cot = cotizacion.getCotizacion(itReq.getId());
+			CotizacionEntity cot = cotizacion.getCotizacion(
+					itReq.getIdPedidoCotODV(), request.getIdODV(), itReq.getRodamiento());
+			if (cot == null) {
+				LOGGER.info("No se pudo encontrar la cotizacion con id "
+						+ itReq.getIdPedidoCotODV() + " para la ODV"
+						+ request.getIdODV());
+				continue;
+			}
 			if (cot.getRodamiento().getMarca().equals(itReq.getMarca())
 					&& cot.getRodamiento().getPais().equals(itReq.getPais())
 					&& cot.getRodamiento().getCodigoSKF()

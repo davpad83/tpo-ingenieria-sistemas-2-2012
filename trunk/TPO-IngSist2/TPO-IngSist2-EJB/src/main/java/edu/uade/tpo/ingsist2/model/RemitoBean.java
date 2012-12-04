@@ -14,6 +14,7 @@ import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
+import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
@@ -35,7 +36,13 @@ public class RemitoBean implements Remito {
 
 		remitoAEnviar.setIdODV(odv.getId());
 		remitoAEnviar.setIdRemito(remito.getIdRemito());
-		remitoAEnviar.setItems(ItemRemitoEntity.getVOList(remito.getItems()));
+		ArrayList<ItemRemitoVO> itemsRemito = new ArrayList<ItemRemitoVO>();
+		for(ItemRemitoEntity item : remito.getItems()){
+			ItemRemitoVO itemRem = item.getVO();
+			itemRem.setIdOrdenDeCompra(item.getOcAsociada().getIdRecibidoODV());
+			itemsRemito.add(itemRem);
+		}
+		remitoAEnviar.setItems(itemsRemito);
 		
 		emHelper.enviarMensaje(remitoAEnviar.toXML());
 		emHelper.cerrarConexion();
@@ -60,26 +67,9 @@ public class RemitoBean implements Remito {
 		emHelper.cerrarConexion();
 	}
 
-//	public void guardarRemito(RemitoResponse remito) {
-//		RemitoEntity r = new RemitoEntity();
-//		r.setIdRemito(remito.getIdRemito());
-//		r.setItemsList(remito.getItems());
-//		r.setOdv(ODV.getOficina(remito.getIdODV()));
-//		LOGGER.info("Procesando guardar remito con id " + r.getIdRemito());
-//		RemitoEntity rGuardado = null;
-//		try {
-//			rGuardado = (RemitoEntity) entityManager.merge(r);
-//		} catch (Exception e) {
-//			LOGGER.error("Hubo un error al guardar el remito");
-//			LOGGER.error(e);
-//		}
-//		LOGGER.info("Remito guardado con id: " + +rGuardado.getIdRemito());
-//	}
-
 	@Override
 	public RemitoEntity guardarRemito(RemitoEntity rem) {
 		LOGGER.info("Procesando guardar remito.");
-
 		RemitoEntity rGuardado = null;
 		try {
 			rGuardado = (RemitoEntity) entityManager.merge(rem);

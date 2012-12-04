@@ -12,7 +12,9 @@ import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
 import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
 import edu.uade.tpo.ingsist2.model.PedidoDeAbastecimiento;
 import edu.uade.tpo.ingsist2.model.Remito;
+import edu.uade.tpo.ingsist2.model.Rodamiento;
 import edu.uade.tpo.ingsist2.model.entities.ItemRemitoEntity;
+import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
@@ -40,181 +42,177 @@ public class RecepcionRodamientosControllerBean implements
 	@EJB
 	private PedidoDeAbastecimiento pedidos;
 	@EJB
-	private AdministrarRodamientos rodamientos;
-	@EJB
 	private OrdenDeCompra ordenDeCompra;
 	@EJB
 	private OficinaDeVenta oficinaVenta;
-
 	@EJB
-	private Remito rBean;
+	private Rodamiento rodamiento;
+	@EJB
+	private Remito remito;
 
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
 		LOGGER.info("==================PROCESANDO RECEPCION DE RODAMIENTO BEGIN==================");
 		LOGGER.info("Obteniendo ODVs Asociadas");
-		List<OficinaDeVentaEntity> ODVs = getOficinasDeVentasDeEnvio(rodamientos);
 
-		LOGGER.info("Procesando recepcion de rodamientos...");
-		for (OficinaDeVentaEntity odv : ODVs) {
-			LOGGER.info("Preparando para procesar remito de ODV: "
-					+ odv.getId());
+		for (OficinaDeVentaEntity odv : getListaODVsUnicas(rodamientos)) {
+			LOGGER.info("Generando remito para la ODV: " + odv.getId());
 
-			RemitoEntity remito = new RemitoEntity();
-			remito.setOdv(odv);
+			RemitoEntity remitoAEnviar = new RemitoEntity();
+			remitoAEnviar.setOdv(odv);
 
-			List<ItemRemitoEntity> items = new ArrayList<ItemRemitoEntity>();
-
+			List<ItemRemitoEntity> itemsRemito = new ArrayList<ItemRemitoEntity>();
 			for (RodamientoListaVO rodam : rodamientos.getListaRodVO()) {
-				if (getOdvo(rodam).getId() == odv.getId()) {
-					LOGGER.info("Procesando remito...");
-					ItemRemitoEntity ivo = procesarEnvio(rodam);
-					items.add(ivo);
+				if (isItemEnvioAsociadoAODV(odv, rodam)) {
+					ItemRemitoEntity ivo = procesarItemRemito(rodam);
+					if(ivo != null)
+						itemsRemito.add(ivo);
 				}
-				LOGGER.info("Generando remito para ODV: " + odv.getId());
-				remito.setItems(items);
-				rBean.enviarRemito(remito, odv);
-				// RemitoEntity r = new RemitoEntity();
-				// r.setVO(remito);
-				rBean.guardarRemito(remito);
 			}
+			remitoAEnviar.setItems(itemsRemito);
+			LOGGER.info("Remito generado exitosamente.");
+
+			remitoAEnviar = remito.guardarRemito(remitoAEnviar);
+			remito.enviarRemito(remitoAEnviar, odv);
 		}
 		LOGGER.info("==================PROCESANDO RECEPCION DE RODAMIENTO END==================");
 	}
 
-	private ItemRemitoEntity procesarEnvio(RodamientoListaVO envio) {
-		ItemRemitoEntity item = new ItemRemitoEntity();
-		int id = envio.getIdPedidoAbastecimiento();
-		PedidoDeAbastecimientoEntity pedido = pedidos.getPedido(id);
-		if (pedido == null)
-			LOGGER.info("No se encontro el pedido id:" + id);
-
-		// Validar que el rodamiento corresponda al pedido
-		LOGGER.info("analizando pedido " + id + " - " + envio.getSKF() + " "
-				+ envio.getMarca() + " " + envio.getPais());
-
-		RodamientoEntity rod = pedido.getRodamiento();
-
-//		if (!rod.equals(envio.getRodamiento()))
-//			LOGGER.info("No coincide el pedido" + id + " con Rodamiento "
-//					+ envio.getSKF() + " " + envio.getMarca() + " "
-//					+ envio.getPais());
-//		else {
-
-			// ///******Pedido******\\\\\\
-			actualizarPedido(pedido, envio);
-
-			// ///******Ordenes de compra******\\\\\\
-			int consumido = actualizarItemsOCs(pedido, envio);
-
-			// ///******Stock******\\\\\\
-			int sobrante = envio.getCantidad();
-			if (envio.getCantidad() > 0)
-				actualizarStock(sobrante, pedido);
-
-			// ///******Generar Remito de compra******\\\\\\
-
-			item.setOcAsociada(pedido.getOcAsociada());
-			item.setCantidaEnviada(consumido);
-			RodamientoEntity rodam = new RodamientoEntity();
-			rodam.setVO(envio.getRodamiento());
-			item.setRodamiento(rodam);
-//		}
-		return item;
+	private boolean isItemEnvioAsociadoAODV(OficinaDeVentaEntity odv,
+			RodamientoListaVO rodam) {
+		return getODVAsociadaAPedido(rodam.getIdPedidoAbastecimiento()).getId() == odv
+				.getId();
 	}
 
-	private void actualizarStock(int consumo, PedidoDeAbastecimientoEntity pedido) {
-		RodamientoVO rod = rodamientos.getRodamiento(pedido.getRodamiento()
-				.getId());
-		rod.setStock(consumo + rod.getStock());
-		rodamientos.guardarRodamiento(rod);
-	}
+	private ItemRemitoEntity procesarItemRemito(RodamientoListaVO envio) {
+		ItemRemitoEntity itemRemito = new ItemRemitoEntity();
+		int idPedidoAbast = envio.getIdPedidoAbastecimiento();
 
-	private int actualizarItemsOCs(PedidoDeAbastecimientoEntity pedido,
-			RodamientoListaVO envio) {
-		OrdenDeCompraVO oc = ordenDeCompra.getOrdenDeCompra(
-				pedido.getOcAsociada().getIdOrden()).getVO();
-		int sobrante = envio.getCantidad();// total enviado por el proveedor
-		int consumido = 0;
+		RodamientoEntity rodPedido = rodamiento.getRodamiento(envio.getSKF(),
+				envio.getMarca(), envio.getPais());
 
-		for (ItemRodamientoVO ir : oc.getItems()) {
-			if (ir.getRodamiento().equals(pedido.getRodamiento())) {
+		LOGGER.info("Procesando rodamiento recibido [SKF: " + envio.getSKF() + "|"
+				+ envio.getMarca() + "|" + envio.getPais() + "]");
+		LOGGER.info("Validando item del envio ...");
+		if (!pedidos.validarRodamientoPedido(rodPedido, idPedidoAbast)) {
+			LOGGER.info("No coincide el pedido " + idPedidoAbast
+					+ " con Rodamiento " + envio.getSKF() + "|"
+					+ envio.getMarca() + "|" + envio.getPais()
+					+ ". Omitiendo item.");
+			itemRemito = null;
+		} else {
+			LOGGER.info("El rodamiento del item es valido.");
+			PedidoDeAbastecimientoEntity pedidoAbast = pedidos
+					.getPedido(idPedidoAbast);
 
-				int pendientes = ir.getPendientes() - sobrante;// Lo que se debe
-																// - lo que
-																// llega
+			actualizarPedidoAbast(pedidoAbast, envio);
 
-				if (!(pendientes < 0)) {// si me llega MENOS o satisfago justo
-										// la OC
-					sobrante = 0;
-					ir.setPendientes(pendientes);
+			if (pedidoAbast.getOcAsociada().isPendiente()) {
+				LOGGER.info("La orden de compra "
+						+ pedidoAbast.getOcAsociada().getIdOrden()
+						+ " esta pendiente. Procesando...");
+
+				ItemRodamientoEntity itemRodAsociadoAPedido = ordenDeCompra
+						.getItemRodamiento(pedidoAbast.getOcAsociada()
+								.getIdOrden(), rodPedido);
+
+				if (itemRodAsociadoAPedido != null) {
+					int cantidadAEnviar = 0;
+					LOGGER.info("Procesando el itemRodamiento de la OC con id: "
+							+ itemRodAsociadoAPedido.getId());
+					if (itemRodAsociadoAPedido.getPendientes() > 0) {
+						LOGGER.info("El item tiene pendientes. Agregando item al remito..");
+						int cantRecibida = envio.getCantidad();
+						int diferencia = itemRodAsociadoAPedido.getPendientes()
+								- cantRecibida;
+
+						// si me llega MENOS o satisfago justo el IR
+						if (diferencia >= 0) {
+							// Si la cantRecibida alcanza para satisfacerlo
+							// lo
+							// dejo en 0
+							cantidadAEnviar = envio.getCantidad();
+							itemRodAsociadoAPedido.setPendientes(0);
+
+							// sobra del envio, puedo guardar stock
+						} else if (diferencia < 0) {
+							cantidadAEnviar = itemRodAsociadoAPedido
+									.getPendientes();
+							itemRodAsociadoAPedido.setPendientes(0);
+
+							rodPedido.aumentarStock(diferencia * (-1));
+							rodamiento.guardarRodamiento(rodPedido);
+						}
+						itemRemito.setCantidaEnviada(cantidadAEnviar);
+						itemRemito.setOcAsociada(pedidoAbast.getOcAsociada());
+						itemRemito.setRodamiento(rodPedido);
+
+						OrdenDeCompraEntity oc = ordenDeCompra
+								.verificarPendientes(pedidoAbast.getOcAsociada());
+						ordenDeCompra.guardarOrdenDeCompra(oc);
+					} else {
+						LOGGER.info("El item no tiene pendientes. Actualizando el stock.");
+						rodPedido.aumentarStock(envio.getCantidad());
+						rodamiento.guardarRodamiento(rodPedido);
+						itemRemito = null;
+					}
+				} else {
+					LOGGER.warn("El rodamiento recibido no tiene ningun rodamiento "
+							+ "asociado al id de Pedido de Abastecimiento recibido");
+					itemRemito = null;
 				}
 
-				if (pendientes < 0) {// sobra del envio, puedo guardar stock
-					sobrante = pendientes * (-1);
-					ir.setPendientes(0);
-				}
-
-				consumido = envio.getCantidad() - sobrante;
-				envio.setCantidad(sobrante);
+			} else {
+				// Actualizo todo lo recibido al stock de rodamientos
+				rodPedido.disminuirStock(envio.getCantidad());
+				rodamiento.guardarRodamiento(rodPedido);
+				itemRemito = null;
 			}
 		}
-
-		OrdenDeCompraEntity oco = new OrdenDeCompraEntity();
-		OrdenDeCompraVO ovo = ordenDeCompra.getOrdenDeCompra(
-				pedido.getOcAsociada().getIdOrden()).getVO();
-		oco.setVO(ovo);
-		ordenDeCompra.verificarPendientes(oco);
-		ordenDeCompra.guardarOrdenDeCompra(oco);
-		return consumido;
+		return itemRemito;
 	}
 
-	private void actualizarPedido(PedidoDeAbastecimientoEntity pedido,
+	private void actualizarPedidoAbast(PedidoDeAbastecimientoEntity pedido,
 			RodamientoListaVO envio) {
 		int resto = pedido.getCantidadPendiente() - envio.getCantidad();
+
+		LOGGER.info("Actualizando pedido de abastecimiento ("
+				+ pedido.getIdPedido() + "), cantidad pendiente: " + resto);
+		if (resto < 0)
+			LOGGER.error("Se recibio " + envio.getCantidad()
+					+ " y el pedido tenia " + pedido.getCantidadPendiente()
+					+ " pendientes para id de Pedido " + pedido.getIdPedido());
+
 		pedido.setCantidadPendiente(resto);
-		if (resto == 0)
-
-			if (resto < 0)
-				LOGGER.error("Inconsistencias entre la cantidad recibida y la pedida");
-
 		pedidos.guardarPedido(pedido);
 	}
 
-	// Obtengo ODVs Asociadas
-	private List<OficinaDeVentaEntity> getOficinasDeVentasDeEnvio(
-			RecepcionRodamientosVO listaEnvio) {
-		List<OficinaDeVentaEntity> aux = new ArrayList<OficinaDeVentaEntity>();
+	private List<OficinaDeVentaEntity> getListaODVsUnicas(
+			RecepcionRodamientosVO recepcionRodamientos) {
+		List<OficinaDeVentaEntity> odvsUnicas = new ArrayList<OficinaDeVentaEntity>();
 
-		OficinaDeVentaEntity odvo = getOdvo(listaEnvio.getListaRodVO().get(0));
-		if(odvo!=null)
-			aux.add(odvo);
-		for (RodamientoListaVO envio : listaEnvio.getListaRodVO()) {
-			odvo = getOdvo(envio);
+		OficinaDeVentaEntity odvo = getODVAsociadaAPedido(recepcionRodamientos
+				.getListaRodVO().get(0).getIdPedidoAbastecimiento());
+		if (odvo != null)
+			odvsUnicas.add(odvo);
 
-			if (odvo != null) {
-				boolean agregar = true;
-				for (OficinaDeVentaEntity o : aux) {
-					if (odvo.getId() == o.getId()) {
-						agregar = false;
-					}
-					if (agregar) {
-						aux.add(odvo);
-					}
-				}
+		for (RodamientoListaVO envio : recepcionRodamientos.getListaRodVO()) {
+			odvo = getODVAsociadaAPedido(envio.getIdPedidoAbastecimiento());
+			if (!odvsUnicas.contains(odvo)) {
+				odvsUnicas.add(odvo);
 			}
 		}
-		return aux;
+		return odvsUnicas;
 	}
 
-	private OficinaDeVentaEntity getOdvo(RodamientoListaVO envio){
-		PedidoDeAbastecimientoEntity p = pedidos.getPedido(envio.getIdPedidoAbastecimiento());
-		if(p!=null){
-			OficinaDeVentaEntity odvo = p.getOcAsociada().getOdv();
-			return odvo;			
-		} else {
-			LOGGER.info("La ODV con id "+p.getOcAsociada().getOdv().getId()+" no existe");
+	private OficinaDeVentaEntity getODVAsociadaAPedido(
+			int idPedidoAbastecimiento) {
+		OficinaDeVentaEntity p = pedidos.getPedido(idPedidoAbastecimiento)
+				.getOcAsociada().getOdv();
+		if (p == null) {
+			LOGGER.info("La ODV con id " + p.getId() + " no existe");
+			return null;
 		}
-		return null;		
+		return p;
 	}
 }

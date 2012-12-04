@@ -21,6 +21,8 @@ public interface Cotizacion {
 
 	public CotizacionEntity getCotizacion(int idCot);
 	
+	public CotizacionEntity getCotizacion(int idPedidoCotODV, int idODV, RodamientoEntity rod);
+	
 	public int guardarCotizacion(CotizacionEntity cotizacion);
 
 	/**
@@ -45,7 +47,7 @@ public interface Cotizacion {
 	 */
 	public boolean validarVigenciaLista(ListaPreciosEntity lista);
 
-	public boolean existe(int id);
+	public boolean existe(int idPedidoCotODV, int idODV, RodamientoEntity rod);
 
 	public ArrayList<ItemRodamientoEntity> getItemsCotizados(int id);
 }
