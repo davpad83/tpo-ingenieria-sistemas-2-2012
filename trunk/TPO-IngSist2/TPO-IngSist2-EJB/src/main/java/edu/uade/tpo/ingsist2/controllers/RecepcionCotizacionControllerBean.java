@@ -136,7 +136,8 @@ public class RecepcionCotizacionControllerBean implements
 		cot.setTiempoEntrega(rodamCotizado.getTiempoEstimadoEntrega());
 		cot.setVencimiento(rodamCotizado.getFechaFin());
 		
-		cotizacion.guardarCotizacion(cot);
+		int id = cotizacion.guardarCotizacion(cot);
+		scresp.setIdPedidoCotizacion(id);
 	}
 	
 	

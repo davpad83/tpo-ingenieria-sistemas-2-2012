@@ -96,11 +96,11 @@ public class MockDataGenerator {
 	public static RecepcionRodamientosVO getRandomListaRodamientoVO(int cantItems) {
 		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
 		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
-		rlvo.setSKF("22310 EKW33");
-		rlvo.setMarca("SKF");
-		rlvo.setPais("Argentina");
+		rlvo.setSKF("6200 ZZ");
+		rlvo.setMarca("STEYR");
+		rlvo.setPais("Reino Unido");
 		rlvo.setCantidad(cantItems);	
-		rlvo.setIdPedidoAbastecimiento(7);
+		rlvo.setIdPedidoAbastecimiento(1);
 		rrvo.getListaRodVO().add(rlvo);
 		return rrvo;
 	}
@@ -468,14 +468,14 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "172.16.171.31", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "172.16.171.26", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "171.16.171.36", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "171.16.171.9", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.35", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.28", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv7 = nuevaOficinaDeVentaVO("ODV 7", "UADE 7", "172.16.171.27", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "171.16.171.33", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "172.16.171.29", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv10 = nuevaOficinaDeVentaVO("ODV 10", "ODV PARA TEST", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		

@@ -105,20 +105,20 @@ public class FacadeBean implements Facade {
 		ArrayList<OficinaDeVentaVO> odvsACargar = MockDataGenerator
 				.getControlledOficinasDeVentaList();
 
-		for (ProveedorVO p : proveedoresACargar) {
-			guardarProveedor(p);
-		}
-		
-		for (RodamientoVO r : rodamientosACargar) {
-			guardarRodamiento(r);
-		}
-		
+//		for (ProveedorVO p : proveedoresACargar) {
+//			guardarProveedor(p);
+//		}
+//		
+//		for (RodamientoVO r : rodamientosACargar) {
+//			guardarRodamiento(r);
+//		}
+//		
 		for (OficinaDeVentaVO odv : odvsACargar) {
 			guardarOficinaDeVenta(odv);
 		}
 		
-		for (ListaPreciosVO l : listaPrecioACargar) {
-			messagesFacade.agregarListaProveedor(l);
-		}
+//		for (ListaPreciosVO l : listaPrecioACargar) {
+//			messagesFacade.agregarListaProveedor(l);
+//		}
 	}
 }

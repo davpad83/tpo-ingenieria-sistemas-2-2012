@@ -147,7 +147,7 @@ public class CotizacionBean implements Cotizacion {
 	}
 
 	@Override
-	public void guardarCotizacion(CotizacionEntity c) {
+	public int guardarCotizacion(CotizacionEntity c) {
 		LOGGER.info("Procesando guardar cotizacion con id Pedido de Cotizacion: "
 				+ c.getIdRecibidoODV());
 
@@ -159,6 +159,7 @@ public class CotizacionBean implements Cotizacion {
 			LOGGER.error(e);
 		}
 		LOGGER.info("Cotizacion guardada con id: " + cGuardado.getId());
+		return cGuardado.getId();
 	}
 
 	@Override
