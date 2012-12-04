@@ -15,7 +15,7 @@ public class ItemListaEntity {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private RodamientoEntity rodamiento;
 	
 	private float precio;
