@@ -27,7 +27,7 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 	private static final Logger LOGGER = Logger.getLogger(RecibirPedidosProveedorMockMDB.class);
 	
 	public void onMessage(Message message) {
-    	EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE);
+//    	EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1", 1099, JMSQueuesNames.RECEPCION_RODAMIENTOS_QUEUE);
     	
     	TextMessage ts = (TextMessage) message;
 		String textReceived = "";
@@ -37,23 +37,23 @@ public class RecibirPedidosProveedorMockMDB implements MessageListener {
 			e1.printStackTrace();
 		}
 		
-		PedidoAbastecimientoVO pedido = new PedidoAbastecimientoVO();
-		pedido.fromXML(textReceived,true);
+//		PedidoAbastecimientoVO pedido = new PedidoAbastecimientoVO();
+//		pedido.fromXML(textReceived,true);
+//		
+//		LOGGER.info("PROVEEDOR MOCK - Pedido recibido: \n"+textReceived);
 		
-		LOGGER.info("PROVEEDOR MOCK - Pedido recibido: \n"+textReceived);
-		
-		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
-		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
-		rlvo.setSKF(pedido.getRodamiento().getCodigoSKF());
-		rlvo.setMarca(pedido.getRodamiento().getMarca());
-		rlvo.setPais(pedido.getRodamiento().getPais());
-		rlvo.setCantidad(pedido.getCantidadPedida()+50);	
-		rlvo.setIdPedidoAbastecimiento(pedido.getIdPedido());
-		rrvo.getListaRodVO().add(rlvo);	
-		
-		LOGGER.info("Enviando Rodamientos a Casa central....");		
-		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+rrvo.toXML());
-		emHelper.enviarMensaje(rrvo.toXML());
-		emHelper.cerrarConexion();
+//		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
+//		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
+//		rlvo.setSKF(pedido.getRodamiento().getCodigoSKF());
+//		rlvo.setMarca(pedido.getRodamiento().getMarca());
+//		rlvo.setPais(pedido.getRodamiento().getPais());
+//		rlvo.setCantidad(pedido.getCantidadPedida()+50);	
+//		rlvo.setIdPedidoAbastecimiento(pedido.getIdPedido());
+//		rrvo.getListaRodVO().add(rlvo);	
+//		
+//		LOGGER.info("Enviando Rodamientos a Casa central....");		
+//		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+rrvo.toXML());
+//		emHelper.enviarMensaje(rrvo.toXML());
+//		emHelper.cerrarConexion();
     }
 }

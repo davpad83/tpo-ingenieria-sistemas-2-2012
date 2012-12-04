@@ -21,7 +21,7 @@ public interface Cotizacion {
 
 	public CotizacionEntity getCotizacion(int idCot);
 	
-	public void guardarCotizacion(CotizacionEntity cotizacion);
+	public int guardarCotizacion(CotizacionEntity cotizacion);
 
 	/**
 	 * Verifica el stock actual basado en el rodamiento y cantidad

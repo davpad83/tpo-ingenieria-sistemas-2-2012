@@ -47,7 +47,7 @@ public class EnviarRodamientosMockTest {
 	@Test
 	public void enviarRodamiento(){
 		
-		RecepcionRodamientosVO recep = MockDataGenerator.getRandomListaRodamientoVO(30);
+		RecepcionRodamientosVO recep = MockDataGenerator.getRandomListaRodamientoVO(25);
 		LOGGER.info("Enviando Rodamientos a Casa central....");		
 		LOGGER.info("PROVEEDOR MOCK - Rodamientos Enviados: \n"+recep.toXML());
 		emHelper.enviarMensaje(recep.toXML());
