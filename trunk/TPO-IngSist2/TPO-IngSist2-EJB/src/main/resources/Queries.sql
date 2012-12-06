@@ -19,15 +19,13 @@ select * from rodamiento
 select * from ListaPrecios
 select * from proveedor
 select * from itemlista
-select * from OficinaDeVenta	
+select * from OficinaDeVenta
 select * from cotizacion
-select * from ItemRemito
 select * from ItemRodamiento
 select * from remito
+select * from ItemRemito
 select * from ordendecompra
 select * from PedidoDeAbastecimiento
-
-
 
 /*Cotizacion sin Marca*/
 
