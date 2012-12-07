@@ -55,6 +55,7 @@ public class PedidoAbastecimientoVO implements Serializable{
 	
 	public String toXML(boolean omitId){
 		XStream xs = new XStream();
+		xs.alias("PedidoDeAbastecimiento", PedidoAbastecimientoVO.class);
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Proveedor", ProveedorVO.class);
@@ -70,6 +71,7 @@ public class PedidoAbastecimientoVO implements Serializable{
 	
 	public void fromXML(String textReceived, boolean omitId) {
 		XStream xs = new XStream();
+		xs.alias("PedidoDeAbastecimiento", PedidoAbastecimientoVO.class);
 		xs.alias("ocAsociada", OrdenDeCompraVO.class);
 		xs.alias("Rodamiento", RodamientoVO.class);
 		xs.alias("Proveedor", ProveedorVO.class);
