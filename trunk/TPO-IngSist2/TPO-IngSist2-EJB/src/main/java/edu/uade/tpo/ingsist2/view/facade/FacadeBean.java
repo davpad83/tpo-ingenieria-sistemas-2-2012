@@ -97,11 +97,11 @@ public class FacadeBean implements Facade {
 
 	public void generateInitialData() {
 		ArrayList<ProveedorVO> proveedoresACargar = MockDataGenerator
-				.getControlledProveedoresList();
+				.getProveedorForRealIntegrationTest();
 		ArrayList<ListaPreciosVO> listaPrecioACargar = MockDataGenerator
-				.getControlledListaPrecioList();
+				.getListaPrecioListForRealIntegrationTest();
 		ArrayList<RodamientoVO> rodamientosACargar = MockDataGenerator
-				.getControlledRodamientosList();
+				.getRodamientosListForRealIntegrationTest();
 		ArrayList<OficinaDeVentaVO> odvsACargar = MockDataGenerator
 				.getControlledOficinasDeVentaList();
 

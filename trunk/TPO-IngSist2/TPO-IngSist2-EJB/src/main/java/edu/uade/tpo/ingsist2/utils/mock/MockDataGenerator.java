@@ -100,9 +100,9 @@ public class MockDataGenerator {
 		return rrvo;
 	}
 
+	@SuppressWarnings("static-access")
 	public static Date getRandomFechaVencimiento() {
 		Calendar cal = Calendar.getInstance();
-		Date newDate = new Date();
 		cal.add(cal.DATE, 7);
 		return cal.getTime();
 	}
@@ -616,5 +616,70 @@ public class MockDataGenerator {
 		items.add(item5);
 		
 		return items;
+	}
+
+	public static ArrayList<ProveedorVO> getProveedorForRealIntegrationTest() {
+		ArrayList<ProveedorVO> proves = new ArrayList<ProveedorVO>();
+		ProveedorVO prove = new ProveedorVO();
+		prove.setCuit("20-33349798-7");
+		prove.setNombre("Proveedor S.A.");
+		prove.setTiempoDeEntrega("2 dias");
+		proves.add(prove);
+		return proves;
+	}
+
+	public static ArrayList<ListaPreciosVO> getListaPrecioListForRealIntegrationTest() {
+		ItemListaVO ilvo_list1_1 = nuevoItemListaVO(1, 310.71f); 
+		ItemListaVO ilvo_list1_2 = nuevoItemListaVO(2, 249f); 
+		ItemListaVO ilvo_list1_3 = nuevoItemListaVO(3, 7.1f); 
+		ItemListaVO ilvo_list1_4 = nuevoItemListaVO(4, 7.9f); 
+		ItemListaVO ilvo_list1_5 = nuevoItemListaVO(5, 7.9f); 
+		ItemListaVO ilvo_list1_6 = nuevoItemListaVO(6, 13.49f); 
+		ItemListaVO ilvo_list1_7 = nuevoItemListaVO(7, 67.09f); 
+		ItemListaVO ilvo_list1_8 = nuevoItemListaVO(8, 107.86f); 
+		ItemListaVO ilvo_list1_9 = nuevoItemListaVO(9, 132.26f); 
+
+		ArrayList<ItemListaVO> listaIL1 = new ArrayList<ItemListaVO>();
+		listaIL1.add(ilvo_list1_1);
+		listaIL1.add(ilvo_list1_2);
+		listaIL1.add(ilvo_list1_3);
+		listaIL1.add(ilvo_list1_4);
+		listaIL1.add(ilvo_list1_5);
+		listaIL1.add(ilvo_list1_6);
+		listaIL1.add(ilvo_list1_7);
+		listaIL1.add(ilvo_list1_8);
+		listaIL1.add(ilvo_list1_9);
+		
+		ListaPreciosVO lpvo1 = nuevaListaPrecios("Lista Proveedor S.A.", new Date(), getRandomFechaVencimiento(), 1, null,listaIL1);
+		
+		ArrayList<ListaPreciosVO> lpvoList = new ArrayList<ListaPreciosVO>();
+		lpvoList.add(lpvo1);
+		
+		return lpvoList;
+	}
+
+	public static ArrayList<RodamientoVO> getRodamientosListForRealIntegrationTest() {
+		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 6);
+		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 7);
+		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 13);
+		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 45);
+		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 40);
+		RodamientoVO rod6 = nuevoRodamientoVO("6204 2RSC3", "SFK", "Brasil", 0);
+		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 170);
+		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 56);
+		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 55);
+
+		ArrayList<RodamientoVO> rodamientos = new ArrayList<RodamientoVO>();
+		rodamientos.add(rod1);
+		rodamientos.add(rod2);
+		rodamientos.add(rod3);
+		rodamientos.add(rod4);
+		rodamientos.add(rod5);
+		rodamientos.add(rod6);
+		rodamientos.add(rod7);
+		rodamientos.add(rod8);
+		rodamientos.add(rod9);
+		
+		return rodamientos;
 	}
 }
