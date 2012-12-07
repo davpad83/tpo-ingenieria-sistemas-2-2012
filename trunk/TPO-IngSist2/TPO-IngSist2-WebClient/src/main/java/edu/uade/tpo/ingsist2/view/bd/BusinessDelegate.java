@@ -32,6 +32,7 @@ public class BusinessDelegate {
 	private void conectar() {
 		String naming = "TPO-IngSist2-EAR/FacadeBean/remote";
 
+		@SuppressWarnings("rawtypes")
 		Hashtable props = new Hashtable();
 		props.put(InitialContext.INITIAL_CONTEXT_FACTORY,
 				"org.jnp.interfaces.NamingContextFactory");

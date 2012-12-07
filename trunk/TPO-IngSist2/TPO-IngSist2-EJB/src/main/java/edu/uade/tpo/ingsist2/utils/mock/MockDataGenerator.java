@@ -47,14 +47,9 @@ public class MockDataGenerator {
 				+ apellidos[new Random().nextInt(apellidos.length)];
 	}
 
-	public static String getRandomCuit() {
-		String cuit = "";
-		for (int i = 0; i < 11; i++) {
-			cuit += new Random().nextInt(9);
-			if (i == 1 || i == 9)
-				cuit += "-";
-		}
-		return cuit;
+	public static String getRandomCuit() {		
+		String[] proveedores = { "20-34343431-2", "20-34343432-2", "20-34343433-2","20-34343434-2" };
+		return proveedores[new Random().nextInt(proveedores.length)];
 	}
 
 	public static RecepcionRodamientosVO getMercaderia(){
@@ -85,7 +80,7 @@ public class MockDataGenerator {
 	
 	public static ListaPreciosVO getRandomListaPreciosVO(int cantItems) {
 		ListaPreciosVO lista = new ListaPreciosVO();
-		lista.setNombre("Rodamientos Locos SRL");
+		lista.setNombre("Nueva Lista Precios Rodamientos Test");
 		lista.setProveedor(getRandomProveedorVO());
 		lista.setVigenciaDesde(new Date());
 		lista.setVigenciaHasta(getRandomFechaVencimiento());
@@ -123,42 +118,36 @@ public class MockDataGenerator {
 	public static ItemListaVO getRandomItemListaVO() {
 		ItemListaVO ilvo = new ItemListaVO();
 		ilvo.setPrecio(getRandomPrecio());
-		ilvo.setRodamiento(getRandomRodamientoVO());
+		//ilvo.setRodamiento(getRandomRodamientoVO());
+		ilvo.setRodamiento(getControlledRodamientosList().get(new Random().nextInt(17)));
 		return ilvo;
 	}
 
 	public static float getRandomPrecio() {
-		return new Random().nextInt(10000);
+		return new Random().nextInt(1000);
 	}
-
-	public static String getRandomCodigoSKF() {
-		String[] codigosSKF = { "BAHB 311424 B", "BAH-0012", "VKDA 35201",
-				"LM11749", "LM11719", "10G-88107", "VKC 2123 C", "VKM 12500",
-				"VKM 12501", "VKM 22510", "BAH-0055 AAX", "BAF-011",
-				"VKM 22173", "VKM 22510", "VKM 12173", "VKM 02000",
-				"VKBA 3580", "VKM 32017" };
-		return codigosSKF[new Random().nextInt(codigosSKF.length)];
-	}
-
-	public static String getRandomPais() {
-		String[] paises = { "Argentina", "Brasil", "Estados Unicos", "Chile",
-				"Paraguay", "Uruguay", "China", "Japon", "Bolivia", "Peru",
-				"Costa Rica", "Canada", "Mexico", "Cuba", "Ecuador" };
-		return paises[new Random().nextInt(paises.length)];
-	}
+	
 
 	public static RodamientoVO getRandomRodamientoVO() {
 		RodamientoVO rod = new RodamientoVO();
 		rod.setMarca(getRandomMarca());
 		rod.setPais(getRandomPais());
-		// rod.setStock(new Random().nextInt(1));
 		rod.setCodigoSKF(getRandomCodigoSKF());
 		return rod;
 	}
 
+	public static String getRandomCodigoSKF() {
+		String[] codigosSKF = { "22310 CCW33", "22310 EKW33", "6200", "6200 ZZ", "6200 2RS", "K25580/25520", "6204 2RSC3", "NJ 208 EMC3"};
+		return codigosSKF[new Random().nextInt(codigosSKF.length)];
+	}
+
+	public static String getRandomPais() {
+		String[] paises = { "Argentina", "Francia", "Suecia", "Alemania", "Japon", "Brasil", "Reino Unido" };
+		return paises[new Random().nextInt(paises.length)];
+	}
+
 	public static String getRandomMarca() {
-		String[] marcas = { "Renault", "BMW", "Alfa Romeo", "Fiat", "Ferrari",
-				"Volkswagen", "Dodge","Chrysler" };
+		String[] marcas = { "ZKL", "SKF", "SNR", "FAG", "STEYR","SFK"};
 		return marcas[new Random().nextInt(marcas.length)];
 	}
 

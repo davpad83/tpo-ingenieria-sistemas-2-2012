@@ -8,14 +8,12 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import edu.uade.tpo.ingsist2.model.entities.CotizacionEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.OficinaDeVentaEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemSolicitudCompraRequest;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Stateless

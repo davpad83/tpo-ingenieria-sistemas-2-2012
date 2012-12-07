@@ -14,7 +14,6 @@ import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 import edu.uade.tpo.ingsist2.model.util.EnviarMensajeHelper;
 import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
-import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 @Stateless
 public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {

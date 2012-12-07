@@ -1,10 +1,6 @@
 package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.uade.tpo.ingsist2.model.entities.ItemRemitoEntity;
 
 public class ItemRemitoVO implements Serializable{
 
