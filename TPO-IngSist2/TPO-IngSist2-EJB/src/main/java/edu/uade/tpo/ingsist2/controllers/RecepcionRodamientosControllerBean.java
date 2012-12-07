@@ -20,15 +20,8 @@ import edu.uade.tpo.ingsist2.model.entities.OrdenDeCompraEntity;
 import edu.uade.tpo.ingsist2.model.entities.PedidoDeAbastecimientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RemitoEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
-import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
-import edu.uade.tpo.ingsist2.view.vo.ItemRodamientoVO;
-import edu.uade.tpo.ingsist2.view.vo.OficinaDeVentaVO;
-import edu.uade.tpo.ingsist2.view.vo.OrdenDeCompraVO;
-import edu.uade.tpo.ingsist2.view.vo.PedidoAbastecimientoVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO;
 import edu.uade.tpo.ingsist2.view.vo.RecepcionRodamientosVO.RodamientoListaVO;
-import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
-import edu.uade.tpo.ingsist2.view.vo.RodamientoVO;
 
 /**
  * Session Bean implementation class RecepcionRodamientosController
@@ -205,6 +198,7 @@ public class RecepcionRodamientosControllerBean implements
 		return odvsUnicas;
 	}
 
+	@SuppressWarnings("null")
 	private OficinaDeVentaEntity getODVAsociadaAPedido(
 			int idPedidoAbastecimiento) {
 		OficinaDeVentaEntity p = pedidos.getPedido(idPedidoAbastecimiento)

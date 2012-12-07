@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +19,7 @@ import edu.uade.tpo.ingsist2.view.jms.JMSQueuesNames;
 import edu.uade.tpo.ingsist2.view.vo.ListaPreciosVO;
 
 public class ProveedorMockTest {
+	
 	
 	EnviarMensajeHelper emHelper;
 	private static final String PATH_TO_WEB_PROJECT = "/Users/matiasfavale/Documents/WorkspaceJuno/TPO-IngSist2/TPO-IngSist2-WebClient";
@@ -39,7 +41,7 @@ public class ProveedorMockTest {
 
 	@Test
 	public void enviarNuevaListaPrecios() {
-		ListaPreciosVO listaPrecios = MockDataGenerator.getRandomListaPreciosVO(30);
+		ListaPreciosVO listaPrecios = MockDataGenerator.getRandomListaPreciosVO(new Random().nextInt(15));
 		emHelper.enviarMensaje(listaPrecios.toXML(true));
 	}
 

@@ -1,7 +1,6 @@
 package edu.uade.tpo.ingsist2.view.servlets;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

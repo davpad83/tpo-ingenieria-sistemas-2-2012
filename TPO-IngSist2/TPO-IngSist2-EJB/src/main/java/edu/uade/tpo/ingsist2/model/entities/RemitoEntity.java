@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import edu.uade.tpo.ingsist2.model.OficinaDeVenta;
-import edu.uade.tpo.ingsist2.model.OrdenDeCompra;
-import edu.uade.tpo.ingsist2.view.vo.ItemRemitoVO;
 import edu.uade.tpo.ingsist2.view.vo.RemitoResponse;
 
 @Entity
