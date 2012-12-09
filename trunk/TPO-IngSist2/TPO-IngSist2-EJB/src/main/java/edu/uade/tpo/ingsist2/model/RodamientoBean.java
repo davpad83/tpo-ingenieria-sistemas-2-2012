@@ -60,6 +60,8 @@ public class RodamientoBean implements Rodamiento {
 		RodamientoEntity r = null;
 		try {
 			r = entityManager.find(RodamientoEntity.class, id);
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el rodamiento que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento.");
 			LOGGER.error(e);
@@ -92,13 +94,13 @@ public class RodamientoBean implements Rodamiento {
 								+ "	and r.marca=:marca")
 								.setParameter("codigo", skf).setParameter("pais", pais)
 								.setParameter("marca", marca);
-		
 		try {
 			 rBean = (RodamientoEntity) query.getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el rodamiento que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento.");
 			LOGGER.error(e);
-			LOGGER.error(query.toString());
 		} finally {
 			if (rBean == null) {
 				LOGGER.info("No existe el rodamiento solicitado");
@@ -124,7 +126,8 @@ public class RodamientoBean implements Rodamiento {
 							"select r from RodamientoEntity r where r.codigoSKF=:codigo and r.pais=:pais")
 					.setParameter("codigo", skf).setParameter("pais", pais)
 					.getResultList();
-
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el rodamiento que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamiento");
 			LOGGER.error(e);
@@ -148,6 +151,8 @@ public class RodamientoBean implements Rodamiento {
 					.createQuery(
 							"FROM " + RodamientoEntity.class.getSimpleName())
 					.getResultList();
+		} catch (NoResultException nre){
+			LOGGER.warn("No hay ningun rodamiento cargado.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar todos los rodamientos.");
 			LOGGER.error(e);
@@ -179,7 +184,7 @@ public class RodamientoBean implements Rodamiento {
 					.setParameter("marca", marca).setParameter("pais", pais)
 					.getSingleResult();
 		} catch (NoResultException nre){
-			LOGGER.warn("No se ha encontrado el rodamiento.");
+			LOGGER.warn("No se encontro el rodamiento que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el rodamientos.");
 			LOGGER.error(e);

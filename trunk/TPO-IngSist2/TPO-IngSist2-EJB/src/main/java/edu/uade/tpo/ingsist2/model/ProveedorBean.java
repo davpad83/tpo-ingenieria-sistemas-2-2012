@@ -57,6 +57,8 @@ public class ProveedorBean implements Proveedor {
 		ProveedorEntity p = null;
 		try {
 			p = entityManager.find(ProveedorEntity.class, id);
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el proveedor que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el proveedor.");
 			LOGGER.error(e);
@@ -82,14 +84,13 @@ public class ProveedorBean implements Proveedor {
 					.createQuery(
 							"FROM " + ProveedorEntity.class.getSimpleName())
 					.getResultList();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se ha encontrado ningun proveedor.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar todos los proveedores.");
 			LOGGER.error(e);
 		} finally {
-			if (listaResultado == null || listaResultado.isEmpty()) {
-				LOGGER.info("No se han encontrado instancias de Proveedores");
-				return null;
-			} else
+			if (listaResultado != null || !listaResultado.isEmpty())
 				LOGGER.info("Se han encontrado " + listaResultado.size()
 						+ " instancias de Proveedores");
 		}
@@ -106,15 +107,13 @@ public class ProveedorBean implements Proveedor {
 							"FROM " + ProveedorEntity.class.getSimpleName()
 									+ " WHERE nombre = :nomProve")
 					.setParameter("nomProve", nombre).getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el proveedor que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el proveedor.");
 			LOGGER.error(e);
 		} finally {
-			if (prove == null) {
-				LOGGER.info("No se ha encontrado el Proveedor con nombre "
-						+ nombre);
-				return null;
-			} else
+			if (prove != null) 
 				LOGGER.info("Se ha encontrado el proveedor.");
 		}
 		return prove;
@@ -129,14 +128,13 @@ public class ProveedorBean implements Proveedor {
 							"FROM " + ProveedorEntity.class.getSimpleName()
 									+ " WHERE cuit = :cuitProve")
 					.setParameter("cuitProve", cuit).getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el proveedor que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el proveedor.");
 			LOGGER.error(e);
 		} finally {
-			if (prove == null) {
-				LOGGER.info("No se ha encontrado el Proveedor con cuit " + cuit);
-				return null;
-			} else
+			if (prove != null) 
 				LOGGER.info("Se ha encontrado el proveedor.");
 		}
 		return prove;
@@ -157,11 +155,10 @@ public class ProveedorBean implements Proveedor {
 			LOGGER.warn("No se encontro el tiempo de entrega");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al ejecutar query.");
-			LOGGER.error(query.toString());
 			LOGGER.error(e);
 		} finally {
 			if(!tpoEntrega.isEmpty())
-				LOGGER.info("El tiempo de entrega encontrado es de \" "+tpoEntrega+"\"");
+				LOGGER.info("El tiempo de entrega encontrado es de \""+tpoEntrega+"\"");
 		}
 		return tpoEntrega;
 	}

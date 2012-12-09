@@ -27,8 +27,6 @@ public class RemitoBean implements Remito {
 
 	@Override
 	public void enviarRemito(RemitoEntity remito, OficinaDeVentaEntity odv) {
-		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
-				odv.getPuerto(), odv.getNombreColaRemito());
 
 		RemitoResponse remitoAEnviar = new RemitoResponse();
 
@@ -42,26 +40,10 @@ public class RemitoBean implements Remito {
 		}
 		remitoAEnviar.setItems(itemsRemito);
 		
-		emHelper.enviarMensaje(remitoAEnviar.toXML());
-		emHelper.cerrarConexion();
-	}
-
-	@Override
-	public void enviarRemito(RemitoResponse remito) {
-
-		OficinaDeVentaEntity odv = ODV.getOficina(remito.getIdODV());
+		LOGGER.info("Enviando remito a ODV "+odv.getId() +" ...");		
 		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
 				odv.getPuerto(), odv.getNombreColaRemito());
-
-		LOGGER.info("Enviando remito ...");
-		emHelper = new EnviarMensajeHelper("127.0.0.1 IP de ODV", 1099,
-				JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		emHelper.enviarMensaje(remito.toXML());
+		emHelper.enviarMensaje(remitoAEnviar.toXML());
 		emHelper.cerrarConexion();
 	}
 

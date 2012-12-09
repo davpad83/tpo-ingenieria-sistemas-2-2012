@@ -48,46 +48,56 @@ public class RecepcionCotizacionControllerBean implements
 	@EJB
 	private Proveedor proveedor;
 
-	private static final Logger LOGGER = Logger.getLogger(RecepcionCotizacionControllerBean.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(RecepcionCotizacionControllerBean.class);
 
-	private SolicitudCotizacionResponse scresp;
+	private SolicitudCotizacionResponse cotResponse;
 
 	public SolicitudCotizacionResponse procesarSolicitudCotizacion(
-			SolicitudCotizacionRequest screq) {
-		LOGGER.info("Solicitud de cotizacion recibida: \n" + screq.toString());
+			SolicitudCotizacionRequest cotRequest) {
+		LOGGER.info("Solicitud de cotizacion recibida: \n"
+				+ cotRequest.toString());
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION BEGIN==================");
-		LOGGER.info("Request enviado de ODV: " + screq.getIdODV());
+		LOGGER.info("Request enviado de ODV: " + cotRequest.getIdODV());
 
-		scresp = new SolicitudCotizacionResponse();
-		scresp.setIdPedidoCotizacion(screq.getIdPedidoCotizacion());
-		scresp.setIdODV(screq.getIdODV());
-		scresp.setRodamientosCotizados(new ArrayList<RodamientoCotizadoVO>());
-		RodamientoEntity r = new RodamientoEntity();
+		cotResponse = new SolicitudCotizacionResponse();
+		cotResponse.setIdPedidoCotizacion(cotRequest.getIdPedidoCotizacion());
+		cotResponse.setIdODV(cotRequest.getIdODV());
+		cotResponse
+				.setRodamientosCotizados(new ArrayList<RodamientoCotizadoVO>());
+		RodamientoEntity rodEntity = new RodamientoEntity();
 
-		if (screq.getMarca() == null || screq.getMarca().isEmpty()) {
-			r = rodamiento.getRodamientosCotizacionSinMarca(screq.getSKF(),
-					screq.getPais());
-			if (r != null) {
-				procesarSinMarca(r, screq);
+		if (cotizacion.validarRequest(cotRequest)) {
+			if (cotRequest.getMarca() == null
+					|| cotRequest.getMarca().isEmpty()) {
+				rodEntity = rodamiento.getRodamientosCotizacionSinMarca(
+						cotRequest.getSKF(), cotRequest.getPais());
+				if (rodEntity != null) {
+					procesarSinMarca(rodEntity, cotRequest);
+				} else {
+					cotResponse.setIdPedidoCotizacion(-1);
+				}
 			} else {
-				scresp.setIdPedidoCotizacion(-1);
+				rodEntity = rodamiento.getRodamientoCotizacionConMarca(
+						cotRequest.getSKF(), cotRequest.getPais(),
+						cotRequest.getMarca());
+				if (rodEntity != null) {
+					procesarConMarca(rodEntity, cotRequest);
+				} else {
+					cotResponse.setIdPedidoCotizacion(-1);
+				}
 			}
+			LOGGER.info("Enviando respuesta: \n" + cotResponse.toString());
 		} else {
-			r = rodamiento.getRodamientoCotizacionConMarca(screq.getSKF(),
-					screq.getPais(), screq.getMarca());
-			if (r != null) {
-				procesarConMarca(r, screq);
-			} else {
-				scresp.setIdPedidoCotizacion(-1);
-			}
+			LOGGER.error("Omitiendo la solicitud de cotizacion completa.");
 		}
-		LOGGER.info("Enviando respuesta: \n" + scresp.toString());
 		LOGGER.info("==================PROCESANDO SOLICITUD DE COTIZACION END==================");
-		return scresp;
+		return cotResponse;
 
 	}
 
-	public void procesarConMarca(RodamientoEntity r,SolicitudCotizacionRequest solicitudCotRequest) {
+	public void procesarConMarca(RodamientoEntity r,
+			SolicitudCotizacionRequest solicitudCotRequest) {
 		LOGGER.info("Procesando Cotizacion con Marca ");
 
 		RodamientoCotizadoVO rodamCotizado = new RodamientoCotizadoVO();
@@ -102,23 +112,24 @@ public class RecepcionCotizacionControllerBean implements
 			it = cotizacion.getItemListaConMenorPrecioConMarca(r);
 			String tiempoDeEntrega = proveedor.getTiempoDeEntrega(it.getId());
 			rodamCotizado.setPrecioCotizado(it.getPrecio());
-			LOGGER.info("Se cotizo el rodamiento en $"+ rodamCotizado.getPrecioCotizado());
+			LOGGER.info("Se cotizo el rodamiento en $"
+					+ rodamCotizado.getPrecioCotizado());
 
 			if (solicitudCotRequest.getCantidad() > rodamCotizado.getEnStock()) {
 				rodamCotizado.setTiempoEstimadoEntrega(tiempoDeEntrega);
-			}
-			else{
+			} else {
 				rodamCotizado.setTiempoEstimadoEntrega("inmediato");
 			}
 			rodamCotizado.setFechaInicio(new Date());
-			rodamCotizado.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
+			rodamCotizado.setFechaFin(MockDataGenerator
+					.getRandomFechaVencimiento());
 
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al procesar la cotizacion con marca");
 			e.printStackTrace();
 		}
 
-		scresp.getRodamientosCotizados().add(rodamCotizado);
+		cotResponse.getRodamientosCotizados().add(rodamCotizado);
 
 		CotizacionEntity cot = new CotizacionEntity();
 		cot.setIdRecibidoODV(solicitudCotRequest.getIdPedidoCotizacion());
@@ -131,29 +142,22 @@ public class RecepcionCotizacionControllerBean implements
 		ListaPreciosEntity lp = new ListaPreciosEntity();
 		lp.setIdLista(idlista);
 		cot.setLista(lp);
-		
+
 		cot.setCantidad(solicitudCotRequest.getCantidad());
 		cot.setFecha(rodamCotizado.getFechaInicio());
 		cot.setTiempoEntrega(rodamCotizado.getTiempoEstimadoEntrega());
 		cot.setVencimiento(rodamCotizado.getFechaFin());
-		
+
 		cotizacion.guardarCotizacion(cot);
 	}
-	
-	
-	
-	public void procesarSinMarca(RodamientoEntity rod, SolicitudCotizacionRequest screq) {
+
+	public void procesarSinMarca(RodamientoEntity rod,
+			SolicitudCotizacionRequest screq) {
 		LOGGER.info("Procesando Cotizacion sin Marca ");
 
 		RodamientoCotizadoVO rcVO;
-		List<ItemListaEntity> listaResultado = null;
-
-		try {
-			listaResultado = cotizacion.getItemsListaConMenorPrecioSinMarca(rod);
-		} catch (Exception e) {
-			LOGGER.error("Hubo un error al procesar la cotizacion sin marca");
-			e.printStackTrace();
-		}
+		List<ItemListaEntity> listaResultado = cotizacion
+				.getItemsListaConMenorPrecioSinMarca(rod);
 
 		for (int i = 0; i < listaResultado.size(); i++) {
 
@@ -165,18 +169,21 @@ public class RecepcionCotizacionControllerBean implements
 			rcVO.setMarca(listaResultado.get(i).getRodamiento().getMarca());
 			rcVO.setPrecioCotizado(listaResultado.get(i).getPrecio());
 
-			LOGGER.info("Se cotizo el rodamiento con CodigoSKF: "+ rcVO.getSKF() + " Marca: " + rcVO.getMarca()+ " y Pais: " + rcVO.getPais() + " en $"+ rcVO.getPrecioCotizado());
+			LOGGER.info("Se cotizo el rodamiento con CodigoSKF: "
+					+ rcVO.getSKF() + " Marca: " + rcVO.getMarca()
+					+ " y Pais: " + rcVO.getPais() + " en $"
+					+ rcVO.getPrecioCotizado());
 
 			if (screq.getCantidad() > rcVO.getEnStock()) {
-				rcVO.setTiempoEstimadoEntrega(proveedor.getTiempoDeEntrega(listaResultado.get(i).getId()));	
-			}
-			else{
+				rcVO.setTiempoEstimadoEntrega(proveedor
+						.getTiempoDeEntrega(listaResultado.get(i).getId()));
+			} else {
 				rcVO.setTiempoEstimadoEntrega("inmediato");
 			}
 			rcVO.setFechaInicio(new Date());
 			rcVO.setFechaFin(MockDataGenerator.getRandomFechaVencimiento());
 
-			scresp.getRodamientosCotizados().add(rcVO);
+			cotResponse.getRodamientosCotizados().add(rcVO);
 		}
 
 		CotizacionEntity ct = new CotizacionEntity();
@@ -184,22 +191,26 @@ public class RecepcionCotizacionControllerBean implements
 		OficinaDeVentaEntity ofe = new OficinaDeVentaEntity();
 		ofe.setId(screq.getIdODV());
 		ct.setOdv(ofe);
-		
+
 		int idlista = 0;
 
 		for (int j = 0; j < listaResultado.size(); j++) {
 
-			idlista = listaprecio.getIdListaPrecioPorIdItemLista(listaResultado.get(j).getId());
+			idlista = listaprecio.getIdListaPrecioPorIdItemLista(listaResultado
+					.get(j).getId());
 			ListaPreciosEntity lp = new ListaPreciosEntity();
 			lp.setIdLista(idlista);
 			ct.setLista(lp);
 			ct.setRodamiento(listaResultado.get(j).getRodamiento());
-			
+
 			ct.setCantidad(screq.getCantidad());
-			ct.setFecha(scresp.getRodamientosCotizados().get(j).getFechaInicio());
-			ct.setTiempoEntrega(scresp.getRodamientosCotizados().get(j).getTiempoEstimadoEntrega());
-			ct.setVencimiento(scresp.getRodamientosCotizados().get(j).getFechaFin());
-			
+			ct.setFecha(cotResponse.getRodamientosCotizados().get(j)
+					.getFechaInicio());
+			ct.setTiempoEntrega(cotResponse.getRodamientosCotizados().get(j)
+					.getTiempoEstimadoEntrega());
+			ct.setVencimiento(cotResponse.getRodamientosCotizados().get(j)
+					.getFechaFin());
+
 			cotizacion.guardarCotizacion(ct);
 
 		}

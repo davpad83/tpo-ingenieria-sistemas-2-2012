@@ -42,7 +42,7 @@ public class SolicitudCompraRequest implements Serializable {
 		xs.alias("ordendecompra", SolicitudCompraRequest.class);
 		xs.alias("itemordendecompra", ItemSolicitudCompraRequest.class);
 		xs.aliasField("idordendecompra", SolicitudCompraRequest.class, "idOrdenDeCompra");
-		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "id");
+		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "idPedidoCotODV");
 		xs.aliasField("idodv", SolicitudCompraRequest.class, "idODV");
 		SolicitudCompraRequest scr = (SolicitudCompraRequest) xs.fromXML(xml);
 		this.idODV = scr.getIdODV();
@@ -55,7 +55,7 @@ public class SolicitudCompraRequest implements Serializable {
 		xs.alias("ordendecompra", SolicitudCompraRequest.class);
 		xs.alias("itemordendecompra", ItemSolicitudCompraRequest.class);
 		xs.aliasField("idordendecompra", SolicitudCompraRequest.class, "idOrdenDeCompra");
-		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "id");
+		xs.aliasField("idpedidocotizacion", ItemSolicitudCompraRequest.class, "idPedidoCotODV");
 		xs.aliasField("idodv", SolicitudCompraRequest.class, "idODV");
 		return xs.toXML(this);
 	}

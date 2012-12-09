@@ -20,23 +20,14 @@ public class CompleteIntegrationTest {
 
 	Logger LOGGER = LoggerFactory.getLogger(CompleteIntegrationTest.class);
 
-	private EnviarMensajeHelper solicitudCompraQueue;
-
-	private SolicitudCotizacionResponse response1;
-	private SolicitudCotizacionResponse response2;
-	private SolicitudCotizacionResponse response3;
-	private SolicitudCotizacionResponse response4;
-
 	@Before
 	public void prepararTest() {
-		solicitudCompraQueue = new EnviarMensajeHelper("127.0.0.1", 1099,
-				JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE);
 		// web_service = getRodService.getGetCotizacionRodamientoPort();
 	}
 
 	@After
 	public void finalizarTest() {
-		solicitudCompraQueue.cerrarConexion();
+		
 	}
 
 	@Test
@@ -51,57 +42,35 @@ public class CompleteIntegrationTest {
 		List<SolicitudCotizacionRequest> solicitudes = MockDataGenerator
 				.getControlledSolicitudCotizacionRequestList();
 		
-		SolicitudCotizacionRequest mockSolic1 = solicitudes.get(0);
-		SolicitudCotizacionRequest mockSolic2 = solicitudes.get(1);
-		SolicitudCotizacionRequest mockSolic3 = solicitudes.get(2);
-		SolicitudCotizacionRequest mockSolic4 = solicitudes.get(3);
-
 		BusinessDelegate bd = BusinessDelegate.getInstancia();
-		response1 = bd.recibirSolicitudCotizacion(mockSolic1);
-		response2 = bd.recibirSolicitudCotizacion(mockSolic2);
-		response3 = bd.recibirSolicitudCotizacion(mockSolic3);
-		response4 = bd.recibirSolicitudCotizacion(mockSolic4);
+		testCotizacionConMarcaResponse(solicitudes.get(0), bd.recibirSolicitudCotizacion(solicitudes.get(0)));
+		testCotizacionConMarcaResponse(solicitudes.get(1), bd.recibirSolicitudCotizacion(solicitudes.get(1)));
+		testCotizacionSinMarcaResponse(solicitudes.get(2), bd.recibirSolicitudCotizacion(solicitudes.get(2)));
+		testCotizacionSinMarcaResponse(solicitudes.get(3), bd.recibirSolicitudCotizacion(solicitudes.get(3)));
 
-		assertEquals(mockSolic1.getIdODV(), response1.getIdODV());
-		assertEquals(mockSolic2.getIdODV(), response2.getIdODV());
-		assertEquals(mockSolic3.getIdODV(), response3.getIdODV());
-		assertEquals(mockSolic4.getIdODV(), response4.getIdODV());
+	}
 
-		assertEquals(mockSolic1.getIdPedidoCotizacion(),
-				response1.getIdPedidoCotizacion());
-		assertEquals(mockSolic2.getIdPedidoCotizacion(),
-				response2.getIdPedidoCotizacion());
+	private void testCotizacionSinMarcaResponse(
+			SolicitudCotizacionRequest mockSolic3, SolicitudCotizacionResponse response) {
+		assertEquals(mockSolic3.getIdODV(), response.getIdODV());
 		assertEquals(mockSolic3.getIdPedidoCotizacion(),
-				response3.getIdPedidoCotizacion());
-		assertEquals(mockSolic4.getIdPedidoCotizacion(),
-				response4.getIdPedidoCotizacion());
-
-		assertNotNull(response1.getRodamientosCotizados());
-		assertNotNull(response2.getRodamientosCotizados());
-		assertNotNull(response3.getRodamientosCotizados());
-		assertNotNull(response4.getRodamientosCotizados());
-
-		assertTrue(response1.getRodamientosCotizados().size() == 1);
-		assertTrue(response2.getRodamientosCotizados().size() == 1);
-		assertTrue(response3.getRodamientosCotizados().size() >= 1);
-		assertTrue(response4.getRodamientosCotizados().size() >= 1);
-
-		for (RodamientoCotizadoVO rcvo : response1.getRodamientosCotizados()) {
+				response.getIdPedidoCotizacion());
+		assertNotNull(response.getRodamientosCotizados());
+		assertTrue(response.getRodamientosCotizados().size() >= 1);
+		for (RodamientoCotizadoVO rcvo : response.getRodamientosCotizados()) {
 			assertNotNull(rcvo.getMarca());
 			assertFalse(rcvo.getMarca().isEmpty());
 			assertTrue(rcvo.getPrecioCotizado() > 0);
 		}
-		for (RodamientoCotizadoVO rcvo : response2.getRodamientosCotizados()) {
-			assertNotNull(rcvo.getMarca());
-			assertFalse(rcvo.getMarca().isEmpty());
-			assertTrue(rcvo.getPrecioCotizado() > 0);
-		}
-		for (RodamientoCotizadoVO rcvo : response3.getRodamientosCotizados()) {
-			assertNotNull(rcvo.getMarca());
-			assertFalse(rcvo.getMarca().isEmpty());
-			assertTrue(rcvo.getPrecioCotizado() > 0);
-		}
-		for (RodamientoCotizadoVO rcvo : response4.getRodamientosCotizados()) {
+	}
+
+	private void testCotizacionConMarcaResponse(SolicitudCotizacionRequest mockSolic1, SolicitudCotizacionResponse response) {
+		assertEquals(mockSolic1.getIdODV(), response.getIdODV());
+		assertEquals(mockSolic1.getIdPedidoCotizacion(),
+				response.getIdPedidoCotizacion());
+		assertNotNull(response.getRodamientosCotizados());
+		assertTrue(response.getRodamientosCotizados().size() == 1);
+		for (RodamientoCotizadoVO rcvo : response.getRodamientosCotizados()) {
 			assertNotNull(rcvo.getMarca());
 			assertFalse(rcvo.getMarca().isEmpty());
 			assertTrue(rcvo.getPrecioCotizado() > 0);
@@ -110,13 +79,21 @@ public class CompleteIntegrationTest {
 
 	@Test
 	public void enviarOCCompletaTest() {
-		SolicitudCompraRequest ocvo = MockDataGenerator.getControlledSolicitudCompraRequest();
+		List<SolicitudCompraRequest> requests = MockDataGenerator.getControlledSolicitudCompraRequestList();
 
-		solicitudCompraQueue.enviarMensaje(ocvo.toXML());
+		EnviarMensajeHelper solicitudCompraQueue = new EnviarMensajeHelper("127.0.0.1", 1099,
+				JMSQueuesNames.ENVIAR_ORDEN_COMPRA_QUEUE);
+		
+		for(SolicitudCompraRequest scr : requests){
+			solicitudCompraQueue.enviarMensaje(scr.toXML());
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		solicitudCompraQueue.cerrarConexion();
 	}
 
-	// @Test
-	public void enviarMercaderiaDelProveedorTest() {
-
-	}
 }

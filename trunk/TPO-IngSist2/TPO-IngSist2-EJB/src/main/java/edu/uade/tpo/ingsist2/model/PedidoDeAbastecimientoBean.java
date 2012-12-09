@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
@@ -72,6 +73,8 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 		PedidoDeAbastecimientoEntity p = null;
 		try {
 			p = entityManager.find(PedidoDeAbastecimientoEntity.class, id);
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro el pedido de abastecimiento que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el pedido.");
 			LOGGER.error(e);
@@ -79,10 +82,6 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 		} finally {
 			if (p != null)
 				LOGGER.info("El pedido con id " + id + " se ha encontrado");
-			else {
-				LOGGER.info("No se ha encontrado el pedido con id " + id);
-				return null;
-			}
 		}
 		return p;
 	}
@@ -98,14 +97,13 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 							"FROM "
 									+ PedidoDeAbastecimientoEntity.class
 											.getSimpleName()).getResultList();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontraron pedidos de abastecimiento.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar todos los pedidos.");
 			LOGGER.error(e);
 		} finally {
-			if (listaResultado == null || listaResultado.isEmpty()) {
-				LOGGER.info("No se han encontrado pedidos");
-				return null;
-			} else
+			if (listaResultado != null && !listaResultado.isEmpty())
 				LOGGER.info("Se han encontrado " + listaResultado.size()
 						+ " pedidos");
 		}
@@ -115,15 +113,15 @@ public class PedidoDeAbastecimientoBean implements PedidoDeAbastecimiento {
 	@Override
 	public void enviarPedido(PedidoDeAbastecimientoEntity pedido) {
 
-		EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1",
-				1099, JMSQueuesNames.RECIBIR_PEDIDOS_PROVE_MOCK);
-
-		LOGGER.info("Enviando pedido de abastecimiento a proveedor...");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		LOGGER.info("Enviando pedido de abastecimiento a proveedor...");
+		EnviarMensajeHelper emHelper = new EnviarMensajeHelper("127.0.0.1",
+				1099, JMSQueuesNames.RECIBIR_PEDIDOS_PROVE_MOCK);
 		 emHelper.enviarMensaje(pedido.getVO().toXML(true));
 		 emHelper.cerrarConexion();
 	}

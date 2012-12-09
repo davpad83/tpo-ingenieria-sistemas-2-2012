@@ -457,7 +457,7 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "172.16.171.26", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "10.10.10.30", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "171.16.171.36", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "171.16.171.9", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
@@ -465,7 +465,7 @@ public class MockDataGenerator {
 		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.28", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv7 = nuevaOficinaDeVentaVO("ODV 7", "UADE 7", "172.16.171.27", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "171.16.171.33", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "172.16.171.29", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "135.20.214.170", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv10 = nuevaOficinaDeVentaVO("ODV 10", "ODV PARA TEST", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		
 		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
@@ -510,8 +510,8 @@ public class MockDataGenerator {
 		SolicitudCotizacionRequest solicitud2 = new SolicitudCotizacionRequest();
 		solicitud2.setIdODV(10);
 		solicitud2.setIdPedidoCotizacion(41);
-		solicitud2.setMarca("ZKL");
-	    solicitud2.setPais("Alemania");
+		solicitud2.setMarca("SNR");
+	    solicitud2.setPais("Francia");
 	    solicitud2.setSKF("6200");
 		solicitud2.setCantidad(2);
 		
@@ -519,8 +519,8 @@ public class MockDataGenerator {
 		SolicitudCotizacionRequest solicitud3 = new SolicitudCotizacionRequest();
 		solicitud3.setIdODV(10);
 		solicitud3.setIdPedidoCotizacion(8);
-		solicitud3.setMarca("ZKL");
-		solicitud3.setPais("Suecia");
+		solicitud3.setMarca("STEYR");
+		solicitud3.setPais("Reino Unido");
 		solicitud3.setSKF("6200 ZZ");
 		solicitud3.setCantidad(93);
 
@@ -529,10 +529,9 @@ public class MockDataGenerator {
 		solicitud4.setIdODV(10);
 		solicitud4.setIdPedidoCotizacion(235);
 		solicitud4.setPais("Alemania");
-		solicitud4.setSKF("6200");
+		solicitud4.setSKF("6200 2RS");
 		solicitud4.setCantidad(10);
 		
-
 		solicitudes.add(solicitud1);
 		solicitudes.add(solicitud2);
 		solicitudes.add(solicitud3);
@@ -541,13 +540,39 @@ public class MockDataGenerator {
 		return solicitudes;
 	}
 
-	public static SolicitudCompraRequest getControlledSolicitudCompraRequest() {
-		SolicitudCompraRequest solicitud = new SolicitudCompraRequest();
-		solicitud.setIdODV(10);
-		solicitud.setIdOrdenDeCompra(5);
-		solicitud.setItems(getControlledItemVOList());
+	public static List<SolicitudCompraRequest> getControlledSolicitudCompraRequestList() {
+		List<SolicitudCompraRequest> solicitudes = new ArrayList<SolicitudCompraRequest>();
 		
-		return solicitud;
+		//Solicitud con 4 Items
+		SolicitudCompraRequest solicitud1 = new SolicitudCompraRequest();
+		solicitud1.setIdODV(10);
+		solicitud1.setIdOrdenDeCompra(5);
+		solicitud1.setItems(getControlledItemVOList());
+
+		//Solicitud sin items
+		SolicitudCompraRequest solicitud2 = new SolicitudCompraRequest();
+		solicitud2.setIdODV(10);
+		solicitud2.setIdOrdenDeCompra(9);
+		solicitud2.setItems(new ArrayList<ItemSolicitudCompraRequest>());
+
+		//Solicitud con items null
+		SolicitudCompraRequest solicitud3 = new SolicitudCompraRequest();
+		solicitud3.setIdODV(10);
+		solicitud3.setIdOrdenDeCompra(120);
+		solicitud3.setItems(null);
+
+		//Solicitud con id ODV invalida
+		SolicitudCompraRequest solicitud4 = new SolicitudCompraRequest();
+		solicitud4.setIdODV(50);
+		solicitud4.setIdOrdenDeCompra(44);
+		solicitud4.setItems(getControlledItemVOList());
+
+		solicitudes.add(solicitud1);
+		solicitudes.add(solicitud2);
+		solicitudes.add(solicitud3);
+		solicitudes.add(solicitud4);
+			
+		return solicitudes;
 	}
 
 	/**
@@ -591,7 +616,7 @@ public class MockDataGenerator {
 		item3.setCantidad(99);
 		item3.setIdPedidoCotODV(8);
 		
-		//Rodamiento no cotizado
+		//INVALIDO - Rodamiento no cotizado
 		
 		ItemSolicitudCompraRequest item4 = new ItemSolicitudCompraRequest();
 		item4.setMarca(getRandomMarca());
@@ -609,11 +634,41 @@ public class MockDataGenerator {
 		item5.setCantidad(57);
 		item5.setIdPedidoCotODV(235);
 
+		//INVALIDO - Rodamiento sin Codigo
+		
+		ItemSolicitudCompraRequest item6 = new ItemSolicitudCompraRequest();
+		item6.setMarca("FAG");
+		item6.setPais(itemCotizado4.getPais());
+		item6.setSKF("");
+		item6.setCantidad(57);
+		item6.setIdPedidoCotODV(565);
+		
+		//INVALIDO - Rodamiento sin pais
+		
+		ItemSolicitudCompraRequest item7 = new ItemSolicitudCompraRequest();
+		item7.setMarca("FAG");
+		item7.setPais("");
+		item7.setSKF(itemCotizado4.getSKF());
+		item7.setCantidad(57);
+		item7.setIdPedidoCotODV(169);
+
+		//INVALIDO - Rodamiento con cantidad 0
+		
+		ItemSolicitudCompraRequest item8 = new ItemSolicitudCompraRequest();
+		item8.setMarca("FAG");
+		item8.setPais("6200");
+		item8.setSKF(itemCotizado4.getSKF());
+		item8.setCantidad(0);
+		item8.setIdPedidoCotODV(169);
+
 		items.add(item1);
 		items.add(item2);
 		items.add(item3);
 		items.add(item4);
 		items.add(item5);
+		items.add(item6);
+		items.add(item7);
+		items.add(item8);
 		
 		return items;
 	}

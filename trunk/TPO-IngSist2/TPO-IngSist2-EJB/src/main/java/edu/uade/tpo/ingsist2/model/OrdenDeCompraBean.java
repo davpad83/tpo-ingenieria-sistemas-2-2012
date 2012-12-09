@@ -35,51 +35,63 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 	private Cotizacion cotizacion;
 
 	/**
-	 * Valida la solicitud de comprar enviada por la ODV. Omite la Solicitud
-	 * completa si: 1) La lista de items no existe o esta vacia. 2) La oficina
-	 * de venta no existe (validada con el id recibido) Omite un item si: 1) No
-	 * existe la cotizacion asociada (validada con el idPedido de la ODV y la
-	 * ODV) 2) La cantidad del item es menor a 1. 3) El codigo skf esta vacio o
-	 * es nulo. 4) El pais esta vacio o es nulo.
+	 * Valida la solicitud de comprar enviada por la ODV. 
+	 * Omite la Solicitud completa si: 
+	 * 		1) La lista de items no existe o esta vacia. 
+	 * 		2) La oficina de venta no existe (validada con el id recibido)
+	 * 		3) Todos los items fueron omitidos.
+	 * Omite un item si: 
+	 * 		1) No existe la cotizacion asociada (validada con el idPedido de la ODV y la
+	 * 		   ODV) 
+	 * 		2) La cantidad del item es menor a 1. 
+	 * 		3) El codigo skf esta vacio o es nulo. 
+	 * 		4) El pais esta vacio o es nulo.
 	 */
-	public boolean validarSolicitudCompra(SolicitudCompraRequest oc) {
+	public boolean validarSolicitudCompra(SolicitudCompraRequest request) {
 		LOGGER.info("Validando Solicitud de Compra ...");
 		boolean esValido = true;
-		if (oc.getItems() == null || oc.getItems().isEmpty()) {
-			LOGGER.error("La solicitud de compra es invalida, no contiene items.");
-			esValido = false;
-		}
-		if (!oficinaVenta.existe(oc.getIdODV())) {
+		if (!oficinaVenta.existe(request.getIdODV())) {
 			esValido = false;
 			LOGGER.error("No existe la oficina de ventas con id: "
-					+ oc.getIdODV());
+					+ request.getIdODV());
 		}
 
-		List<ItemSolicitudCompraRequest> tempList = new ArrayList<ItemSolicitudCompraRequest>();
-		for (ItemSolicitudCompraRequest ivo : oc.getItems()) {
-			if (!cotizacion.existe(ivo.getIdPedidoCotODV(), oc.getIdODV(), ivo.getRodamiento())) {
-				LOGGER.warn("La cotizacion no existe en un item de "
-						+ "la solicitud para idPedido de ODV"
-						+ ivo.getIdPedidoCotODV() + " y ODV id "
-						+ oc.getIdODV() + ". Omitiendo item (" + ivo.getSKF()
-						+ ")");
-			} else if (ivo.getCantidad() < 0) {
-				LOGGER.warn("Un item contiene cantidad 0, por lo que "
-						+ "no sera procesado. Omitiendo item (" + ivo.getSKF()
-						+ ")");
-			} else if (ivo.getSKF() == null || ivo.getSKF().isEmpty()) {
-				LOGGER.warn("El item no tiene codigo skf o es nulo, sera omitido.");
-			} else if (ivo.getPais() == null || ivo.getPais().isEmpty()) {
-				LOGGER.warn("El item no tiene pais o es nulo, sera omitido.");
-			} else {
-				tempList.add(ivo);
+		if (request.getItems() == null || request.getItems().isEmpty()) {
+			LOGGER.warn("La solicitud de compra no contiene items.");
+			esValido = false;
+		} else {
+			List<ItemSolicitudCompraRequest> tempList = new ArrayList<ItemSolicitudCompraRequest>();
+			for (ItemSolicitudCompraRequest ivo : request.getItems()) {
+				if (ivo.getCantidad() < 1) {
+					LOGGER.warn("Un item contiene cantidad 0, por lo que "
+							+ "no sera procesado. Omitiendo item (" + ivo.getSKF()
+							+ ")");
+				} else if (ivo.getSKF() == null || ivo.getSKF().isEmpty()) {
+					LOGGER.warn("El item no tiene codigo skf o es nulo, sera omitido.");
+				} else if (ivo.getPais() == null || ivo.getPais().isEmpty()) {
+					LOGGER.warn("El item no tiene pais o es nulo, sera omitido.");
+				} else if (!cotizacion.existe(ivo.getIdPedidoCotODV(), request.getIdODV(), ivo.getRodamiento())) {
+					LOGGER.warn("La cotizacion no existe en un item de "
+							+ "la solicitud para idPedido de ODV"
+							+ ivo.getIdPedidoCotODV() + " y ODV id "
+							+ request.getIdODV() + ". Omitiendo item (" + ivo.getSKF()
+							+ ")");
+				} else {
+					tempList.add(ivo);
+				}
 			}
+			
+			if (tempList.isEmpty()) {
+				LOGGER.warn("Todos los items recibidos fueron omitidos. La orden de compra no se guardara.");
+				esValido = false;
+			}
+			request.setItems(tempList);
 		}
-		oc.setItems(tempList);
+		
 		if (esValido)
 			LOGGER.info("Validacion exitosa!");
 		else
-			LOGGER.warn("La solicitud de compra es invalida.");
+			LOGGER.error("La solicitud de compra es invalida.");
 		return esValido;
 	}
 
@@ -126,6 +138,8 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 		OrdenDeCompraEntity oc = null;
 		try {
 			oc = entityManager.find(OrdenDeCompraEntity.class, id);
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro la orden de compra que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar la orden de compra.");
 			e.printStackTrace();
@@ -134,11 +148,6 @@ public class OrdenDeCompraBean implements OrdenDeCompra {
 			if (oc != null)
 				LOGGER.info("la orden de compra con id " + id
 						+ " se ha encontrado");
-			else {
-				LOGGER.info("No se ha encontrado la orden de compra con id "
-						+ id);
-				return null;
-			}
 		}
 		return oc;
 	}
