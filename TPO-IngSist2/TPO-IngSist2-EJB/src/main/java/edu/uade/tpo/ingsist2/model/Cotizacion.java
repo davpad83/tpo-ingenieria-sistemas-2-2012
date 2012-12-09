@@ -10,6 +10,7 @@ import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 
 @Local
 public interface Cotizacion {
@@ -50,4 +51,6 @@ public interface Cotizacion {
 	public boolean existe(int idPedidoCotODV, int idODV, RodamientoEntity rod);
 
 	public ArrayList<ItemRodamientoEntity> getItemsCotizados(int id);
+
+	public boolean validarRequest(SolicitudCotizacionRequest cotRequest);
 }

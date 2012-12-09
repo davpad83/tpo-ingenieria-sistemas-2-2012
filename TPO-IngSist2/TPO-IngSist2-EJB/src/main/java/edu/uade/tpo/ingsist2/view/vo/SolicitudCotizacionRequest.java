@@ -2,6 +2,8 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
 
+import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
+
 public class SolicitudCotizacionRequest implements Serializable {
 
 	private static final long serialVersionUID = -7844942363512341941L;
@@ -67,5 +69,13 @@ public class SolicitudCotizacionRequest implements Serializable {
 				+ idPedidoCotizacion + ", idODV=" + idODV + ", SKF=" + SKF
 				+ ", marca=" + marca + ", pais=" + pais + ", cantidad="
 				+ cantidad + "]";
+	}
+
+	public RodamientoVO getRodamiento() {
+		RodamientoVO rvo = new RodamientoVO();
+		rvo.setMarca(this.marca);
+		rvo.setCodigoSKF(this.SKF);
+		rvo.setPais(this.pais);
+		return rvo;
 	}
 }

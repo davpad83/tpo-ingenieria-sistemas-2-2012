@@ -3,6 +3,7 @@ package edu.uade.tpo.ingsist2.model;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
@@ -71,6 +72,8 @@ public class ListaPreciosBean implements ListaPrecios {
 					.createQuery(
 							"select l.idLista from ListaPreciosEntity l join l.items i where i.id=:iditem")
 					.setParameter("iditem", idItemLista).getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro la lista de precios que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista");
 			LOGGER.error(e);
@@ -90,13 +93,16 @@ public class ListaPreciosBean implements ListaPrecios {
 							"FROM " + ListaPreciosEntity.class.getSimpleName()
 									+ "LP WHERE LP.items.id = :idItem")
 					.setParameter("idItem", idItemLista).getSingleResult();
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro la lista de precios que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista.");
 			LOGGER.error(e);
+		} finally {
+			if(listaEncontrada != null)
+				LOGGER.info("Lista de Precios encontrada, su id es: "
+						+ listaEncontrada.getIdLista());
 		}
-		LOGGER.info("Lista de Precios encontrada, su id es: "
-				+ listaEncontrada.getIdLista());
-
 		return listaEncontrada;
 	}
 

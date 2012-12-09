@@ -21,12 +21,6 @@ public class ItemRodamientoBean implements ItemRodamiento {
 	private static final Logger LOGGER = Logger.getLogger(ItemRodamientoBean.class);
 	
 	
-    public ItemRodamientoBean() {
-        // TODO Auto-generated constructor stub
-    }
-    
-    
-    
     public void guardarItemRodamientoCotizacion(ItemRodamientoEntity ir){
     	LOGGER.info("Procesando guardar el item rodamiento");
 		ItemRodamientoEntity irGuardado = null;
@@ -38,9 +32,6 @@ public class ItemRodamientoBean implements ItemRodamiento {
 			LOGGER.error(e);
 		}
           LOGGER.info("Item rodamiento guardada con id: " + irGuardado.getId());
-    	
-    	
-    	
     }
 
 }

@@ -43,9 +43,12 @@ public class RecepcionRodamientosControllerBean implements
 	@EJB
 	private Remito remito;
 
+	private ArrayList<PedidoDeAbastecimientoEntity> pedidosAbast;
+
 	@Override
 	public void recibirEnvioProveedor(RecepcionRodamientosVO rodamientos) {
 		LOGGER.info("==================PROCESANDO RECEPCION DE RODAMIENTO BEGIN==================");
+		pedidosAbast = pedidos.getPedidos();
 		LOGGER.info("Obteniendo ODVs Asociadas");
 
 		for (OficinaDeVentaEntity odv : getListaODVsUnicas(rodamientos)) {
@@ -58,7 +61,7 @@ public class RecepcionRodamientosControllerBean implements
 			for (RodamientoListaVO rodam : rodamientos.getListaRodVO()) {
 				if (isItemEnvioAsociadoAODV(odv, rodam)) {
 					ItemRemitoEntity ivo = procesarItemRemito(rodam);
-					if(ivo != null)
+					if (ivo != null)
 						itemsRemito.add(ivo);
 				}
 			}
@@ -84,8 +87,8 @@ public class RecepcionRodamientosControllerBean implements
 		RodamientoEntity rodPedido = rodamiento.getRodamiento(envio.getSKF(),
 				envio.getMarca(), envio.getPais());
 
-		LOGGER.info("Procesando rodamiento recibido [SKF: " + envio.getSKF() + "|"
-				+ envio.getMarca() + "|" + envio.getPais() + "]");
+		LOGGER.info("Procesando rodamiento recibido [SKF: " + envio.getSKF()
+				+ "|" + envio.getMarca() + "|" + envio.getPais() + "]");
 		LOGGER.info("Validando item del envio ...");
 		if (!pedidos.validarRodamientoPedido(rodPedido, idPedidoAbast)) {
 			LOGGER.info("No coincide el pedido " + idPedidoAbast
@@ -95,8 +98,7 @@ public class RecepcionRodamientosControllerBean implements
 			itemRemito = null;
 		} else {
 			LOGGER.info("El rodamiento del item es valido.");
-			PedidoDeAbastecimientoEntity pedidoAbast = pedidos
-					.getPedido(idPedidoAbast);
+			PedidoDeAbastecimientoEntity pedidoAbast = getPedido(idPedidoAbast);
 
 			actualizarPedidoAbast(pedidoAbast, envio);
 
@@ -119,20 +121,17 @@ public class RecepcionRodamientosControllerBean implements
 						int diferencia = itemRodAsociadoAPedido.getPendientes()
 								- cantRecibida;
 
-						// si me llega MENOS o satisfago justo el IR
 						if (diferencia >= 0) {
-							// Si la cantRecibida alcanza para satisfacerlo
-							// lo
-							// dejo en 0
+							LOGGER.info("Se ha recibido menor mercaderia de la pendiente. Actualizando pendientes a "+ diferencia);
 							cantidadAEnviar = envio.getCantidad();
-							itemRodAsociadoAPedido.setPendientes(0);
-
-							// sobra del envio, puedo guardar stock
+							itemRodAsociadoAPedido.setPendientes(diferencia);
 						} else if (diferencia < 0) {
 							cantidadAEnviar = itemRodAsociadoAPedido
 									.getPendientes();
 							itemRodAsociadoAPedido.setPendientes(0);
 
+							LOGGER.info("Se ha recibido mayor mercaderia de la pendiente. Aumentando stock por "
+									+ diferencia * (-1));
 							rodPedido.aumentarStock(diferencia * (-1));
 							rodamiento.guardarRodamiento(rodPedido);
 						}
@@ -141,28 +140,38 @@ public class RecepcionRodamientosControllerBean implements
 						itemRemito.setRodamiento(rodPedido);
 
 						OrdenDeCompraEntity oc = ordenDeCompra
-								.verificarPendientes(pedidoAbast.getOcAsociada());
+								.verificarPendientes(pedidoAbast
+										.getOcAsociada());
 						ordenDeCompra.guardarOrdenDeCompra(oc);
 					} else {
-						LOGGER.info("El item no tiene pendientes. Actualizando el stock.");
+						LOGGER.info("El item de la OC no tiene pendientes. Aumentando stock por "
+								+ envio.getCantidad());
 						rodPedido.aumentarStock(envio.getCantidad());
 						rodamiento.guardarRodamiento(rodPedido);
 						itemRemito = null;
 					}
 				} else {
 					LOGGER.warn("El rodamiento recibido no tiene ningun rodamiento "
-							+ "asociado al id de Pedido de Abastecimiento recibido");
+							+ "asociado al id de Pedido de Abastecimiento recibido.");
 					itemRemito = null;
 				}
 
 			} else {
-				// Actualizo todo lo recibido al stock de rodamientos
-				rodPedido.disminuirStock(envio.getCantidad());
+				LOGGER.info("La OC para este item recibido esta completa. Aumentando stock por "
+						+ envio.getCantidad());
+				rodPedido.aumentarStock(envio.getCantidad());
 				rodamiento.guardarRodamiento(rodPedido);
 				itemRemito = null;
 			}
 		}
 		return itemRemito;
+	}
+
+	private PedidoDeAbastecimientoEntity getPedido(int idPedidoAbast) {
+		for (PedidoDeAbastecimientoEntity p : pedidosAbast)
+			if (p.getIdPedido() == idPedidoAbast)
+				return p;
+		return null;
 	}
 
 	private void actualizarPedidoAbast(PedidoDeAbastecimientoEntity pedido,
@@ -198,15 +207,16 @@ public class RecepcionRodamientosControllerBean implements
 		return odvsUnicas;
 	}
 
-	@SuppressWarnings("null")
 	private OficinaDeVentaEntity getODVAsociadaAPedido(
 			int idPedidoAbastecimiento) {
-		OficinaDeVentaEntity p = pedidos.getPedido(idPedidoAbastecimiento)
-				.getOcAsociada().getOdv();
-		if (p == null) {
-			LOGGER.info("La ODV con id " + p.getId() + " no existe");
-			return null;
+
+		OficinaDeVentaEntity odv = null;
+		for (PedidoDeAbastecimientoEntity p : pedidosAbast) {
+			if (p.getIdPedido() == idPedidoAbastecimiento) {
+				odv = (p.getOcAsociada().getOdv());
+				break;
+			}
 		}
-		return p;
+		return odv;
 	}
 }

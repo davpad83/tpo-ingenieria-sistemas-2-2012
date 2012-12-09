@@ -18,6 +18,7 @@ import edu.uade.tpo.ingsist2.model.entities.ItemListaEntity;
 import edu.uade.tpo.ingsist2.model.entities.ItemRodamientoEntity;
 import edu.uade.tpo.ingsist2.model.entities.ListaPreciosEntity;
 import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
+import edu.uade.tpo.ingsist2.view.vo.SolicitudCotizacionRequest;
 
 /**
  * Session Bean implementation class CotizacionBean
@@ -57,13 +58,14 @@ public class CotizacionBean implements Cotizacion {
 					.setParameter("marca", rod.getMarca())
 					.setParameter("pais", rod.getPais());
 			itEncontrado = (ItemListaEntity) query.getSingleResult();
+		} catch (NoResultException nre) {
+			LOGGER.warn("El query no devolvio ningun resultado.");
 		} catch (HibernateException he) {
 			he.printStackTrace();
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar el item lista.");
 			LOGGER.error(e);
 		} finally {
-			LOGGER.info("Executed query: " + query.toString());
 			if (itEncontrado == null) {
 				LOGGER.info("No existe el item lista");
 				return null;
@@ -92,9 +94,9 @@ public class CotizacionBean implements Cotizacion {
 					ItemListaEntity.class);
 			q.setParameter("codigo", rod.getCodigoSKF());
 			q.setParameter("pais", rod.getPais());
-			LOGGER.info("Executing query: " + q.toString());
 			listaResultado = (List<ItemListaEntity>) q.getResultList();
-
+		} catch (NoResultException nre) {
+			LOGGER.warn("El query no devolvio ningun resultado.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar los items en listas");
 		} finally {
@@ -113,6 +115,8 @@ public class CotizacionBean implements Cotizacion {
 		CotizacionEntity cot = null;
 		try {
 			cot = entityManager.find(CotizacionEntity.class, idCot);
+		} catch (NoResultException nre) {
+			LOGGER.warn("No se encontro la cotizacion que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar la cotizacion.");
 			LOGGER.error(e);
@@ -171,25 +175,24 @@ public class CotizacionBean implements Cotizacion {
 	public CotizacionEntity getCotizacion(int idPedidoCotODV, int idODV,
 			RodamientoEntity rod) {
 		LOGGER.info("Buscando cotizacion por idPedidoCotizacionODV "
-				+ idPedidoCotODV + ", idODV " + idODV + "y Rodamiento: ["
+				+ idPedidoCotODV + ", idODV " + idODV + " y Rodamiento: ["
 				+ rod.getCodigoSKF() + "|" + rod.getMarca() + "|"
 				+ rod.getPais() + "]");
 		CotizacionEntity cot = null;
 		try {
 			cot = (CotizacionEntity) entityManager
 					.createQuery(
-							"FROM CotizacionEntity COT " +
-							"WHERE COT.idRecibidoODV = :idPedidoCot " +
-							"	AND COT.odv.id = :idODV" +
-							"	AND COT.rodamiento.codigoSKF = :codigo"+
-							"	AND COT.rodamiento.pais = :pais"+
-							"	AND COT.rodamiento.marca = :marca")
+							"FROM CotizacionEntity COT "
+									+ "WHERE COT.idRecibidoODV = :idPedidoCot "
+									+ "	AND COT.odv.id = :idODV"
+									+ "	AND COT.rodamiento.codigoSKF = :codigo"
+									+ "	AND COT.rodamiento.pais = :pais"
+									+ "	AND COT.rodamiento.marca = :marca")
 					.setParameter("idPedidoCot", idPedidoCotODV)
 					.setParameter("idODV", idODV)
 					.setParameter("marca", rod.getMarca())
 					.setParameter("codigo", rod.getCodigoSKF())
-					.setParameter("pais", rod.getPais())
-					.getSingleResult();
+					.setParameter("pais", rod.getPais()).getSingleResult();
 		} catch (NoResultException nre) {
 			LOGGER.warn("La cotizacion no existe.");
 		} catch (Exception e) {
@@ -225,6 +228,23 @@ public class CotizacionBean implements Cotizacion {
 		LOGGER.info("Se obtuvieron " + itemsCotizados.size()
 				+ " items cotizados.");
 		return itemsCotizados;
+	}
+
+	@Override
+	public boolean validarRequest(SolicitudCotizacionRequest cotRequest) {
+		boolean esValido = true;
+		RodamientoEntity rodEnt = new RodamientoEntity();
+		rodEnt.setVO(cotRequest.getRodamiento());
+		if(existe(cotRequest.getIdPedidoCotizacion(), cotRequest.getIdODV(), rodEnt)){
+			LOGGER.warn("El id de pedido de cotizacion (ODV) "+cotRequest.getIdPedidoCotizacion()+" ya existe para la odv "+cotRequest.getIdODV());
+			esValido = false;
+		}
+		
+		if (esValido)
+			LOGGER.info("Validacion exitosa!");
+		else
+			LOGGER.warn("La solicitud de cotizacion es invalida.");
+		return esValido;
 	}
 
 }

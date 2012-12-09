@@ -2,6 +2,7 @@ package edu.uade.tpo.ingsist2.model;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
@@ -36,16 +37,14 @@ public class OficinaDeVentaBean implements OficinaDeVenta {
 		OficinaDeVentaEntity ofi = null;
 		try {
 			ofi = entityManager.find(OficinaDeVentaEntity.class, idODV);
+		} catch (NoResultException nre){
+			LOGGER.warn("No se encontro oficina de venta que coincida con los datos de entrada.");
 		} catch (Exception e) {
 			LOGGER.error("Hubo un error al buscar la oficina.");
 			LOGGER.error(e);
 		} finally {
 			if (ofi != null)
 				LOGGER.info("Se ha encontrado la oficina, su id es: " + ofi.getId());
-			else {
-				LOGGER.info("No se ha encontrado la oficina con id " + idODV);
-				return null;
-			}
 		}
 		return ofi;
 	}
