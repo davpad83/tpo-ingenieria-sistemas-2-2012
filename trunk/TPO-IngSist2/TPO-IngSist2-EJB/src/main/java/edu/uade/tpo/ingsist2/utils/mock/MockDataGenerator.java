@@ -457,15 +457,15 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<OficinaDeVentaVO> getControlledOficinasDeVentaList() {
-		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "10.10.10.30", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "171.16.171.36", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "171.16.171.9", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "171.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv1 = nuevaOficinaDeVentaVO("ODV 1", "UADE 1", "172.16.171.26", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv2 = nuevaOficinaDeVentaVO("ODV 2", "UADE 2", "172.16.171.36", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv3 = nuevaOficinaDeVentaVO("ODV 3", "UADE 3", "172.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv4 = nuevaOficinaDeVentaVO("ODV 4", "UADE 4", "172.16.171.9", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv5 = nuevaOficinaDeVentaVO("ODV 5", "UADE 5", "172.16.171.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv6 = nuevaOficinaDeVentaVO("ODV 6", "UADE 6", "172.16.171.28", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv7 = nuevaOficinaDeVentaVO("ODV 7", "UADE 7", "172.16.171.27", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "171.16.171.33", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
-		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "135.20.214.170", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv8 = nuevaOficinaDeVentaVO("ODV 8", "UADE 8", "172.16.171.33", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
+		OficinaDeVentaVO odv9 = nuevaOficinaDeVentaVO("ODV 9", "UADE 9", "172.16.171.29", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		OficinaDeVentaVO odv10 = nuevaOficinaDeVentaVO("ODV 10", "ODV PARA TEST", "127.0.0.1", 1099, JMSQueuesNames.ENVIAR_REMITO_QUEUE);
 		
 		ArrayList<OficinaDeVentaVO> odvvo = new ArrayList<OficinaDeVentaVO>();
@@ -714,15 +714,15 @@ public class MockDataGenerator {
 	}
 
 	public static ArrayList<RodamientoVO> getRodamientosListForRealIntegrationTest() {
-		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 6);
-		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 7);
-		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 13);
-		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 45);
-		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 40);
+		RodamientoVO rod1 = nuevoRodamientoVO("22310 CCW33", "ZKL", "Japon", 0);
+		RodamientoVO rod2 = nuevoRodamientoVO("22310 EKW33", "SKF", "Argentina", 0);
+		RodamientoVO rod3 = nuevoRodamientoVO("6200", "SNR", "Francia", 0);
+		RodamientoVO rod4 = nuevoRodamientoVO("6200 2RS", "FAG", "Alemania", 0);
+		RodamientoVO rod5 = nuevoRodamientoVO("6200 ZZ", "STEYR", "Reino Unido", 0);
 		RodamientoVO rod6 = nuevoRodamientoVO("6204 2RSC3", "SFK", "Brasil", 0);
-		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 170);
-		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 56);
-		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 55);
+		RodamientoVO rod7 = nuevoRodamientoVO("K25580/25520", "ZKL", "Japon", 0);
+		RodamientoVO rod8 = nuevoRodamientoVO("NJ 208 EMC3", "SNR", "Francia", 0);
+		RodamientoVO rod9 = nuevoRodamientoVO("NJ 208 EMC3", "SKF", "Suecia", 0);
 
 		ArrayList<RodamientoVO> rodamientos = new ArrayList<RodamientoVO>();
 		rodamientos.add(rod1);

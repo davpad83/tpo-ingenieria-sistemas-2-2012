@@ -40,7 +40,8 @@ public class RemitoBean implements Remito {
 		}
 		remitoAEnviar.setItems(itemsRemito);
 		
-		LOGGER.info("Enviando remito a ODV "+odv.getId() +" ...");		
+		LOGGER.info("Enviando remito a ODV "+odv.getId() +" ...");
+		LOGGER.info("Remito enviado: " + remitoAEnviar.toXML());
 		EnviarMensajeHelper emHelper = new EnviarMensajeHelper(odv.getIp(),
 				odv.getPuerto(), odv.getNombreColaRemito());
 		emHelper.enviarMensaje(remitoAEnviar.toXML());

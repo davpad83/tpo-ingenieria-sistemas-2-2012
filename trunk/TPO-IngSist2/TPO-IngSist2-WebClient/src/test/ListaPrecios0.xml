@@ -1,0 +1,83 @@
+<ListaPrecios>
+  <proveedor>
+    <cuit>20-34343431-2</cuit>
+    <nombre>Proveedor 1</nombre>
+  </proveedor>
+  <items>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>22310 CCW33</codigoSKF>
+        <marca>ZKL</marca>
+        <pais>Japon</pais>
+      </rodamiento>
+      <precio>310.71</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>22310 EKW33</codigoSKF>
+        <marca>SKF</marca>
+        <pais>Argentina</pais>
+      </rodamiento>
+      <precio>249.0</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>6200</codigoSKF>
+        <marca>SNR</marca>
+        <pais>Francia</pais>
+      </rodamiento>
+      <precio>7.1</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>6200 2RS</codigoSKF>
+        <marca>FAG</marca>
+        <pais>Alemania</pais>
+      </rodamiento>
+      <precio>7.9</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>6200 ZZ</codigoSKF>
+        <marca>STEYR</marca>
+        <pais>Reino Unido</pais>
+      </rodamiento>
+      <precio>7.9</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>6204 2RSC3</codigoSKF>
+        <marca>SKF</marca>
+        <pais>Brasil</pais>
+      </rodamiento>
+      <precio>13.49</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>K25580/25520</codigoSKF>
+        <marca>ZKL</marca>
+        <pais>Japon</pais>
+      </rodamiento>
+      <precio>67.09</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>NJ 208 EMC3</codigoSKF>
+        <marca>SNR</marca>
+        <pais>Francia</pais>
+      </rodamiento>
+      <precio>107.86</precio>
+    </ItemLista>
+    <ItemLista>
+      <rodamiento>
+        <codigoSKF>NJ 208 EMC3</codigoSKF>
+        <marca>SKF</marca>
+        <pais>Suecia</pais>
+      </rodamiento>
+      <precio>132.26</precio>
+    </ItemLista>
+  </items>
+  <nombre>Lista Rodamientos SA.</nombre>
+  <vigenciaDesde>2012-12-02 02:10:11.698 GMT-03:00</vigenciaDesde>
+  <vigenciaHasta>2012-12-05 02:10:11.698 GMT-03:00</vigenciaHasta>
+</ListaPrecios>
