@@ -21,9 +21,9 @@ select * from proveedor
 select * from itemlista
 select * from OficinaDeVenta
 select * from cotizacion
-select * from ItemRodamiento
-select * from remito
 select * from ItemRemito
+select * from remito
+select * from ItemRodamiento
 select * from ordendecompra
 select * from PedidoDeAbastecimiento
 
