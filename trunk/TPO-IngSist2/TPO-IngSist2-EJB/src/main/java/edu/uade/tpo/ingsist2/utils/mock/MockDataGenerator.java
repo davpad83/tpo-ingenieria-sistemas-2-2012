@@ -91,12 +91,20 @@ public class MockDataGenerator {
 	public static RecepcionRodamientosVO getRandomListaRodamientoVO(int cantItems) {
 		RecepcionRodamientosVO rrvo = new RecepcionRodamientosVO();		
 		RecepcionRodamientosVO.RodamientoListaVO rlvo = rrvo.new RodamientoListaVO();
+		RecepcionRodamientosVO.RodamientoListaVO rlvo1 = rrvo.new RodamientoListaVO();
 		rlvo.setSKF("6200 ZZ");
 		rlvo.setMarca("STEYR");
 		rlvo.setPais("Reino Unido");
 		rlvo.setCantidad(cantItems);	
 		rlvo.setIdPedidoAbastecimiento(1);
+		rlvo1.setSKF("6200 2RS");
+		rlvo1.setMarca("FAG");
+		rlvo1.setPais("Alemania");
+		rlvo1.setCantidad(cantItems);	
+		rlvo1.setIdPedidoAbastecimiento(2);
 		rrvo.getListaRodVO().add(rlvo);
+		rrvo.getListaRodVO().add(rlvo1);
+		
 		return rrvo;
 	}
 
