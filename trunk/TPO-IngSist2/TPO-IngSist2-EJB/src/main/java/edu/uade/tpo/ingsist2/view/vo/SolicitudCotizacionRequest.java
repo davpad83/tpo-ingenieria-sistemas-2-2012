@@ -2,7 +2,6 @@ package edu.uade.tpo.ingsist2.view.vo;
 
 import java.io.Serializable;
 
-import edu.uade.tpo.ingsist2.model.entities.RodamientoEntity;
 
 public class SolicitudCotizacionRequest implements Serializable {
 
