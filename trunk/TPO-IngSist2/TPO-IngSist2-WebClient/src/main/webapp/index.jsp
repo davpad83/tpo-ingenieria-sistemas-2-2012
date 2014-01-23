@@ -45,8 +45,8 @@
 					</tr>
 					<% if (loginInvalido != null && !loginInvalido.isEmpty() && loginInvalido.equals("true")){ %>
 					<tr>
-					<td>				
-						<p style="color:red">Usuario o contraseña invalidos, intentelo nuevamente.</p>
+					<td style="color:red">		
+					      Usuario o contraseña invalidos, intentelo nuevamente.
 						</td>
 					</tr>
 					<% } %>
